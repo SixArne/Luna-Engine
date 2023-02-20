@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include <stdexcept>
 #include "Renderer.h"
 #include "SceneManager.h"

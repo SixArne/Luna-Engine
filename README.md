@@ -16,3 +16,7 @@ Minigin is, despite perhaps the suggestion in its name, not a game engine. It is
 # Use
 
 Download the latest release of this project and compile/run in visual studio. Since students need to have their work on github too, they can use this repository as a template.
+
+# Installation
+
+Run the `GenerateProject.bat` file.

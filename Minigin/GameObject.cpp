@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include <string>
 #include "GameObject.h"
 #include "ResourceManager.h"

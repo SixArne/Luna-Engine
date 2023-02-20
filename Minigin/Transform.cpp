@@ -1,3 +1,5 @@
+
+#include "pch.h"
 #include "Transform.h"
 
 void dae::Transform::SetPosition(const float x, const float y, const float z)

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include <SDL.h>
 #include "Texture2D.h"
 
