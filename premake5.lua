@@ -10,8 +10,8 @@ workspace "Programming-4-Engine"
 vendorFolder = "3rdParty/"
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "Minigin"
-    location "Minigin"
+project "Engine"
+    location "Engine"
     kind "ConsoleApp"
     language "C++"
 
@@ -58,7 +58,7 @@ project "Minigin"
 
         postbuildcommands
         {
-            ("{COPY} ../Data/SDL/ ../bin/"..outputDir.."/Minigin")
+            ("{COPY} ../Data/SDL/ ../bin/"..outputDir.."/Engine")
         }
 
     filter "configurations:Debug"
