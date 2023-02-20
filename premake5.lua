@@ -29,6 +29,7 @@ project "Engine"
 
     includedirs
     {
+        "%{prj.name}/",
         vendorFolder.."glm",
         vendorFolder.."SDL2/include",
         vendorFolder.."SDL2_image/include",
