@@ -41,6 +41,14 @@ namespace Engine
 		}
 
 		template<ComponentType T>
+		bool HasComponent()
+		{
+			auto typeIdentifier = std::type_index(typeid(T));
+
+			return m_Components.contains(typeIdentifier);
+		}
+
+		template<ComponentType T>
 		void RemoveComponent()
 		{
 			m_Components.erase(std::type_index(typeid(T)));
@@ -57,6 +65,8 @@ namespace Engine
 
 			// Save component in map
 			m_Components.emplace(typeIdentifier, component);
+
+			L_INFO("{} added to GameObject", typeIdentifier.name())
 		}
 
 	private:

@@ -34,6 +34,7 @@ project "Engine"
         vendorFolder.."SDL2/include",
         vendorFolder.."SDL2_image/include",
         vendorFolder.."SDL2_ttf/include",
+        vendorFolder.."spdlog/include"
     }
 
     libdirs
