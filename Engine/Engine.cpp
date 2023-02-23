@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Core/Time.h"
 
 SDL_Window* g_window{};
 
@@ -83,13 +84,25 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
+	
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 	while (doContinue)
 	{
+		// Start recording time
+		auto startFrame = std::chrono::high_resolution_clock::now();
+
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
+
+		// End recording time
+		auto endFrame = std::chrono::high_resolution_clock::now();
+		auto deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(endFrame - startFrame).count();
+
+		// Update delta time
+		TIME.Update((float)deltaTime);
+
+		L_ERROR("Error")
 	}
 }

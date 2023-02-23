@@ -123,6 +123,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Core\Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
