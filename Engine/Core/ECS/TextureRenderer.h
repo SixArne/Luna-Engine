@@ -25,6 +25,7 @@ namespace Engine
 
 		virtual void ComponentUpdate() override;
 		virtual void ComponentRender() override;
+		virtual void ComponentInit() override;
 
 		void SetTexture(std::string source);
 

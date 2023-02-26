@@ -41,3 +41,13 @@ void Engine::TextureRendererComponent::SetTexture(std::string source)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(source);
 }
+
+void Engine::TextureRendererComponent::ComponentInit()
+{
+	const auto gameObject = GetOwner();
+
+	if (!gameObject->HasComponent<TransformComponent>())
+	{
+		L_ERROR("TextComponent requires [TransformComponent] to be attached on the same GameObject.")
+	}
+}

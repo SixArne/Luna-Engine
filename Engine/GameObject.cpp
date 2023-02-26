@@ -4,7 +4,24 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+Engine::GameObject::GameObject(const char* name)
+	: m_GameObjectName{name}
+{}
+
 Engine::GameObject::~GameObject() = default;
+
+const std::string& Engine::GameObject::GetName()
+{
+	return m_GameObjectName;
+}
+
+void Engine::GameObject::Init()
+{
+	for (const auto& component : m_Components)
+	{
+		component.second->ComponentInit();
+	}
+}
 
 void Engine::GameObject::Update()
 {

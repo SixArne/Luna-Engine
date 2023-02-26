@@ -35,6 +35,8 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Core\Log.h" />
+    <ClInclude Include="Core\ECS\Custom\FPSCounter.h" />
+    <ClInclude Include="Core\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\ECS\Component.cpp">
@@ -63,5 +65,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Core\Log.cpp" />
+    <ClCompile Include="Core\ECS\Custom\FPSCounter.cpp" />
+    <ClCompile Include="Core\Time.cpp" />
   </ItemGroup>
 </Project>

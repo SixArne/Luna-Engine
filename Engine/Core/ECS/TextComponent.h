@@ -5,11 +5,14 @@
 
 namespace Engine
 {
-	class TextComponent final : public Component
+	class Font;
+	class Texture2D;
+
+	class TextComponent final: public Component
 	{
 	public:
 		TextComponent() = default;
-		TextComponent(std::string text);
+		TextComponent(std::string text, std::shared_ptr<Font> font);
 
 		virtual ~TextComponent() = default;
 
@@ -18,6 +21,7 @@ namespace Engine
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 
+		virtual void ComponentInit() override;
 		virtual void ComponentUpdate() override;
 		virtual void ComponentRender() override;
 
@@ -26,6 +30,10 @@ namespace Engine
 
 	private:
 		std::string m_TextToRender{};
+		std::shared_ptr<Font> m_Font{};
+		std::shared_ptr<Texture2D> m_TextTexture{};
+
+		bool m_MarkedForUpdate{ true };
 	};
 }
 

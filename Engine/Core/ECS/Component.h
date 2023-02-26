@@ -17,6 +17,12 @@ namespace Engine
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
 
+		// Optional life-cycle events
+		virtual void ComponentInit() {}
+		virtual void ComponentAttach() {}
+		virtual void ComponentDetach() {}
+
+		// Manditory life-cycle events.
 		virtual void ComponentUpdate() = 0;
 		virtual void ComponentRender() = 0;
 

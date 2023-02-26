@@ -16,10 +16,11 @@ namespace Engine
 	class GameObject final
 	{
 	public:
+		void Init();
 		void Update();
 		void Render() const;
 
-		GameObject() = default;
+		GameObject(const char* name);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -51,7 +52,12 @@ namespace Engine
 		template<ComponentType T>
 		void RemoveComponent()
 		{
-			m_Components.erase(std::type_index(typeid(T)));
+			const auto typeIdentifier = std::type_index(typeid(T));
+			auto component = m_Components[typeIdentifier];
+
+			delete component;
+
+			m_Components.erase(typeIdentifier);
 		}
 
 		template<ComponentType T>
@@ -62,6 +68,7 @@ namespace Engine
 
 			// Add self reference to component
 			component->SetOwner(this);
+			component->ComponentAttach();
 
 			// Save component in map
 			m_Components.emplace(typeIdentifier, component);
@@ -69,7 +76,10 @@ namespace Engine
 			L_INFO("{} added to GameObject", typeIdentifier.name())
 		}
 
+		const std::string& GetName();
+
 	private:
 		std::unordered_map<std::type_index, Component*> m_Components{};
+		std::string m_GameObjectName{};
 	};
 }

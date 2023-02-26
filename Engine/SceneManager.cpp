@@ -3,6 +3,14 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void Engine::SceneManager::Init()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->Init();
+	}
+}
+
 void Engine::SceneManager::Update()
 {
 	for(auto& scene : m_scenes)

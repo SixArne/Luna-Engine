@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Core/Time.h"
 
 SDL_Window* g_window{};
 
@@ -86,10 +87,24 @@ void Engine::Engine::Run(const std::function<void()>& load)
 
 	// todo: this update loop could use some work.
 	bool doContinue = true;
+
+	// Validate all game assets dependencies and setup
+	sceneManager.Init();
+
+	auto lastTime = std::chrono::high_resolution_clock::now();
 	while (doContinue)
 	{
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
+
+
+		// Delta time related stuff
+		const auto currentTime = std::chrono::high_resolution_clock::now();
+		const auto deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - lastTime).count();
+
+		TIME.Update(static_cast<float>(deltaTime));
+
+		lastTime = currentTime;
 	}
 }
