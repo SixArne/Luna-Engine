@@ -84,7 +84,7 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
+	
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 
@@ -94,6 +94,9 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	while (doContinue)
 	{
+		// Start recording time
+		auto startFrame = std::chrono::high_resolution_clock::now();
+
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
