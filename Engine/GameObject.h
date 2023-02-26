@@ -2,7 +2,6 @@
 
 
 #include "pch.h"
-#include "Transform.h"
 #include "Core/ECS/Component.h"
 
 // Component only guard
@@ -28,53 +27,16 @@ namespace Engine
 		GameObject& operator=(GameObject&& other) = delete;
 
 		template<ComponentType T>
-		T* GetComponent()
-		{
-			auto typeIdentifier = std::type_index(typeid(T));
-			if (!m_Components.contains(typeIdentifier))
-			{
-				return nullptr;
-			}
-
-			auto componentData = reinterpret_cast<T*>(m_Components[typeIdentifier]);
-
-			return componentData;
-		}
+		T* GetComponent();
 
 		template<ComponentType T>
-		bool HasComponent()
-		{
-			auto typeIdentifier = std::type_index(typeid(T));
-
-			return m_Components.contains(typeIdentifier);
-		}
+		bool HasComponent() const;
 
 		template<ComponentType T>
-		void RemoveComponent()
-		{
-			const auto typeIdentifier = std::type_index(typeid(T));
-			auto component = m_Components[typeIdentifier];
-
-			delete component;
-
-			m_Components.erase(typeIdentifier);
-		}
+		void RemoveComponent();
 
 		template<ComponentType T>
-		void AddComponent(T* component)
-		{
-			// Generate the type identifier to find the component with.
-			auto typeIdentifier = std::type_index(typeid(T));
-
-			// Add self reference to component
-			component->SetOwner(this);
-			component->ComponentAttach();
-
-			// Save component in map
-			m_Components.emplace(typeIdentifier, component);
-
-			L_INFO("{} added to GameObject", typeIdentifier.name())
-		}
+		void AddComponent(T* component);
 
 		const std::string& GetName();
 
@@ -82,4 +44,62 @@ namespace Engine
 		std::unordered_map<std::type_index, Component*> m_Components{};
 		std::string m_GameObjectName{};
 	};
+
+	
+	template <ComponentType T>
+	T* GameObject::GetComponent()
+	{
+		// Generate the type identifier to find the component with.
+		const auto typeIdentifier = std::type_index(typeid(T));
+		if (!m_Components.contains(typeIdentifier))
+		{
+			return nullptr;
+		}
+
+		auto componentData = reinterpret_cast<T*>(m_Components[typeIdentifier]);
+
+		return componentData;
+	}
+
+	template <ComponentType T>
+	bool GameObject::HasComponent() const
+	{
+		// Generate the type identifier to find the component with.
+		const auto typeIdentifier = std::type_index(typeid(T));
+
+		// Used for dependency validation
+		return m_Components.contains(typeIdentifier);
+	}
+
+	template <ComponentType T>
+	void GameObject::RemoveComponent()
+	{
+		// Generate the type identifier to find the component with.
+		const auto typeIdentifier = std::type_index(typeid(T));
+
+		// Fetch component
+		const auto component = m_Components[typeIdentifier];
+
+		// Cleanup memory
+		delete component;
+
+		// Erase from component list
+		m_Components.erase(typeIdentifier);
+		L_TRACE("{} removed from: [{}]", typeIdentifier.name(), m_GameObjectName)
+	}
+
+	template <ComponentType T>
+	void GameObject::AddComponent(T* component)
+	{
+		// Generate the type identifier to find the component with.
+		auto typeIdentifier = std::type_index(typeid(T));
+
+		// Add self reference to component
+		component->SetOwner(this);
+		component->ComponentAttach();
+
+		// Save component in map
+		m_Components.emplace(typeIdentifier, component);
+		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
+	}
 }

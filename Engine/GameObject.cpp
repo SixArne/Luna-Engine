@@ -8,7 +8,15 @@ Engine::GameObject::GameObject(const char* name)
 	: m_GameObjectName{name}
 {}
 
-Engine::GameObject::~GameObject() = default;
+Engine::GameObject::~GameObject()
+{
+	for (const auto& component : m_Components)
+	{
+		delete component.second;
+	}
+
+	m_Components.clear();
+}
 
 const std::string& Engine::GameObject::GetName()
 {

@@ -66,5 +66,3 @@ void Engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
-
-inline SDL_Renderer* Engine::Renderer::GetSDLRenderer() const { return m_renderer; }

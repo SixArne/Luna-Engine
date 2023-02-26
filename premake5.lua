@@ -1,11 +1,6 @@
 workspace "Programming-4-Engine"
-    architecture "x64"
-    configurations
-    {
-        "Debug",
-        "Release"
-    }
-
+    configurations { "Debug", "Release" }
+    platforms { "x86", "x64" }
 
 vendorFolder = "3rdParty/"
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -37,11 +32,12 @@ project "Engine"
         vendorFolder.."spdlog/include"
     }
 
-    libdirs
+    links
     {
-        vendorFolder.."SDL2/lib/x64",
-        vendorFolder.."SDL2_image/lib/x64",
-        vendorFolder.."SDL2_ttf/lib/x64"
+        "SDL2.lib",
+        "SDL2main.lib",
+        "SDL2_image.lib",
+        "SDL2_ttf.lib"
     }
 
     filter "system:windows"
@@ -50,13 +46,6 @@ project "Engine"
         warnings "extra"
         flags {"FatalWarnings"}
 
-        links
-        {
-            "SDL2.lib",
-            "SDL2main.lib",
-            "SDL2_image.lib",
-            "SDL2_ttf.lib"
-        }
 
         postbuildcommands
         {
@@ -70,3 +59,21 @@ project "Engine"
     filter "configurations:Release"
         defines {"NDEBUG"}
         optimize "On"
+
+
+    filter { "platforms:x86" }
+        libdirs
+        {
+            vendorFolder.."SDL2/lib/x86",
+            vendorFolder.."SDL2_image/lib/x86",
+            vendorFolder.."SDL2_ttf/lib/x86"
+        }
+
+
+    filter { "platforms:x64" }
+        libdirs
+        {
+            vendorFolder.."SDL2/lib/x64",
+            vendorFolder.."SDL2_image/lib/x64",
+            vendorFolder.."SDL2_ttf/lib/x64"
+        }
