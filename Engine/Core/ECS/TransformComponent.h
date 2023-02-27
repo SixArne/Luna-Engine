@@ -9,7 +9,7 @@ namespace Engine
 	class TransformComponent final: public Component
 	{
 	public:
-		TransformComponent() = default;
+		TransformComponent(GameObject* object);
 		virtual ~TransformComponent() = default;
 
 		TransformComponent(const TransformComponent& other) = delete;

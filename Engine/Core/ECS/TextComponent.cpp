@@ -7,9 +7,16 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "TransformComponent.h"
+#include "ResourceManager.h"
 
-Engine::TextComponent::TextComponent(std::string text, std::shared_ptr<Font> font)
-	:m_TextToRender{text}, m_Font{font}
+Engine::TextComponent::TextComponent(GameObject* object)
+	:Component{object}, m_Font{Engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)
+}
+{
+}
+
+Engine::TextComponent::TextComponent(GameObject* object, std::string text, std::shared_ptr<Font> font)
+	: Component{object}, m_TextToRender{text}, m_Font{font}
 {}
 
 void Engine::TextComponent::ComponentInit()
@@ -67,5 +74,11 @@ std::string Engine::TextComponent::GetText()
 void Engine::TextComponent::SetText(std::string text)
 {
 	m_TextToRender = text;
+	m_MarkedForUpdate = true;
+}
+
+void Engine::TextComponent::SetFont(std::shared_ptr<Font> font)
+{
+	m_Font = font;
 	m_MarkedForUpdate = true;
 }

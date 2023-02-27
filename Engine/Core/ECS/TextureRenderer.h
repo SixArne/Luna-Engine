@@ -15,7 +15,8 @@ namespace Engine
 	class TextureRendererComponent final: public Component
 	{
 	public:
-		TextureRendererComponent();
+		TextureRendererComponent() = default;
+		TextureRendererComponent(GameObject* object);
 		~TextureRendererComponent();
 
 		TextureRendererComponent(const TextureRendererComponent& other) = delete;

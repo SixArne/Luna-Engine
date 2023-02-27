@@ -9,7 +9,6 @@ namespace Engine
 	class Component
 	{
 	public:
-		Component() = default;
 		virtual ~Component() = default;
 
 		Component(const Component& other) = delete;
@@ -30,16 +29,17 @@ namespace Engine
 
 	private:
 		friend class GameObject;
-		void SetOwner(GameObject* owner);
+		//friend void SetOwner(GameObject* owner);
 
 		inline void MarkForDeletion() { m_MarkedForDeletion = true; }
 		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
 
 	protected:
+		explicit Component(GameObject* pOwner) : m_pOwner{ pOwner } {}
 		GameObject* GetOwner() const;
 
 	private:
-		GameObject* m_Owner{};
+		GameObject* m_pOwner{};
 		bool m_MarkedForDeletion{};
 	};
 }

@@ -37,10 +37,12 @@ namespace Engine
 		template<ComponentType T>
 		void RemoveComponent();
 
-		template<ComponentType T>
-		void AddComponent(T* component);
+		template<ComponentType T> // Mark as friend?
+		void AddComponent();
 
 		const std::string& GetName();
+
+		// friend void Component::SetOwner();
 
 	private:
 		std::unordered_map<std::type_index, Component*> m_Components{};
@@ -89,17 +91,23 @@ namespace Engine
 	}
 
 	template <ComponentType T>
-	void GameObject::AddComponent(T* component)
+	void GameObject::AddComponent()
 	{
+		// CREATE COMPONENT HERE INSTEAD
 		// Generate the type identifier to find the component with.
 		auto typeIdentifier = std::type_index(typeid(T));
 
+		auto component = new T{this};
+
 		// Add self reference to component
-		component->SetOwner(this);
-		component->ComponentAttach();
+		// // TODO: is this better than giving it as a constructor argument? (Friend class)
+		// // Should be?
+		//component->SetOwner(this);
+		//component->ComponentAttach();
 
 		// Save component in map
 		m_Components.emplace(typeIdentifier, component);
+		component->ComponentAttach();
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
 	}
 }

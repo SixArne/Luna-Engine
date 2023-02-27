@@ -92,7 +92,7 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	sceneManager.Init();
 
 	const float fixedTimeStepSec{ 0.02f };
-	const float desiredFPS{ 120.f };
+	const float desiredFPS{ 144.f };
 	const int frameTimeMs{ 1000 / (int)desiredFPS };
 	float lag = 0.0f;
 

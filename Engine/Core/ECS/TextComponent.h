@@ -11,8 +11,8 @@ namespace Engine
 	class TextComponent final: public Component
 	{
 	public:
-		TextComponent() = default;
-		TextComponent(std::string text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* object);
+		TextComponent(GameObject* object, std::string text, std::shared_ptr<Font> font);
 
 		virtual ~TextComponent() = default;
 
@@ -27,9 +27,10 @@ namespace Engine
 
 		std::string GetText();
 		void SetText(std::string text);
+		void SetFont(std::shared_ptr<Font> font);
 
 	private:
-		std::string m_TextToRender{};
+		std::string m_TextToRender{"empty"};
 		std::shared_ptr<Font> m_Font{};
 		std::shared_ptr<Texture2D> m_TextTexture{};
 

@@ -9,8 +9,8 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-Engine::TextureRendererComponent::TextureRendererComponent()
-	:m_Texture{ nullptr }
+Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object)
+	: Component{object}
 {
 }
 

@@ -8,7 +8,7 @@ namespace Engine
 	class FPSCounter final: public Component
 	{
 	public:
-		FPSCounter() = default;
+		FPSCounter(GameObject* object);
 		virtual ~FPSCounter() = default;
 
 		FPSCounter(const FPSCounter& other) = delete;

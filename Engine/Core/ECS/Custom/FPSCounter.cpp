@@ -5,6 +5,11 @@
 #include "Core/Time.h"
 #include "Core/ECS/TextComponent.h"
 
+Engine::FPSCounter::FPSCounter(GameObject* object)
+	: Component{object}
+{
+}
+
 void Engine::FPSCounter::ComponentInit()
 {
 	const auto gameObject = GetOwner();

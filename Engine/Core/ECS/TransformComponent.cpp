@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "TransformComponent.h"
 
+Engine::TransformComponent::TransformComponent(GameObject* object)
+	: Component(object)
+{
+}
+
 void Engine::TransformComponent::ComponentUpdate()
 {
 }
