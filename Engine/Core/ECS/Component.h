@@ -21,6 +21,8 @@ namespace Engine
 		virtual void ComponentInit() {}
 		virtual void ComponentAttach() {}
 		virtual void ComponentDetach() {}
+		virtual void ComponentFixedUpdate(float) {}
+		virtual void ComponentLateUpdate() {}
 
 		// Manditory life-cycle events.
 		virtual void ComponentUpdate() = 0;
@@ -30,11 +32,15 @@ namespace Engine
 		friend class GameObject;
 		void SetOwner(GameObject* owner);
 
+		inline void MarkForDeletion() { m_MarkedForDeletion = true; }
+		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
+
 	protected:
 		GameObject* GetOwner() const;
 
 	private:
 		GameObject* m_Owner{};
+		bool m_MarkedForDeletion{};
 	};
 }
 #endif

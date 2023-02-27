@@ -19,6 +19,22 @@ void Engine::SceneManager::Update()
 	}
 }
 
+void Engine::SceneManager::FixedUpdate(float fdt)
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->FixedUpdate(fdt);
+	}
+}
+
+void Engine::SceneManager::LateUpdate()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->LateUpdate();
+	}
+}
+
 void Engine::SceneManager::Render()
 {
 	for (const auto& scene : m_scenes)

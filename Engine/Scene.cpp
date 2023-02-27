@@ -42,6 +42,22 @@ void Scene::Update()
 	}
 }
 
+void Engine::Scene::FixedUpdate(float fdt)
+{
+	for (auto& object : m_objects)
+	{
+		object->FixedUpdate(fdt);
+	}
+}
+
+void Engine::Scene::LateUpdate()
+{
+	for (const auto& object : m_objects)
+	{
+		object->LateUpdate();
+	}
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)

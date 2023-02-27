@@ -13,6 +13,8 @@ namespace Engine
 
 		void Init();
 		void Update();
+		void FixedUpdate(float fdt);
+		void LateUpdate();
 		void Render();
 	private:
 		friend class Singleton<SceneManager>;

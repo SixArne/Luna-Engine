@@ -19,6 +19,9 @@ namespace Engine
 		virtual void ComponentInit() override;
 		virtual void ComponentUpdate() override;
 		virtual void ComponentRender() override;
+
+	private:
+		float m_TimeSinceLastFPSPush{};
 	};
 }
 

@@ -17,6 +17,8 @@ namespace Engine
 	public:
 		void Init();
 		void Update();
+		void LateUpdate();
+		void FixedUpdate(float fdt);
 		void Render() const;
 
 		GameObject(const char* name);
@@ -80,12 +82,10 @@ namespace Engine
 		// Fetch component
 		const auto component = m_Components[typeIdentifier];
 
-		// Cleanup memory
-		delete component;
+		// Mark for deletion in lateUpdate
+		component->MarkForDeletion();
 
-		// Erase from component list
-		m_Components.erase(typeIdentifier);
-		L_TRACE("{} removed from: [{}]", typeIdentifier.name(), m_GameObjectName)
+		L_TRACE("{} marked for deletion obj: [{}]", typeIdentifier.name(), m_GameObjectName)
 	}
 
 	template <ComponentType T>

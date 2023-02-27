@@ -18,12 +18,18 @@ void Engine::FPSCounter::ComponentInit()
 void Engine::FPSCounter::ComponentUpdate()
 {
 	float deltaTime = TIME.GetDeltaTime();
+	m_TimeSinceLastFPSPush += deltaTime;
 
-	auto textComponent = GetOwner()->GetComponent<TextComponent>();
-	if (textComponent != nullptr)
+	if (m_TimeSinceLastFPSPush >= 0.5f)
 	{
-		float FPS = 1.0f / deltaTime;
-		textComponent->SetText(std::format("{} FPS", std::to_string((int)FPS)));
+		auto textComponent = GetOwner()->GetComponent<TextComponent>();
+		if (textComponent != nullptr)
+		{
+			float FPS = 1.0f / deltaTime;
+			textComponent->SetText(std::format("{} FPS", std::to_string((int)FPS)));
+		}
+
+		m_TimeSinceLastFPSPush = 0.f;
 	}
 }
 

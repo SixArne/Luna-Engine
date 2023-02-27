@@ -91,23 +91,36 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	// Validate all game assets dependencies and setup
 	sceneManager.Init();
 
+	const float fixedTimeStepSec{ 0.02f };
+	const float desiredFPS{ 120.f };
+	const int frameTimeMs{ 1000 / (int)desiredFPS };
+	float lag = 0.0f;
+
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	while (doContinue)
 	{
-		// Start recording time
-		auto startFrame = std::chrono::high_resolution_clock::now();
+		// Delta time related stuff
+		const auto currentTime = std::chrono::high_resolution_clock::now();
+		const auto deltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime).count();
+
+		lastTime = currentTime;
+		lag += deltaTime;
 
 		doContinue = input.ProcessInput();
+		while (lag >= fixedTimeStepSec)
+		{
+			sceneManager.FixedUpdate(fixedTimeStepSec);
+			lag -= fixedTimeStepSec;
+		}
+
 		sceneManager.Update();
 		renderer.Render();
 
-
-		// Delta time related stuff
-		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const auto deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - lastTime).count();
+		sceneManager.LateUpdate();
 
 		TIME.Update(static_cast<float>(deltaTime));
 
-		lastTime = currentTime;
+		const auto sleeptime = currentTime + std::chrono::milliseconds(frameTimeMs) - std::chrono::high_resolution_clock::now();
+		std::this_thread::sleep_for(sleeptime);
 	}
 }

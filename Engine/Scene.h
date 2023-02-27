@@ -14,6 +14,8 @@ namespace Engine
 
 		void Init();
 		void Update();
+		void FixedUpdate(float fdt);
+		void LateUpdate();
 		void Render() const;
 
 		~Scene();
