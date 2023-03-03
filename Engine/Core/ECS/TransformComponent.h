@@ -10,6 +10,9 @@ namespace Engine
 	{
 	public:
 		TransformComponent(GameObject* object);
+		TransformComponent(GameObject* object, glm::vec2&& position);
+		TransformComponent(GameObject* object, glm::vec2&& position, float rotation);
+		
 		virtual ~TransformComponent() = default;
 
 		TransformComponent(const TransformComponent& other) = delete;

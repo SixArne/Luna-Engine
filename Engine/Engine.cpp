@@ -84,8 +84,7 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-	
-	// todo: this update loop could use some work.
+
 	bool doContinue = true;
 
 	// Validate all game assets dependencies and setup

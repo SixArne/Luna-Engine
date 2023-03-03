@@ -13,6 +13,7 @@ namespace Engine
 	public:
 		TextComponent(GameObject* object);
 		TextComponent(GameObject* object, std::string text, std::shared_ptr<Font> font);
+		TextComponent(GameObject* object, std::string text);
 
 		virtual ~TextComponent() = default;
 

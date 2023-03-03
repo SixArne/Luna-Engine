@@ -2,7 +2,17 @@
 #include "TransformComponent.h"
 
 Engine::TransformComponent::TransformComponent(GameObject* object)
-	: Component(object)
+	: Component{ object }
+{
+}
+
+Engine::TransformComponent::TransformComponent(GameObject* object, glm::vec2&& position)
+	: Component{ object }, m_Position{ position }
+{
+}
+
+Engine::TransformComponent::TransformComponent(GameObject* object, glm::vec2&& position, float rotation)
+	: Component{object}, m_Position{ position }, m_Rotation{ rotation }
 {
 }
 

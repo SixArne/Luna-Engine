@@ -10,8 +10,12 @@
 #include "ResourceManager.h"
 
 Engine::TextComponent::TextComponent(GameObject* object)
-	:Component{object}, m_Font{Engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)
+	: Component{object}, m_Font{Engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)}
+{
 }
+
+Engine::TextComponent::TextComponent(GameObject* object, std::string text)
+	: Component{ object }, m_TextToRender{text}, m_Font{ Engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) }
 {
 }
 
