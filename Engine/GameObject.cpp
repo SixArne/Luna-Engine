@@ -4,23 +4,75 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-Engine::GameObject::GameObject(const char* name)
+Engine::GameObject::GameObject(const char* name, glm::vec2 position, float angle)
 	: m_GameObjectName{name}
-{}
+{
+	AddComponent<TransformComponent>(position, angle);
+	m_TransformComponent = GetComponent<TransformComponent>();
+}
 
 Engine::GameObject::~GameObject()
 {
-	for (const auto& component : m_Components)
-	{
-		delete component.second;
-	}
-
 	m_Components.clear();
 }
 
 const std::string& Engine::GameObject::GetName()
 {
 	return m_GameObjectName;
+}
+
+void Engine::GameObject::SetParent(GameObject* parent, bool keepWorldTransform)
+{
+	if (parent == nullptr)
+	{
+		m_TransformComponent->SetLocalPosition(m_TransformComponent->GetWorldPosition());
+	}
+	else
+	{
+		if (keepWorldTransform)
+		{
+			m_TransformComponent->SetLocalPosition(m_TransformComponent->GetLocalPosition() - parent->GetTransform()->GetWorldPosition());
+			m_TransformComponent->SetPositionDirty();
+		}
+	}
+
+	if (m_Parent)
+	{
+		m_Parent->RemoveChild(this);
+	}
+
+	m_Parent = parent;
+	if (m_Parent)
+	{
+		parent->AddChild(this);
+	}
+}
+
+void Engine::GameObject::AddChild(GameObject* child)
+{
+	m_Children.emplace_back(child);
+}
+
+void Engine::GameObject::RemoveChild(GameObject* child)
+{
+	m_Children.erase(
+		std::remove_if(m_Children.begin(), m_Children.end(), [child](auto fchild) { return fchild == child; })
+	);
+}
+
+Engine::GameObject* Engine::GameObject::GetParent()
+{
+	return m_Parent;
+}
+
+std::vector<Engine::GameObject*>& Engine::GameObject::GetChildren()
+{
+	return m_Children;
+}
+
+Engine::TransformComponent* Engine::GameObject::GetTransform()
+{
+	return m_TransformComponent;
 }
 
 void Engine::GameObject::Init()
@@ -49,9 +101,6 @@ void Engine::GameObject::LateUpdate()
 		}
 		else
 		{
-			// Clean up memory
-			delete component.second;
-
 			// Erase from component list
 			m_Components.erase(component.first);
 		}

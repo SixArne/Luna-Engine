@@ -17,6 +17,8 @@ namespace Engine
 	public:
 		TextureRendererComponent() = default;
 		TextureRendererComponent(GameObject* object);
+		TextureRendererComponent(GameObject* object, const std::string& textureFile);
+
 		~TextureRendererComponent();
 
 		TextureRendererComponent(const TextureRendererComponent& other) = delete;

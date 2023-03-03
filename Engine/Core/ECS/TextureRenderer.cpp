@@ -14,6 +14,11 @@ Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object)
 {
 }
 
+Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object, const std::string& textureFile)
+	: Component{ object }, m_Texture{ ResourceManager::GetInstance().LoadTexture(textureFile) }
+{
+}
+
 Engine::TextureRendererComponent::~TextureRendererComponent()
 {
 }
@@ -43,7 +48,7 @@ void Engine::TextureRendererComponent::ComponentRender()
 	auto transformComponent = owner->GetComponent<Engine::TransformComponent>();
 	if (transformComponent == nullptr) return;
 
-	glm::vec2 pos = transformComponent->GetPosition();
+	glm::vec2 pos = transformComponent->GetWorldPosition();
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 

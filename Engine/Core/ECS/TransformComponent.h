@@ -2,6 +2,7 @@
 #define TRANSFORM_COMPONENT_H
 
 #include <glm/vec2.hpp>
+#include <glm/mat3x3.hpp>
 #include "Component.h"
 
 namespace Engine
@@ -10,8 +11,8 @@ namespace Engine
 	{
 	public:
 		TransformComponent(GameObject* object);
-		TransformComponent(GameObject* object, glm::vec2&& position);
-		TransformComponent(GameObject* object, glm::vec2&& position, float rotation);
+		TransformComponent(GameObject* object, glm::vec2 position);
+		TransformComponent(GameObject* object, glm::vec2 position, float rotation);
 		
 		virtual ~TransformComponent() = default;
 
@@ -33,9 +34,23 @@ namespace Engine
 		void SetRotation(float rotation);
 		void AddRotation(float offset);
 
+		void SetLocalPosition(const glm::vec2& pos);
+		void SetLocalRotation(const float angle);
+
+		const glm::vec2& GetLocalPosition();
+		float GetLocalRotation();
+
+		const glm::vec2& GetWorldPosition();
+		void SetPositionDirty();
+		void UpdateWorldPosition();
+
 	private:
-		glm::vec2 m_Position{};
-		float m_Rotation{};
+		glm::vec2 m_LocalPosition{};
+		float m_LocalRotation{};
+
+		glm::vec2 m_WorldPosition{};
+
+		bool m_IsPositionDirty{};
 	};
 }
 

@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "Core/ECS/Component.h"
+#include "Core/ECS/TransformComponent.h"
 
 // Component only guard
 template<typename T>
@@ -21,7 +22,8 @@ namespace Engine
 		void FixedUpdate(float fdt);
 		void Render() const;
 
-		GameObject(const char* name);
+		GameObject(const char* name, glm::vec2 position = glm::vec2{}, float angle = 0);
+
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -44,9 +46,23 @@ namespace Engine
 		void AddComponent();
 
 		const std::string& GetName();
+		void SetParent(GameObject* parent, bool keepWorldTransform);
+
+		// #TODO write methods
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
+
+		GameObject* GetParent();
+		std::vector<GameObject*>& GetChildren();
+
+		TransformComponent* GetTransform();
 
 	private:
-		std::unordered_map<std::type_index, Component*> m_Components{};
+		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_Components{};
+		TransformComponent* m_TransformComponent{};
+
+		std::vector<GameObject*> m_Children{};
+		GameObject* m_Parent{};
 		std::string m_GameObjectName{};
 	};
 
@@ -61,7 +77,7 @@ namespace Engine
 			return nullptr;
 		}
 
-		auto componentData = reinterpret_cast<T*>(m_Components[typeIdentifier]);
+		auto componentData = static_cast<T*>(m_Components[typeIdentifier].get());
 
 		return componentData;
 	}

@@ -26,13 +26,10 @@ namespace Engine
 		// Manditory life-cycle events.
 		virtual void ComponentUpdate() = 0;
 		virtual void ComponentRender() = 0;
+		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
 
 	private:
-		friend class GameObject;
-		//friend void SetOwner(GameObject* owner);
-
 		inline void MarkForDeletion() { m_MarkedForDeletion = true; }
-		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
 
 	protected:
 		explicit Component(GameObject* pOwner) : m_pOwner{ pOwner } {}

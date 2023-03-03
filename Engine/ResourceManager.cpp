@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include "Core/Log.h"
 
 void Engine::ResourceManager::Init(const std::string& dataPath)
 {
@@ -23,7 +24,8 @@ std::shared_ptr<Engine::Texture2D> Engine::ResourceManager::LoadTexture(const st
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
-		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
+		L_ERROR("Failed to load texture");
+		__debugbreak();
 	}
 	return std::make_shared<Texture2D>(texture);
 }

@@ -44,6 +44,9 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Core\ECS\Custom\Rotator.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\ECS\Component.cpp">
@@ -78,5 +81,8 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
