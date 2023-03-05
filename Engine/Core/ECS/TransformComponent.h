@@ -45,10 +45,10 @@ namespace Engine
 		const glm::vec2& GetWorldPosition();
 		const float GetWorldRotation();
 		const glm::vec2& GetWorldScale();
+		const glm::mat4& GetWorldTransform();
 
 	private:
 		const glm::mat4 UpdateWorldTransform();
-		void UpdateWorldAndCacheValues();
 
 		glm::vec2 GetPositionFromMatrix(const glm::mat4& matrix);
 		float GetRotationFromMatrix(const glm::mat4& matrix);
@@ -62,8 +62,8 @@ namespace Engine
 		float m_WorldRotation{};
 		glm::vec2 m_WorldScale{1.0f, 1.0f};
 
-		glm::mat4 m_Transform{};
-		bool m_IsDirty{false};
+		glm::mat4 m_Transform{ glm::mat4()};
+		bool m_IsDirty{true};
 	};
 }
 

@@ -16,7 +16,7 @@ void Engine::Rotator::Init()
 
 void Engine::Rotator::Update()
 {
-	m_TransformComponent->AddLocalPosition(glm::vec2{10,0} * TIME.GetDeltaTime());
+	m_TransformComponent->AddLocalRotation(80.f * TIME.GetDeltaTime());
 }
 
 void Engine::Rotator::Render()

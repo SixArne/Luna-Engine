@@ -49,6 +49,7 @@ void Engine::TextureRendererComponent::Render()
 	if (transformComponent == nullptr) return;
 
 	glm::vec2 pos = transformComponent->GetWorldPosition();
+
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 

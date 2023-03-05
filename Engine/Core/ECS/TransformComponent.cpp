@@ -65,6 +65,7 @@ void Engine::TransformComponent::SetLocalRotation(const float angle)
 void Engine::TransformComponent::SetLocalScale(const glm::vec2& scale)
 {
 	m_LocalScale = scale;
+	SetPositionDirty();
 }
 
 const glm::vec2& Engine::TransformComponent::GetLocalPosition()
@@ -99,7 +100,7 @@ const glm::mat4 Engine::TransformComponent::UpdateWorldTransform()
 
 	if (m_IsDirty)
 	{
-		glm::mat4 localTransform = glm::mat3(1.0);
+		glm::mat4 localTransform = glm::mat4(1.0);
 		localTransform = glm::translate(localTransform, glm::vec3(m_LocalPosition, 0.0f));
 		localTransform = glm::rotate(localTransform, glm::radians(m_LocalRotation), glm::vec3(0.0f, 0.0f, 1.0f));
 		localTransform = glm::scale(localTransform, glm::vec3(m_LocalScale, 1.0f));
@@ -154,9 +155,9 @@ const glm::vec2& Engine::TransformComponent::GetWorldScale()
 	return m_WorldScale;
 }
 
-void Engine::TransformComponent::UpdateWorldAndCacheValues()
+const glm::mat4& Engine::TransformComponent::GetWorldTransform()
 {
-	glm::mat4 worldTransform = UpdateWorldTransform();
+	return m_Transform;
 }
 
 // Helpers
