@@ -21,36 +21,49 @@ namespace Engine
 		TransformComponent& operator=(const TransformComponent& other) = delete;
 		TransformComponent& operator=(TransformComponent&& other) = delete;
 
-		virtual void ComponentUpdate() override;
-		virtual void ComponentRender() override;
+		virtual void Init() override;
+		virtual void Update() override;
+		virtual void Render() override;
 
-		// Position
-		const glm::vec2 GetPosition();
-		void SetPosition(glm::vec2 position);
-		void AddPosition(glm::vec2 offset);
+		// getters
+		const glm::vec2& GetLocalPosition();
+		const glm::vec2& GetLocalScale();
+		const float GetLocalRotation();
 
-		// Rotation
-		const float GetRotation();
-		void SetRotation(float rotation);
-		void AddRotation(float offset);
-
+		// adders
+		void AddLocalPosition(const glm::vec2& offset);
+		void AddLocalRotation(const float offset);
+		
+		// setters
 		void SetLocalPosition(const glm::vec2& pos);
 		void SetLocalRotation(const float angle);
+		void SetLocalScale(const glm::vec2& scale);
 
-		const glm::vec2& GetLocalPosition();
-		float GetLocalRotation();
-
-		const glm::vec2& GetWorldPosition();
 		void SetPositionDirty();
-		void UpdateWorldPosition();
+
+		// getters world
+		const glm::vec2& GetWorldPosition();
+		const float GetWorldRotation();
+		const glm::vec2& GetWorldScale();
 
 	private:
+		const glm::mat4 UpdateWorldTransform();
+		void UpdateWorldAndCacheValues();
+
+		glm::vec2 GetPositionFromMatrix(const glm::mat4& matrix);
+		float GetRotationFromMatrix(const glm::mat4& matrix);
+		glm::vec2 GetScaleFromMatrix(const glm::mat4& matrix);
+
 		glm::vec2 m_LocalPosition{};
 		float m_LocalRotation{};
+		glm::vec2 m_LocalScale{1.0f, 1.0f};
 
 		glm::vec2 m_WorldPosition{};
+		float m_WorldRotation{};
+		glm::vec2 m_WorldScale{1.0f, 1.0f};
 
-		bool m_IsPositionDirty{};
+		glm::mat4 m_Transform{};
+		bool m_IsDirty{false};
 	};
 }
 

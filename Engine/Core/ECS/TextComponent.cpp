@@ -23,7 +23,7 @@ Engine::TextComponent::TextComponent(GameObject* object, std::string text, std::
 	: Component{object}, m_TextToRender{text}, m_Font{font}
 {}
 
-void Engine::TextComponent::ComponentInit()
+void Engine::TextComponent::Init()
 {
 	const auto gameObject = GetOwner();
 
@@ -33,7 +33,7 @@ void Engine::TextComponent::ComponentInit()
 	}
 }
 
-void Engine::TextComponent::ComponentUpdate()
+void Engine::TextComponent::Update()
 {
 	if (m_MarkedForUpdate)
 	{
@@ -56,14 +56,14 @@ void Engine::TextComponent::ComponentUpdate()
 	}
 }
 
-void Engine::TextComponent::ComponentRender()
+void Engine::TextComponent::Render()
 {
 	if (m_TextTexture != nullptr)
 	{
-		const auto& transformComponent = GetOwner()->GetComponent<TransformComponent>();
+		const auto& transformComponent = GetOwner()->GetTransform();
 		if (transformComponent != nullptr)
 		{
-			auto position = transformComponent->GetPosition();
+			auto position = transformComponent->GetWorldPosition();
 
 			Renderer::GetInstance().RenderTexture(*m_TextTexture, position.x, position.y);
 		}

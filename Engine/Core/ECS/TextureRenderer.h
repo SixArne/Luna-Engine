@@ -26,9 +26,9 @@ namespace Engine
 		TextureRendererComponent& operator=(const TextureRendererComponent& other) = delete;
 		TextureRendererComponent& operator=(TextureRendererComponent&& other) = delete;
 
-		virtual void ComponentUpdate() override;
-		virtual void ComponentRender() override;
-		virtual void ComponentInit() override;
+		virtual void Update() override;
+		virtual void Render() override;
+		virtual void Init() override;
 
 		void SetTexture(std::string source);
 

@@ -23,7 +23,7 @@ Engine::TextureRendererComponent::~TextureRendererComponent()
 {
 }
 
-void Engine::TextureRendererComponent::ComponentInit()
+void Engine::TextureRendererComponent::Init()
 {
 	const auto gameObject = GetOwner();
 
@@ -33,19 +33,19 @@ void Engine::TextureRendererComponent::ComponentInit()
 	}
 }
 
-void Engine::TextureRendererComponent::ComponentUpdate()
+void Engine::TextureRendererComponent::Update()
 {
 	
 }
 
-void Engine::TextureRendererComponent::ComponentRender()
+void Engine::TextureRendererComponent::Render()
 {
 	if (m_Texture == nullptr) return;
 
 	GameObject* owner = GetOwner();
 	if (owner == nullptr) return;
 
-	auto transformComponent = owner->GetComponent<Engine::TransformComponent>();
+	auto transformComponent = owner->GetTransform();
 	if (transformComponent == nullptr) return;
 
 	glm::vec2 pos = transformComponent->GetWorldPosition();

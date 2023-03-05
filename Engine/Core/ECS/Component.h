@@ -17,16 +17,19 @@ namespace Engine
 		Component& operator=(Component&& other) = delete;
 
 		// Optional life-cycle events
-		virtual void ComponentInit() {}
-		virtual void ComponentAttach() {}
-		virtual void ComponentDetach() {}
-		virtual void ComponentFixedUpdate(float) {}
-		virtual void ComponentLateUpdate() {}
+		virtual void Init() {}
+		virtual void Attach() {}
+		virtual void Detach() {}
+		virtual void FixedUpdate(float) {}
+		virtual void LateUpdate() {}
 
 		// Manditory life-cycle events.
-		virtual void ComponentUpdate() = 0;
-		virtual void ComponentRender() = 0;
+		virtual void Update() = 0;
+		virtual void Render() = 0;
 		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
+		bool GetCanBeRemoved();
+
+		friend class GameObject;
 
 	private:
 		inline void MarkForDeletion() { m_MarkedForDeletion = true; }
@@ -34,10 +37,12 @@ namespace Engine
 	protected:
 		explicit Component(GameObject* pOwner) : m_pOwner{ pOwner } {}
 		GameObject* GetOwner() const;
+		void SetCanBeRemoved(bool value);
 
 	private:
 		GameObject* m_pOwner{};
 		bool m_MarkedForDeletion{};
+		bool m_CanBeRemoved{};
 	};
 }
 #endif

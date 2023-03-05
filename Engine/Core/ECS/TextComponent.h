@@ -22,9 +22,9 @@ namespace Engine
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 
-		virtual void ComponentInit() override;
-		virtual void ComponentUpdate() override;
-		virtual void ComponentRender() override;
+		virtual void Init() override;
+		virtual void Update() override;
+		virtual void Render() override;
 
 		std::string GetText();
 		void SetText(std::string text);

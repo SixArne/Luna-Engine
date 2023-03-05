@@ -5,6 +5,8 @@
 
 namespace Engine
 {
+	class TextComponent;
+
 	class FPSCounter final: public Component
 	{
 	public:
@@ -16,12 +18,13 @@ namespace Engine
 		FPSCounter& operator=(const FPSCounter& other) = delete;
 		FPSCounter& operator=(FPSCounter&& other) = delete;
 
-		virtual void ComponentInit() override;
-		virtual void ComponentUpdate() override;
-		virtual void ComponentRender() override;
+		virtual void Init() override;
+		virtual void Update() override;
+		virtual void Render() override;
 
 	private:
 		float m_TimeSinceLastFPSPush{};
+		TextComponent* m_TextComponent{};
 	};
 }
 

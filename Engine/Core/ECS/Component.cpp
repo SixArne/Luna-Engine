@@ -11,3 +11,13 @@ Engine::GameObject* Engine::Component::GetOwner() const
 {
 	return m_pOwner;
 }
+
+void Engine::Component::SetCanBeRemoved(bool value)
+{
+	m_CanBeRemoved = value;
+}
+
+bool Engine::Component::GetCanBeRemoved()
+{
+	return m_CanBeRemoved;
+}

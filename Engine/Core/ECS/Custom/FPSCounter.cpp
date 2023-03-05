@@ -10,7 +10,7 @@ Engine::FPSCounter::FPSCounter(GameObject* object)
 {
 }
 
-void Engine::FPSCounter::ComponentInit()
+void Engine::FPSCounter::Init()
 {
 	const auto gameObject = GetOwner();
 
@@ -18,25 +18,28 @@ void Engine::FPSCounter::ComponentInit()
 	{
 		L_ERROR("[{}] FPSCounter requires [TextComponent] to be attached on the same GameObject.", GetOwner()->GetName())
 	}
+	else
+	{
+		m_TextComponent = gameObject->GetComponent<TextComponent>();
+	}
 }
 
-void Engine::FPSCounter::ComponentUpdate()
+void Engine::FPSCounter::Update()
 {
 	float deltaTime = TIME.GetDeltaTime();
 	m_TimeSinceLastFPSPush += deltaTime;
 
 	if (m_TimeSinceLastFPSPush >= 0.5f)
 	{
-		auto textComponent = GetOwner()->GetComponent<TextComponent>();
-		if (textComponent != nullptr)
+		if (m_TextComponent != nullptr)
 		{
 			float FPS = 1.0f / deltaTime;
-			textComponent->SetText(std::format("{} FPS", std::to_string((int)FPS)));
+			m_TextComponent->SetText(std::format("{} FPS", std::to_string((int)FPS)));
 		}
 
 		m_TimeSinceLastFPSPush = 0.f;
 	}
 }
 
-void Engine::FPSCounter::ComponentRender()
+void Engine::FPSCounter::Render()
 {}

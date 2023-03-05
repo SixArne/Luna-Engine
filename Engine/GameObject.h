@@ -48,7 +48,6 @@ namespace Engine
 		const std::string& GetName();
 		void SetParent(GameObject* parent, bool keepWorldTransform);
 
-		// #TODO write methods
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
 
@@ -99,12 +98,18 @@ namespace Engine
 		const auto typeIdentifier = std::type_index(typeid(T));
 
 		// Fetch component
-		const auto component = m_Components[typeIdentifier];
+		const auto component = m_Components[typeIdentifier].get();
 
-		// Mark for deletion in lateUpdate
-		component->MarkForDeletion();
-
-		L_TRACE("{} marked for deletion obj: [{}]", typeIdentifier.name(), m_GameObjectName)
+		if (component->GetCanBeRemoved())
+		{
+			// Mark for deletion in lateUpdate
+			component->MarkForDeletion();
+			L_TRACE("{} marked for deletion obj: [{}]", typeIdentifier.name(), m_GameObjectName)
+		}
+		else
+		{
+			L_ERROR("{} can not be removed from [{}] as it is marked as NOT REMOVABLE.", typeIdentifier.name(), m_GameObjectName);
+		}
 	}
 
 	template <ComponentType T, typename...Args>
@@ -118,7 +123,7 @@ namespace Engine
 
 		// Save component in map
 		m_Components.emplace(typeIdentifier, component);
-		component->ComponentAttach();
+		component->Attach();
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
 	}
 
@@ -133,7 +138,7 @@ namespace Engine
 
 		// Save component in map
 		m_Components.emplace(typeIdentifier, component);
-		component->ComponentAttach();
+		component->Attach();
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
 	}
 

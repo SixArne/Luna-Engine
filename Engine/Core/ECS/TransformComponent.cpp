@@ -2,6 +2,15 @@
 #include "TransformComponent.h"
 #include "GameObject.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
+
+#pragma warning(push)
+#pragma warning(disable: 4201)
+#include <glm/gtx/quaternion.hpp>
+#pragma warning(pop)
+
 Engine::TransformComponent::TransformComponent(GameObject* object)
 	: Component{ object }
 {
@@ -17,43 +26,25 @@ Engine::TransformComponent::TransformComponent(GameObject* object, glm::vec2 pos
 {
 }
 
-void Engine::TransformComponent::ComponentUpdate()
+void Engine::TransformComponent::Update()
 {
 }
 
-void Engine::TransformComponent::ComponentRender()
+void Engine::TransformComponent::Render()
 {
 }
 
-const glm::vec2 Engine::TransformComponent::GetPosition()
+void Engine::TransformComponent::Init()
 {
-	return m_LocalPosition;
 }
 
-void Engine::TransformComponent::SetPosition(glm::vec2 position)
-{
-	m_LocalPosition = position;
-	SetPositionDirty();
-}
-
-void Engine::TransformComponent::AddPosition(glm::vec2 offset)
+void Engine::TransformComponent::AddLocalPosition(const glm::vec2& offset)
 {
 	m_LocalPosition += offset;
 	SetPositionDirty();
 }
 
-const float Engine::TransformComponent::GetRotation()
-{
-	return m_LocalRotation;
-}
-
-void Engine::TransformComponent::SetRotation(float rotation)
-{
-	m_LocalRotation = rotation;
-	SetPositionDirty();
-}
-
-void Engine::TransformComponent::AddRotation(float offset)
+void Engine::TransformComponent::AddLocalRotation(const float offset)
 {
 	m_LocalRotation += offset;
 	SetPositionDirty();
@@ -71,29 +62,29 @@ void Engine::TransformComponent::SetLocalRotation(const float angle)
 	SetPositionDirty();
 }
 
+void Engine::TransformComponent::SetLocalScale(const glm::vec2& scale)
+{
+	m_LocalScale = scale;
+}
+
 const glm::vec2& Engine::TransformComponent::GetLocalPosition()
 {
 	return m_LocalPosition;
 }
 
-float Engine::TransformComponent::GetLocalRotation()
+const glm::vec2& Engine::TransformComponent::GetLocalScale()
+{
+	return m_LocalScale;
+}
+
+const float Engine::TransformComponent::GetLocalRotation()
 {
 	return m_LocalRotation;
 }
 
-const glm::vec2& Engine::TransformComponent::GetWorldPosition()
-{
-	if (m_IsPositionDirty)
-	{
-		UpdateWorldPosition();
-	}
-
-	return m_WorldPosition;
-}
-
 void Engine::TransformComponent::SetPositionDirty()
 {
-	m_IsPositionDirty = true;
+	m_IsDirty = true;
 
 	auto children = GetOwner()->GetChildren();
 	for (auto child : children)
@@ -102,22 +93,85 @@ void Engine::TransformComponent::SetPositionDirty()
 	}
 }
 
-void Engine::TransformComponent::UpdateWorldPosition()
+const glm::mat4 Engine::TransformComponent::UpdateWorldTransform()
 {
 	auto owner = GetOwner()->GetParent();
 
-	if (m_IsPositionDirty)
+	if (m_IsDirty)
 	{
+		glm::mat4 localTransform = glm::mat3(1.0);
+		localTransform = glm::translate(localTransform, glm::vec3(m_LocalPosition, 0.0f));
+		localTransform = glm::rotate(localTransform, glm::radians(m_LocalRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		localTransform = glm::scale(localTransform, glm::vec3(m_LocalScale, 1.0f));
+
 		if (owner == nullptr)
 		{
-			m_WorldPosition = m_LocalPosition;
+			m_Transform = localTransform;
 		}
 		else
 		{
-			auto parentPosition = owner->GetComponent<TransformComponent>()->GetWorldPosition();
-			m_WorldPosition = parentPosition + m_LocalPosition;
+			auto parentWorldTransform = owner->GetTransform()->UpdateWorldTransform();
+			m_Transform = parentWorldTransform * localTransform;
 		}
+
+		// Update world position, scale and rotation for all
+		m_WorldPosition = GetPositionFromMatrix(m_Transform);
+		m_WorldRotation = GetRotationFromMatrix(m_Transform);
+		m_WorldScale = GetScaleFromMatrix(m_Transform);
 	}
 
-	m_IsPositionDirty = false;
+	m_IsDirty = false;
+	return m_Transform;
+}
+
+const glm::vec2& Engine::TransformComponent::GetWorldPosition()
+{
+	if (m_IsDirty)
+	{
+		UpdateWorldTransform();
+	}
+
+	return m_WorldPosition;
+}
+
+const float Engine::TransformComponent::GetWorldRotation()
+{
+	if (m_IsDirty)
+	{
+		UpdateWorldTransform();
+	}
+
+	return m_WorldRotation;
+}
+
+const glm::vec2& Engine::TransformComponent::GetWorldScale()
+{
+	if (m_IsDirty)
+	{
+		UpdateWorldTransform();
+	}
+
+	return m_WorldScale;
+}
+
+void Engine::TransformComponent::UpdateWorldAndCacheValues()
+{
+	glm::mat4 worldTransform = UpdateWorldTransform();
+}
+
+// Helpers
+glm::vec2 Engine::TransformComponent::GetPositionFromMatrix(const glm::mat4& matrix)
+{
+	return glm::vec2(matrix[3][0], matrix[3][1]);
+}
+
+float Engine::TransformComponent::GetRotationFromMatrix(const glm::mat4& matrix)
+{
+	glm::vec3 euler = glm::eulerAngles(glm::quat_cast(matrix));
+	return glm::degrees(euler.z);
+}
+
+glm::vec2 Engine::TransformComponent::GetScaleFromMatrix(const glm::mat4& matrix)
+{
+	return glm::vec2(glm::length(matrix[0]), glm::length(matrix[1]));
 }

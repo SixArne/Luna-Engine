@@ -5,13 +5,18 @@
 
 namespace Engine
 {
+	class TransformComponent;
+
 	class Rotator : public Component
 	{
 	public:
 		Rotator(GameObject* gameobject);
 
-		void ComponentUpdate() override;
-		void ComponentRender() override;
+		void Init() override;
+		void Update() override;
+		void Render() override;
+	private:
+		TransformComponent* m_TransformComponent{};
 	};
 }
 

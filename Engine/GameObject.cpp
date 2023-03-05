@@ -79,7 +79,7 @@ void Engine::GameObject::Init()
 {
 	for (const auto& component : m_Components)
 	{
-		component.second->ComponentInit();
+		component.second->Init();
 	}
 }
 
@@ -87,7 +87,7 @@ void Engine::GameObject::Update()
 {
 	for (const auto& component : m_Components)
 	{
-		component.second->ComponentUpdate();
+		component.second->Update();
 	}
 }
 
@@ -97,7 +97,7 @@ void Engine::GameObject::LateUpdate()
 	{
 		if (!component.second->IsMarkedForDeletion())
 		{
-			component.second->ComponentLateUpdate();
+			component.second->LateUpdate();
 		}
 		else
 		{
@@ -111,7 +111,7 @@ void Engine::GameObject::FixedUpdate(float fdt)
 {
 	for (const auto& component : m_Components)
 	{
-		component.second->ComponentFixedUpdate(fdt);
+		component.second->FixedUpdate(fdt);
 	}
 }
 
@@ -119,6 +119,6 @@ void Engine::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
 	{
-		component.second->ComponentRender();
+		component.second->Render();
 	}
 }
