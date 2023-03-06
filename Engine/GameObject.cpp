@@ -55,6 +55,9 @@ void Engine::GameObject::AddChild(GameObject* child)
 
 void Engine::GameObject::RemoveChild(GameObject* child)
 {
+	// #TODO make sure to remove from scene, and all its children
+	// OR check the fix hashtag and make super game objects that manager their children, then 
+	// you don't need a reference to the scene anymore.
 	m_Children.erase(
 		std::remove_if(m_Children.begin(), m_Children.end(), [child](auto fchild) { return fchild == child; })
 	);
@@ -85,6 +88,8 @@ void Engine::GameObject::Init()
 
 void Engine::GameObject::Update()
 {
+	// #TODO should loop over its children(game objects) and components.
+	// #FIX
 	for (const auto& component : m_Components)
 	{
 		component.second->Update();
