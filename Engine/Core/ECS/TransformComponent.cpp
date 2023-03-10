@@ -88,7 +88,7 @@ void Engine::TransformComponent::SetPositionDirty()
 	m_IsDirty = true;
 
 	auto children = GetOwner()->GetChildren();
-	for (auto child : children)
+	for (auto& child : children)
 	{
 		child->GetTransform()->SetPositionDirty();
 	}

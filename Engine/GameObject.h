@@ -46,21 +46,24 @@ namespace Engine
 		void AddComponent();
 
 		const std::string& GetName();
-		void SetParent(GameObject* parent, bool keepWorldTransform);
-
-		void AddChild(GameObject* child);
-		void RemoveChild(GameObject* child);
+		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldTransform);
 
 		GameObject* GetParent();
-		std::vector<GameObject*>& GetChildren();
+		std::vector<std::shared_ptr<GameObject>>& GetChildren();
 
 		TransformComponent* GetTransform();
 
+		void AttachChild(std::shared_ptr<GameObject> child, bool keepWorldTransform);
+		void DetachChild(std::shared_ptr<GameObject> child);
+
 	private:
+		void AddChild(std::shared_ptr<GameObject> child);
+		void RemoveChild(std::shared_ptr<GameObject> child);
+
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_Components{};
 		TransformComponent* m_TransformComponent{};
 
-		std::vector<GameObject*> m_Children{};
+		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
 		std::string m_GameObjectName{};
 	};

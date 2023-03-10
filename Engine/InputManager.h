@@ -8,5 +8,4 @@ namespace Engine
 	public:
 		bool ProcessInput();
 	};
-
 }

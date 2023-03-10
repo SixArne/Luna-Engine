@@ -21,43 +21,44 @@ const std::string& Engine::GameObject::GetName()
 	return m_GameObjectName;
 }
 
-void Engine::GameObject::SetParent(GameObject* parent, bool keepWorldTransform)
+void Engine::GameObject::AttachChild(std::shared_ptr<GameObject> child, bool keepWorldTransform)
 {
-	if (parent == nullptr)
+	auto childTransform = child->GetTransform();
+	
+	if (keepWorldTransform)
 	{
-		m_TransformComponent->SetLocalPosition(m_TransformComponent->GetWorldPosition());
+		childTransform->SetLocalPosition(childTransform->GetLocalPosition() - GetTransform()->GetWorldPosition());
+		childTransform->SetPositionDirty();
 	}
 	else
 	{
-		if (keepWorldTransform)
-		{
-			m_TransformComponent->SetLocalPosition(m_TransformComponent->GetLocalPosition() - parent->GetTransform()->GetWorldPosition());
-			m_TransformComponent->SetPositionDirty();
-		}
+		childTransform->SetLocalPosition(childTransform->GetWorldPosition());
 	}
 
-	if (m_Parent)
+	// If child is still attached to other object: detach
+	if (auto parentOfChild = child->GetParent(); parentOfChild != nullptr)
 	{
-		m_Parent->RemoveChild(this);
+		parentOfChild->DetachChild(child);
 	}
 
-	m_Parent = parent;
-	if (m_Parent)
+	if (child->m_Parent = this; child->m_Parent != nullptr)
 	{
-		parent->AddChild(this);
+		AddChild(child);
 	}
 }
 
-void Engine::GameObject::AddChild(GameObject* child)
+void Engine::GameObject::DetachChild(std::shared_ptr<GameObject> child)
+{
+	RemoveChild(child);
+}
+
+void Engine::GameObject::AddChild(std::shared_ptr<GameObject> child)
 {
 	m_Children.emplace_back(child);
 }
 
-void Engine::GameObject::RemoveChild(GameObject* child)
+void Engine::GameObject::RemoveChild(std::shared_ptr<GameObject> child)
 {
-	// #TODO make sure to remove from scene, and all its children
-	// OR check the fix hashtag and make super game objects that manager their children, then 
-	// you don't need a reference to the scene anymore.
 	m_Children.erase(
 		std::remove_if(m_Children.begin(), m_Children.end(), [child](auto fchild) { return fchild == child; })
 	);
@@ -68,7 +69,7 @@ Engine::GameObject* Engine::GameObject::GetParent()
 	return m_Parent;
 }
 
-std::vector<Engine::GameObject*>& Engine::GameObject::GetChildren()
+std::vector<std::shared_ptr<Engine::GameObject>>& Engine::GameObject::GetChildren()
 {
 	return m_Children;
 }
@@ -84,15 +85,25 @@ void Engine::GameObject::Init()
 	{
 		component.second->Init();
 	}
+
+	for (const auto& child : m_Children)
+	{
+		child->Init();
+	}
 }
 
 void Engine::GameObject::Update()
 {
-	// #TODO should loop over its children(game objects) and components.
-	// #FIX
+	// Update own components
 	for (const auto& component : m_Components)
 	{
 		component.second->Update();
+	}
+
+	// Tell children to update themselves
+	for (const auto& child : m_Children)
+	{
+		child->Update();
 	}
 }
 
@@ -110,6 +121,11 @@ void Engine::GameObject::LateUpdate()
 			m_Components.erase(component.first);
 		}
 	}
+
+	for (const auto& child : m_Children)
+	{
+		child->LateUpdate();
+	}
 }
 
 void Engine::GameObject::FixedUpdate(float fdt)
@@ -118,6 +134,11 @@ void Engine::GameObject::FixedUpdate(float fdt)
 	{
 		component.second->FixedUpdate(fdt);
 	}
+
+	for (const auto& child : m_Children)
+	{
+		child->FixedUpdate(fdt);
+	}
 }
 
 void Engine::GameObject::Render() const
@@ -125,5 +146,10 @@ void Engine::GameObject::Render() const
 	for (const auto& component : m_Components)
 	{
 		component.second->Render();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->Render();
 	}
 }
