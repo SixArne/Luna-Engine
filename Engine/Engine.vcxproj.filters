@@ -47,6 +47,7 @@
     <ClInclude Include="Core\ECS\Custom\Rotator.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
+    <ClInclude Include="Util\OBJParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\ECS\Component.cpp">
@@ -84,5 +85,6 @@
     <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
+    <ClCompile Include="Util\OBJParser.cpp" />
   </ItemGroup>
 </Project>
