@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OBJParser.h"
 #include <fstream>
+#include <format>
 
 Util::OBJParser::OBJParser(const std::string& filenameWithoutExtension)
 	:m_Filename{ filenameWithoutExtension }
@@ -20,7 +21,6 @@ void Util::OBJParser::ReadTextOBJFile()
 		while (std::getline(input, line))
 		{
 			// if found vertex line
-
 			if (line.find("#") != std::string::npos)
 			{
 				ParseCommentsLine(line);
@@ -40,6 +40,13 @@ void Util::OBJParser::ReadTextOBJFile()
 		}
 
 		input.close();
+		m_FileIsValid = true;
+		L_DEBUG("Finished Reading Text OBJ file and saving contents . . .");
+	}
+	else
+	{
+		m_FileIsValid = false;
+		L_ERROR("Failed to open file: {}", filename);
 	}
 }
 
@@ -56,7 +63,6 @@ void Util::OBJParser::ReadBinaryOBJFile()
 		int vertexCount{};
 		input.read(reinterpret_cast<char*>(&vertexCount), sizeof(vertexCount));
 		m_OBJData.vertexCount = vertexCount;
-		L_ERROR("read from BOBJ. Vertex count: {}", vertexCount);
 
 		// Read in vertices
 		for (int i{}; i < vertexCount; ++i)
@@ -70,7 +76,6 @@ void Util::OBJParser::ReadBinaryOBJFile()
 		int normalCount{};
 		input.read(reinterpret_cast<char*>(&normalCount), sizeof(normalCount));
 		m_OBJData.normalCount = normalCount;
-		L_ERROR("read from BOBJ. Normal count: {}", normalCount);
 
 		// Read in normals
 		for (int i{}; i < normalCount; ++i)
@@ -84,7 +89,6 @@ void Util::OBJParser::ReadBinaryOBJFile()
 		int faceCount{};
 		input.read(reinterpret_cast<char*>(&faceCount), sizeof(faceCount));
 		m_OBJData.faceCount = faceCount;
-		L_ERROR("read from BOBJ. Face count: {}", faceCount);
 
 		// Read in faces
 		for (int i{}; i < faceCount; ++i)
@@ -93,15 +97,30 @@ void Util::OBJParser::ReadBinaryOBJFile()
 			input.read(reinterpret_cast<char*>(&face), sizeof(face));
 			m_OBJData.faces.emplace_back(face);
 		}
+
+		input.close();
+		m_FileIsValid = true;
+		L_DEBUG("Finished reading Binary OBJ file and saving contents . . .");
+	}
+	else
+	{
+		m_FileIsValid = false;
+		L_ERROR("Failed to open file: {}", filename);
 	}
 }
 
-void Util::OBJParser::WriteToBinary()
+void Util::OBJParser::WriteToBinary(const std::string& filename)
 {
+	if (not m_FileIsValid)
+	{
+		L_ERROR("File given [{}] is not valid. {} \n Please check previous error messages", m_Filename, __func__);
+		return;
+	}
+
 	L_DEBUG("Writing OBJ data to binary file . . .");
 
 	std::ofstream output{};
-	std::string filename{ m_Filename + ".bobj" };
+	//std::string filename{ m_Filename + ".bobj" };
 
 	if (output.open(filename.c_str(), std::ios::binary); output.is_open())
 	{
@@ -111,8 +130,6 @@ void Util::OBJParser::WriteToBinary()
 		{
 			output.write(reinterpret_cast<const char*>(&val), sizeof(val));
 		}
-		L_ERROR("written into BOBJ. Vertex count: {}", m_OBJData.vertexCount);
-
 
 		// Write normals
 		output.write(reinterpret_cast<const char*>(&m_OBJData.normalCount), sizeof(m_OBJData.normalCount));
@@ -120,7 +137,6 @@ void Util::OBJParser::WriteToBinary()
 		{
 			output.write(reinterpret_cast<const char*>(&val), sizeof(val));
 		}
-		L_ERROR("written into BOBJ. Normal count: {}", m_OBJData.normalCount);
 
 		// Write faces
 		output.write(reinterpret_cast<const char*>(&m_OBJData.faceCount), sizeof(m_OBJData.faceCount));
@@ -128,20 +144,65 @@ void Util::OBJParser::WriteToBinary()
 		{
 			output.write(reinterpret_cast<const char*>(&val), sizeof(val));
 		}
-		L_ERROR("written into BOBJ. Face count: {}", m_OBJData.faceCount);
 
 		output.close();
+		L_DEBUG("Writing binary OBJ file done. Output: {}", filename);
 	}
-
-	L_DEBUG("Writing binary OBJ file done. Output: {}", filename);
+	else
+	{
+		L_ERROR("Failed to open file: {}", filename);
+	}
 
 	// Reset obj data
 	m_OBJData = {};
 }
 
-void Util::OBJParser::WriteToText()
+void Util::OBJParser::WriteToText(const std::string& filename)
 {
-	 
+	if (not m_FileIsValid)
+	{
+		L_ERROR("File given [{}] is not valid. {} \n Please check previous error messages", m_Filename, __func__);
+		return;
+	}
+
+	L_DEBUG("Writing OBJ data to ASCII file . . .");
+
+	std::ofstream output{};
+
+	//std::string filename{ m_Filename + ".obj" };
+	if (output.open(filename.c_str()); output.is_open())
+	{
+		for (const auto& val : m_OBJData.vertices)
+		{
+			// Write vertices
+			std::string toWrite = std::format("v {} {} {}\n", val.x, val.y, val.z);
+			output.write(toWrite.c_str(), toWrite.size() * sizeof(char));
+		}
+
+		for (const auto& val : m_OBJData.normals)
+		{
+			// Write normals
+			std::string toWrite = std::format("vn {} {} {}\n", val.x, val.y, val.z);
+			output.write(toWrite.c_str(), toWrite.size() * sizeof(char));
+		}
+
+		for (const auto& val : m_OBJData.faces)
+		{
+			// Write faces
+			std::string toWrite = std::format("f {} {} {}\n", val.v1, val.v2, val.v3);
+			output.write(toWrite.c_str(), toWrite.size() * sizeof(char));
+		}
+
+		output.close();
+		L_DEBUG("Writing ASCII OBJ file done. Output: {}", filename);
+	}
+	else
+	{
+		L_ERROR("Failed to open file: {}", filename);
+	}
+
+	// Reset obj data
+	m_OBJData = {};
 }
 
 void Util::OBJParser::ParseVerticesLine(std::string& line, size_t)

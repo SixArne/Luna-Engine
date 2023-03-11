@@ -45,8 +45,8 @@ namespace Util
 
 		void ReadTextOBJFile();
 		void ReadBinaryOBJFile();
-		void WriteToBinary();
-		void WriteToText();
+		void WriteToBinary(const std::string& filename);
+		void WriteToText(const std::string& filename);
 
 	private:
 		void ParseVerticesLine(std::string& line, size_t charPositionToPrune);
@@ -61,6 +61,7 @@ namespace Util
 
 		const std::string m_Filename{};
 		OBJData m_OBJData{};
+		bool m_FileIsValid{false};
 	};
 }
 
