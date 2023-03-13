@@ -19,7 +19,8 @@ project "Engine"
     files
     {
         "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
+        "%{prj.name}/**.cpp",
+        vendorFolder.."imgui/**.cpp"
     }
 
     includedirs
@@ -29,7 +30,8 @@ project "Engine"
         vendorFolder.."SDL2/include",
         vendorFolder.."SDL2_image/include",
         vendorFolder.."SDL2_ttf/include",
-        vendorFolder.."spdlog/include"
+        vendorFolder.."spdlog/include",
+        vendorFolder.."imgui/"
     }
 
     links
@@ -37,7 +39,9 @@ project "Engine"
         "SDL2.lib",
         "SDL2main.lib",
         "SDL2_image.lib",
-        "SDL2_ttf.lib"
+        "SDL2_ttf.lib",
+        "opengl32.lib",
+        "xinput.lib"
     }
 
     filter "system:windows"
@@ -77,3 +81,6 @@ project "Engine"
             vendorFolder.."SDL2_image/lib/x64",
             vendorFolder.."SDL2_ttf/lib/x64"
         }
+
+    filter "files:3rdParty/imgui/imgui**.cpp"
+        flags {"NoPCH"}

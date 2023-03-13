@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{1E6D62C3-0A3A-BDCE-3353-AB761F7FF25C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\imgui">
+      <UniqueIdentifier>{08595F4B-F426-5351-DDBA-C377C9272FB6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
@@ -10,12 +16,18 @@
     <Filter Include="Core\ECS\Custom">
       <UniqueIdentifier>{C2008F1D-2E8C-FCE1-379D-7FD6A3A758E2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{23A78D7C-0FDE-8E0D-B8CA-7410A4E00A0F}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\ECS\Component.h">
       <Filter>Core\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Core\ECS\Custom\FPSCounter.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\Rotator.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Core\ECS\TextComponent.h">
@@ -43,17 +55,43 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\ECS\Custom\Rotator.h">
-      <Filter>Core\ECS\Custom</Filter>
+    <ClInclude Include="Util\OBJParser.h">
+      <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Util\OBJParser.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_impl_opengl2.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_impl_opengl3.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_impl_sdl2.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
     <ClCompile Include="Core\ECS\Component.cpp">
       <Filter>Core\ECS</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\Custom\FPSCounter.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\TextComponent.cpp">
@@ -81,10 +119,9 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
-      <Filter>Core\ECS\Custom</Filter>
+    <ClCompile Include="Util\OBJParser.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Util\OBJParser.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
 </Project>
