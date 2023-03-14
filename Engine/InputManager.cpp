@@ -19,6 +19,9 @@ bool Engine::InputManager::ProcessInput()
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&e);
+
+		if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)
+			return false;
 		// etc...
 	}
 

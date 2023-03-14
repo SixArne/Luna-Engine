@@ -5,6 +5,8 @@ workspace "Programming-4-Engine"
 vendorFolder = "3rdParty/"
 outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+
 project "Engine"
     location "Engine"
     kind "ConsoleApp"
@@ -59,6 +61,7 @@ project "Engine"
     filter "configurations:Debug"
         defines {"DEBUG"}
         symbols "On"
+
 
     filter "configurations:Release"
         defines {"NDEBUG"}
