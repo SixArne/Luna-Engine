@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "InputManager.h"
+#include "imgui_impl_sdl2.h"
 
 bool Engine::InputManager::ProcessInput()
 {
@@ -16,6 +17,8 @@ bool Engine::InputManager::ProcessInput()
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
+
+		ImGui_ImplSDL2_ProcessEvent(&e);
 		// etc...
 	}
 
