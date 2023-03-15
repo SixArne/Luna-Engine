@@ -63,14 +63,19 @@ void Engine::Renderer::Render() const
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-	ImGuiIO& io = ImGui::GetIO();
+	/*ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-	}
+	}*/
 
 
 	ImGui::Begin("Settings");
+
+	ImGui::Text("Hi");
+	ImGui::End();
+
+	ImGui::Begin("tings");
 
 	ImGui::Text("Hi");
 	ImGui::End();
@@ -80,11 +85,11 @@ void Engine::Renderer::Render() const
 	
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
-		SDL_GLContext ctx = SDL_GL_GetCurrentContext();
+		//SDL_GLContext ctx = SDL_GL_GetCurrentContext();
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 		
-		SDL_GL_MakeCurrent(m_window, ctx);
+		//SDL_GL_MakeCurrent(m_window, ctx);
 	}
 
 	SDL_RenderPresent(m_renderer);
