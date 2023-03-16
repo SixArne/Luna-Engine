@@ -22,7 +22,8 @@ project "Engine"
     {
         "%{prj.name}/**.h",
         "%{prj.name}/**.cpp",
-        vendorFolder.."imgui/**.cpp"
+        vendorFolder.."imgui/**.cpp",
+        vendorFolder.."imgui-plot/**.cpp"
     }
 
     includedirs
@@ -33,7 +34,8 @@ project "Engine"
         vendorFolder.."SDL2_image/include",
         vendorFolder.."SDL2_ttf/include",
         vendorFolder.."spdlog/include",
-        vendorFolder.."imgui/"
+        vendorFolder.."imgui/",
+        vendorFolder.."imgui-plot/include"
     }
 
     links
@@ -59,12 +61,12 @@ project "Engine"
         }
 
     filter "configurations:Debug"
-        defines {"DEBUG"}
+        defines {"DEBUG", "IMGUI_DEFINE_MATH_OPERATORS"}
         symbols "On"
 
 
     filter "configurations:Release"
-        defines {"NDEBUG"}
+        defines {"NDEBUG", "IMGUI_DEFINE_MATH_OPERATORS"}
         optimize "On"
 
 
@@ -86,4 +88,7 @@ project "Engine"
         }
 
     filter "files:3rdParty/imgui/imgui**.cpp"
+        flags {"NoPCH"}
+
+    filter "files:3rdParty/imgui-plot/**.cpp"
         flags {"NoPCH"}

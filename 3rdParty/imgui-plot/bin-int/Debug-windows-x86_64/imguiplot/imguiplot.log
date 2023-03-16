@@ -1,0 +1,41 @@
+﻿  imgui_plot.cpp
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(15,49): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(26,46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(87,21): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(88,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(110,20): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(111,20): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(117,28): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(120,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(120,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(119,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(119,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(132,33): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(133,32): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(136,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(136,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(135,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(135,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(146,20): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(147,20): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(151,24): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(154,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(154,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(153,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(153,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(222,29): warning C4018: '<': signed/unsigned mismatch
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(238,33): warning C4018: '<': signed/unsigned mismatch
+C:\dev\Luna-Engine\3rdParty\imgui-plot\src\imgui_plot.cpp(247,34): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  imguiplot.vcxproj -> C:\dev\Luna-Engine\3rdParty\imgui-plot\bin\Debug-windows-x86_64\imguiplot\imguiplot.lib

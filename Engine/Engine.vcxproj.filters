@@ -7,6 +7,12 @@
     <Filter Include="3rdParty\imgui">
       <UniqueIdentifier>{08595F4B-F426-5351-DDBA-C377C9272FB6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdParty\imgui-plot">
+      <UniqueIdentifier>{54D1F5EF-C032-D3FD-49A0-19B0B5000ABD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\imgui-plot\src">
+      <UniqueIdentifier>{6B1982AE-D750-CA45-E05A-2E694C11F13E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
@@ -61,6 +67,9 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\3rdParty\imgui-plot\src\imgui_plot.cpp">
+      <Filter>3rdParty\imgui-plot\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
       <Filter>3rdParty\imgui</Filter>
     </ClCompile>

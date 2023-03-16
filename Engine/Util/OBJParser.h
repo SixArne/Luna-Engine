@@ -52,8 +52,7 @@ namespace Util
 		void ParseVerticesLine(std::string& line, size_t charPositionToPrune);
 		void ParseNormalsLine(std::string& line, size_t charPositionToPrune);
 		void ParseFacesLine(std::string& line, size_t charPositionToPrune);
-		void ParseCommentsLine(const std::string& line);
-
+	
 		void SplitString(std::vector<std::string>& output, std::string& input, const std::string& delimiter);
 
 		template<typename T>

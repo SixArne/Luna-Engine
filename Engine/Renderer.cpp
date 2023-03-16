@@ -63,21 +63,26 @@ void Engine::Renderer::Render() const
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-	/*ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-	{
-		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-	}*/
+	ImGuiIO& io = ImGui::GetIO();
+	//if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	//{
+	//	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	//}
+	SDL_Texture* target = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
+
+	SDL_RenderPresent(m_renderer);
+	SDL_RenderCopy(m_renderer, target, NULL, NULL);
+
+	ImGui::Begin("Viewport");
+
+	ImGui::Image(target, ImVec2{ 640.f, 480.f });
 
 
-	ImGui::Begin("Settings");
-
-	ImGui::Text("Hi");
 	ImGui::End();
 
-	ImGui::Begin("tings");
+	ImGui::Begin("test");
 
-	ImGui::Text("Hi");
+
 	ImGui::End();
 
 	ImGui::Render();
@@ -91,8 +96,8 @@ void Engine::Renderer::Render() const
 		
 		//SDL_GL_MakeCurrent(m_window, ctx);
 	}
+	SDL_DestroyTexture(target);
 
-	SDL_RenderPresent(m_renderer);
 }
 
 void Engine::Renderer::Destroy()

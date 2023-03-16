@@ -20,12 +20,8 @@ void Util::OBJParser::ReadTextOBJFile()
 		std::string line{};
 		while (std::getline(input, line))
 		{
-			// if found vertex line
-			if (line.find("#") != std::string::npos)
-			{
-				ParseCommentsLine(line);
-			}
-			else if (auto vFound = line.find("v"); vFound != std::string::npos)
+
+			if (auto vFound = line.find("v"); vFound != std::string::npos)
 			{
 				ParseVerticesLine(line, vFound);
 			}
@@ -257,11 +253,6 @@ void Util::OBJParser::ParseFacesLine(std::string& line, size_t)
 	m_OBJData.faces.emplace_back(face);
 
 	m_OBJData.faceCount++;
-}
-
-void Util::OBJParser::ParseCommentsLine(const std::string& line)
-{
-	L_WARN("Comments found {}", line);
 }
 
 void Util::OBJParser::SplitString(std::vector<std::string>& output, std::string& input, const std::string& delimiter)
