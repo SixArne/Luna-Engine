@@ -13,6 +13,7 @@ Run the CreateProject.bat file from the **root** project.
 after that run the following command from **inside** the build folder.
 >cmake --build . --config Debug --parallel -v -j 8
 
+
 ## Disclaimer
 I have debugged most issues but I got stuck at
 ```
@@ -28,3 +29,5 @@ I typically run this command to build everything.
 ```
 cmake --build . --config Debug --parallel -v -j 8
 ```
+
+I have narrowed the problem down to linking SDL into LunaEngine.
