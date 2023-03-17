@@ -5,6 +5,7 @@
 namespace Engine
 {
 	class Texture2D;
+	class SceneManager;
 	/**
 	 * Simple RAII wrapper for the SDL renderer
 	 */
@@ -16,6 +17,7 @@ namespace Engine
 	public:
 		void Init(SDL_Window* window);
 		void Render() const;
+		void RenderImGui(SceneManager& sceneManager);
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;

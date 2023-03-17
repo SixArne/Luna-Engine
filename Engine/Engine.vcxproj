@@ -213,7 +213,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenes\RotatorScene.h" />
+    <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
@@ -263,7 +264,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scenes\RotatorScene.cpp" />
+    <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Util\OBJParser.cpp" />

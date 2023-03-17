@@ -113,7 +113,9 @@ void Engine::Engine::Run(const std::function<void()>& load)
 		}
 
 		sceneManager.Update();
+
 		renderer.Render();
+		renderer.RenderImGui(sceneManager);
 
 		sceneManager.LateUpdate();
 
