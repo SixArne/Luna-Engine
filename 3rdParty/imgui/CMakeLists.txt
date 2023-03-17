@@ -3,7 +3,7 @@
 message(STATUS "include directory ${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Define library
-add_library(imgui
+add_library(imgui STATIC
     "imgui.h"
     "imconfig.h"
     "imgui_internal.h"
@@ -20,5 +20,12 @@ add_library(imgui
     "backends/imgui_impl_sdl2.h"
     "backends/imgui_impl_sdl2.cpp"
 )
+
+target_include_directories(imgui PUBLIC
+    # self root reference
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+target_link_libraries(imgui PUBLIC SDL2)
 
 set(imguiIncludeDir "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
