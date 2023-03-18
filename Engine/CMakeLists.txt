@@ -47,6 +47,34 @@ add_executable(LunaEngine
     "Core/ECS/Custom/Rotator.h"
 )
 
+# Copy SDL2 DDL
+add_custom_target(copy_SDL_files ALL
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:SDL2> $<TARGET_FILE_DIR:LunaEngine>
+    COMMENT "Copying SDL2 DLL files to LunaEngine directory"
+)
+
+# Copy SDL2_image DLL
+add_custom_target(copy_SDL_image_files ALL
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:SDL2_image> $<TARGET_FILE_DIR:LunaEngine>
+    COMMENT "Copying SDL2_image DLL files to LunaEngine directory"
+)
+
+# Copy SDL2_ttf DLL
+add_custom_target(copy_SDL_ttf_files ALL
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:SDL2_ttf> $<TARGET_FILE_DIR:LunaEngine>
+    COMMENT "Copying SDL2_ttf DLL files to LunaEngine directory"
+)
+
+# Copy data folder
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(dest_dir "${CMAKE_CURRENT_BINARY_DIR}/Debug")
+else()
+    set(dest_dir "${CMAKE_CURRENT_BINARY_DIR}/Release")
+endif()
+
+# Copy the Data directory to the destination directory
+file(COPY "${Root}/Data" DESTINATION "${dest_dir}")
+
 # link all in
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     target_link_libraries(LunaEngine PUBLIC
