@@ -7,11 +7,8 @@
     <Filter Include="3rdParty\imgui">
       <UniqueIdentifier>{08595F4B-F426-5351-DDBA-C377C9272FB6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rdParty\imgui-plot">
-      <UniqueIdentifier>{54D1F5EF-C032-D3FD-49A0-19B0B5000ABD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rdParty\imgui-plot\src">
-      <UniqueIdentifier>{6B1982AE-D750-CA45-E05A-2E694C11F13E}</UniqueIdentifier>
+    <Filter Include="3rdParty\implot">
+      <UniqueIdentifier>{62444FB7-CECF-BC7B-D7E0-3F7043EB187C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
@@ -21,6 +18,9 @@
     </Filter>
     <Filter Include="Core\ECS\Custom">
       <UniqueIdentifier>{C2008F1D-2E8C-FCE1-379D-7FD6A3A758E2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{86EEB3D0-7290-DEA6-5B4B-F2FA478C65F7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{23A78D7C-0FDE-8E0D-B8CA-7410A4E00A0F}</UniqueIdentifier>
@@ -57,8 +57,13 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Scenes\RotatorScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Util\OBJParser.h">
@@ -67,9 +72,6 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui-plot\src\imgui_plot.cpp">
-      <Filter>3rdParty\imgui-plot\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
       <Filter>3rdParty\imgui</Filter>
     </ClCompile>
@@ -93,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
       <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\implot\implot.cpp">
+      <Filter>3rdParty\implot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\implot\implot_items.cpp">
+      <Filter>3rdParty\implot</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\Component.cpp">
       <Filter>Core\ECS</Filter>
@@ -125,8 +133,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Scenes\RotatorScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Util\OBJParser.cpp">
       <Filter>Util</Filter>

@@ -23,7 +23,7 @@ project "Engine"
         "%{prj.name}/**.h",
         "%{prj.name}/**.cpp",
         vendorFolder.."imgui/**.cpp",
-        vendorFolder.."imgui-plot/**.cpp"
+        vendorFolder.."implot/**.cpp"
     }
 
     includedirs
@@ -35,7 +35,7 @@ project "Engine"
         vendorFolder.."SDL2_ttf/include",
         vendorFolder.."spdlog/include",
         vendorFolder.."imgui/",
-        vendorFolder.."imgui-plot/include"
+        vendorFolder.."implot/"
     }
 
     links
@@ -90,5 +90,5 @@ project "Engine"
     filter "files:3rdParty/imgui/imgui**.cpp"
         flags {"NoPCH"}
 
-    filter "files:3rdParty/imgui-plot/**.cpp"
+    filter "files:3rdParty/implot/**.cpp"
         flags {"NoPCH"}

@@ -16,6 +16,9 @@ namespace Engine
 		void FixedUpdate(float fdt);
 		void LateUpdate();
 		void Render();
+		void OnImGui();
+
+		void AddScene(std::shared_ptr<Scene> scene);
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

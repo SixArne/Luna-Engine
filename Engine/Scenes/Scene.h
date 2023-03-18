@@ -4,10 +4,11 @@
 namespace Engine
 {
 	class GameObject;
-	class Scene final
+	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
+		explicit Scene(const std::string& name);
 		void Add(std::shared_ptr<GameObject> object);
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
@@ -17,6 +18,7 @@ namespace Engine
 		void FixedUpdate(float fdt);
 		void LateUpdate();
 		void Render() const;
+		virtual void OnImGui();
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -24,8 +26,8 @@ namespace Engine
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	private: 
-		explicit Scene(const std::string& name);
+	protected: 
+		
 
 		std::string m_name;
 		std::vector < std::shared_ptr<GameObject>> m_objects{};

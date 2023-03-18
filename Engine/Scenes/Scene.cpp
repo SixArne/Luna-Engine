@@ -66,3 +66,7 @@ void Scene::Render() const
 	}
 }
 
+void Engine::Scene::OnImGui()
+{
+}
+

@@ -4,8 +4,8 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
-#include "imgui_impl_sdl2.h"
-#include "imgui_impl_opengl3.h"
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_opengl3.h>
 
 int GetOpenGLDriverIndex()
 {
@@ -25,7 +25,7 @@ void Engine::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
-	if (m_renderer == nullptr) 
+	if (m_renderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -58,46 +58,39 @@ void Engine::Renderer::Render() const
 	SDL_RenderClear(m_renderer);
 
 	SceneManager::GetInstance().Render();
+}
 
+void Engine::Renderer::RenderImGui(Engine::SceneManager& sceneManager)
+{
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
 	ImGuiIO& io = ImGui::GetIO();
-	//if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-	//{
-	//	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-	//}
-	SDL_Texture* target = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	}
 
-	SDL_RenderPresent(m_renderer);
-	SDL_RenderCopy(m_renderer, target, NULL, NULL);
+	sceneManager.OnImGui();
 
 	ImGui::Begin("Viewport");
-
-	ImGui::Image(target, ImVec2{ 640.f, 480.f });
-
-
-	ImGui::End();
-
-	ImGui::Begin("test");
-
-
+	//ImGui::Image(*, ImVec2{ 640.f, 480.f });
 	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	
+
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		//SDL_GLContext ctx = SDL_GL_GetCurrentContext();
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
-		
+
 		//SDL_GL_MakeCurrent(m_window, ctx);
 	}
-	SDL_DestroyTexture(target);
 
+	SDL_RenderPresent(m_renderer);
 }
 
 void Engine::Renderer::Destroy()
