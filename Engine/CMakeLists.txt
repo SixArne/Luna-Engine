@@ -1,5 +1,7 @@
 set (CMAKE_CXX_STANDARD 20)
 
+#TODO - Add copying Data folder and copy DLL files
+
 add_executable(LunaEngine
     "Texture2D.h"
     "Engine.cpp"
