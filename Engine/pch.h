@@ -10,6 +10,8 @@
 #include <array>
 #include <iostream>
 #include <chrono>
+#include <map>
+#include <numeric>
 
 #include <typeindex>
 #include <typeinfo>

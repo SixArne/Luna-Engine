@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
+#include <implot.h>
 
 int GetOpenGLDriverIndex()
 {
@@ -32,6 +33,7 @@ void Engine::Renderer::Init(SDL_Window* window)
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	ImPlot::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
@@ -67,16 +69,13 @@ void Engine::Renderer::RenderImGui(Engine::SceneManager& sceneManager)
 	ImGui::NewFrame();
 
 	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	/*if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
 		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-	}
+	}*/
 
 	sceneManager.OnImGui();
 
-	ImGui::Begin("Viewport");
-	//ImGui::Image(*, ImVec2{ 640.f, 480.f });
-	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -97,7 +96,9 @@ void Engine::Renderer::Destroy()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
+	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
+
 
 	if (m_renderer != nullptr)
 	{
