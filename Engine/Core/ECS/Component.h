@@ -22,6 +22,7 @@ namespace Engine
 		virtual void Detach() {}
 		virtual void FixedUpdate(float) {}
 		virtual void LateUpdate() {}
+		virtual void OnImGui() {};
 
 		// Manditory life-cycle events.
 		virtual void Update() = 0;

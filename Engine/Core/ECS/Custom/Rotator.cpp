@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Core/Time.h"
 #include "Core/ECS/TransformComponent.h"
+#include <Xinput.h>
 
 Engine::Rotator::Rotator(GameObject* gameobject)
 	: Component(gameobject)
@@ -16,7 +17,7 @@ void Engine::Rotator::Init()
 
 void Engine::Rotator::Update()
 {
-	m_TransformComponent->AddLocalRotation(80.f * TIME.GetDeltaTime());
+
 }
 
 void Engine::Rotator::Render()

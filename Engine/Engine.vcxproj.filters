@@ -54,14 +54,11 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Core\Input\InputManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Scenes\RotatorScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\Scene.h">
+    <ClInclude Include="Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
@@ -70,7 +67,11 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Scenes\TrashTheCacheScene.h" />
+    <ClInclude Include="Core\ECS\Custom\Mover.h" />
+    <ClInclude Include="Core\Input\Command.h" />
+    <ClInclude Include="Core\Input\JumpCommand.h" />
+    <ClInclude Include="Core\Input\XboxController.h" />
+    <ClInclude Include="Core\Input\MoveCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -130,15 +131,12 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Core\Input\InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Scenes\RotatorScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Scenes\Scene.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp" />
@@ -146,6 +144,9 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Scenes\TrashTheCacheScene.cpp" />
+    <ClCompile Include="Core\ECS\Custom\Mover.cpp" />
+    <ClCompile Include="Core\Input\Command.cpp" />
+    <ClCompile Include="Core\Input\JumpCommand.cpp" />
+    <ClCompile Include="Core\Input\XboxController.cpp" />
   </ItemGroup>
 </Project>

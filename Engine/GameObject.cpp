@@ -153,3 +153,16 @@ void Engine::GameObject::Render() const
 		child->Render();
 	}
 }
+
+void Engine::GameObject::OnImGui()
+{
+	for (const auto& component : m_Components)
+	{
+		component.second->OnImGui();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->OnImGui();
+	}
+}

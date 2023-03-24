@@ -21,6 +21,7 @@ namespace Engine
 		void LateUpdate();
 		void FixedUpdate(float fdt);
 		void Render() const;
+		void OnImGui();
 
 		GameObject(const char* name, glm::vec2 position = glm::vec2{}, float angle = 0);
 

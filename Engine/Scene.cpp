@@ -68,5 +68,9 @@ void Scene::Render() const
 
 void Engine::Scene::OnImGui()
 {
+	for (const auto& object : m_objects)
+	{
+		object->OnImGui();
+	}
 }
 

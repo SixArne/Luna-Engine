@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "SceneManager.h"
-#include "Scenes/Scene.h"
+#include "Scene.h"
 
 void Engine::SceneManager::Init()
 {
@@ -49,11 +49,6 @@ void Engine::SceneManager::OnImGui()
 	{
 		scene->OnImGui();
 	}
-}
-
-void Engine::SceneManager::AddScene(std::shared_ptr<Scene> scene)
-{
-	m_scenes.push_back(scene);
 }
 
 Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)

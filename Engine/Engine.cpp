@@ -6,7 +6,7 @@
 #include <SDL_ttf.h>
 
 #include "Engine.h"
-#include "InputManager.h"
+#include "Core/Input/InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
