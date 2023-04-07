@@ -9,6 +9,8 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
+#include "imgui.h"
+
 Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object)
 	: Component{object}
 {
@@ -56,4 +58,9 @@ void Engine::TextureRendererComponent::Render()
 void Engine::TextureRendererComponent::SetTexture(std::string source)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(source);
+}
+
+void Engine::TextureRendererComponent::OnImGui()
+{
+	ImGui::Text("TextureComponent");
 }

@@ -41,7 +41,7 @@ namespace Engine
 		void RemoveComponent();
 
 		template<ComponentType T, typename...Args>
-		void AddComponent(Args&&... args);
+		T* AddComponent(Args&&... args);
 
 		template<ComponentType T>
 		void AddComponent();
@@ -117,7 +117,7 @@ namespace Engine
 	}
 
 	template <ComponentType T, typename...Args>
-	void GameObject::AddComponent(Args&&...args)
+	T* GameObject::AddComponent(Args&&...args)
 	{
 		// CREATE COMPONENT HERE INSTEAD
 		// Generate the type identifier to find the component with.
@@ -128,7 +128,9 @@ namespace Engine
 		// Save component in map
 		m_Components.emplace(typeIdentifier, component);
 		component->Attach();
+
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
+		return component;
 	}
 
 	template<ComponentType T>

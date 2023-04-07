@@ -11,6 +11,8 @@
 #include <glm/gtx/quaternion.hpp>
 #pragma warning(pop)
 
+#include "ImGui.h"
+
 Engine::TransformComponent::TransformComponent(GameObject* object)
 	: Component{ object }
 {
@@ -175,4 +177,32 @@ float Engine::TransformComponent::GetRotationFromMatrix(const glm::mat4& matrix)
 glm::vec2 Engine::TransformComponent::GetScaleFromMatrix(const glm::mat4& matrix)
 {
 	return glm::vec2(glm::length(matrix[0]), glm::length(matrix[1]));
+}
+
+void Engine::TransformComponent::OnImGui()
+{
+	ImGui::Text("Transform");
+
+	auto location = m_LocalPosition;
+	auto rotation = m_LocalRotation;
+	auto scale = m_LocalScale;
+
+	ImGui::DragFloat2("Position", &location.x, 0.1f);
+	ImGui::DragFloat("Rotation", &rotation, 0.1f);
+	ImGui::DragFloat2("Scale", &scale.x, 0.1f);
+
+	if (glm::length(location - m_LocalPosition) >= FLT_EPSILON)
+	{
+		SetLocalPosition(location);
+	}
+
+	if (glm::abs(rotation - m_LocalRotation) >= FLT_EPSILON)
+	{
+		SetLocalRotation(rotation);
+	}
+
+	if (glm::length(scale - m_LocalScale) >= FLT_EPSILON)
+	{
+		SetLocalScale(scale);
+	}
 }

@@ -199,6 +199,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Event\EventManager.h" />
+    <ClInclude Include="Core\Event\IObserver.h" />
+    <ClInclude Include="Core\Event\Subject.h" />
     <ClInclude Include="Core\Input\Command.h" />
     <ClInclude Include="Core\ECS\Component.h" />
     <ClInclude Include="Core\ECS\Custom\FPSCounter.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="Core\ECS\Custom\Mover.h" />
     <ClInclude Include="Core\Input\JumpCommand.h" />
     <ClInclude Include="Core\Input\MoveCommands.h" />
+    <ClInclude Include="Core\ECS\Custom\HealthComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
@@ -256,6 +260,8 @@
     <ClCompile Include="..\3rdParty\implot\implot_items.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Core\Event\EventManager.cpp" />
+    <ClCompile Include="Core\Event\Subject.cpp" />
     <ClCompile Include="Core\Input\Command.cpp" />
     <ClCompile Include="Core\ECS\Component.cpp" />
     <ClCompile Include="Core\ECS\Custom\FPSCounter.cpp" />
@@ -271,6 +277,7 @@
     <ClCompile Include="Core\Input\InputManager.cpp" />
     <ClCompile Include="Core\ECS\Custom\Mover.cpp" />
     <ClCompile Include="Core\Input\JumpCommand.cpp" />
+    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

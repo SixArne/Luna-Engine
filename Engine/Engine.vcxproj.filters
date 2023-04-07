@@ -72,6 +72,10 @@
     <ClInclude Include="Core\Input\JumpCommand.h" />
     <ClInclude Include="Core\Input\XboxController.h" />
     <ClInclude Include="Core\Input\MoveCommands.h" />
+    <ClInclude Include="Core\ECS\Custom\HealthComponent.h" />
+    <ClInclude Include="Core\Event\IObserver.h" />
+    <ClInclude Include="Core\Event\Subject.h" />
+    <ClInclude Include="Core\Event\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -148,5 +152,8 @@
     <ClCompile Include="Core\Input\Command.cpp" />
     <ClCompile Include="Core\Input\JumpCommand.cpp" />
     <ClCompile Include="Core\Input\XboxController.cpp" />
+    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp" />
+    <ClCompile Include="Core\Event\Subject.cpp" />
+    <ClCompile Include="Core\Event\EventManager.cpp" />
   </ItemGroup>
 </Project>

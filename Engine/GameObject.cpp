@@ -4,6 +4,8 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+#include "ImGui.h"
+
 Engine::GameObject::GameObject(const char* name, glm::vec2 position, float angle)
 	: m_GameObjectName{name}
 {
@@ -156,10 +158,12 @@ void Engine::GameObject::Render() const
 
 void Engine::GameObject::OnImGui()
 {
+	ImGui::Begin(GetName().c_str());
 	for (const auto& component : m_Components)
 	{
 		component.second->OnImGui();
 	}
+	ImGui::End();
 
 	for (const auto& child : m_Children)
 	{

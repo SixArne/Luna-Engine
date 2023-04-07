@@ -1,12 +1,15 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include "Core/Event/Subject.h"
+#include "Core/Event/IObserver.h"
+
 namespace Engine
 {
 	// Forward declare
 	class GameObject;
 
-	class Component
+	class Component : public Subject, public IObserver
 	{
 	public:
 		virtual ~Component() = default;

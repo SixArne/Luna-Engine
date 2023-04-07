@@ -32,6 +32,8 @@ namespace Engine
 
 		void SetTexture(std::string source);
 
+		void OnImGui() override;
+
 	private:
 		std::shared_ptr<Texture2D> m_Texture{};
 	};

@@ -54,6 +54,8 @@ namespace Engine
 		float GetRotationFromMatrix(const glm::mat4& matrix);
 		glm::vec2 GetScaleFromMatrix(const glm::mat4& matrix);
 
+		void OnImGui() override;
+
 		glm::vec2 m_LocalPosition{};
 		float m_LocalRotation{};
 		glm::vec2 m_LocalScale{1.0f, 1.0f};
