@@ -101,7 +101,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>DEBUG;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;..\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -110,12 +110,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x86;..\3rdParty\SDL2_image\lib\x86;..\3rdParty\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x86;..\3rdParty\SDL2_image\lib\x86;..\3rdParty\SDL2_ttf\lib\x86;..\3rdParty\steamworks\redistributable_bin\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,7 +126,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>DEBUG;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;..\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -134,12 +135,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x64;..\3rdParty\SDL2_image\lib\x64;..\3rdParty\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x64;..\3rdParty\SDL2_image\lib\x64;..\3rdParty\SDL2_ttf\lib\x64;..\3rdParty\steamworks\redistributable_bin\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86_64\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,7 +151,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>NDEBUG;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;..\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -162,12 +164,13 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x86;..\3rdParty\SDL2_image\lib\x86;..\3rdParty\SDL2_ttf\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x86;..\3rdParty\SDL2_image\lib\x86;..\3rdParty\SDL2_ttf\lib\x86;..\3rdParty\steamworks\redistributable_bin\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +180,7 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PreprocessorDefinitions>NDEBUG;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\3rdParty\glm;..\3rdParty\SDL2\include;..\3rdParty\SDL2_image\include;..\3rdParty\SDL2_ttf\include;..\3rdParty\spdlog\include;..\3rdParty\imgui;..\3rdParty\implot;..\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -190,44 +193,45 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x64;..\3rdParty\SDL2_image\lib\x64;..\3rdParty\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;opengl32.lib;xinput.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdParty\SDL2\lib\x64;..\3rdParty\SDL2_image\lib\x64;..\3rdParty\SDL2_ttf\lib\x64;..\3rdParty\steamworks\redistributable_bin\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86_64\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Event\EventManager.h" />
-    <ClInclude Include="Core\Event\IObserver.h" />
-    <ClInclude Include="Core\Event\Subject.h" />
-    <ClInclude Include="Core\Input\Command.h" />
     <ClInclude Include="Core\ECS\Component.h" />
     <ClInclude Include="Core\ECS\Custom\FPSCounter.h" />
+    <ClInclude Include="Core\ECS\Custom\HealthComponent.h" />
+    <ClInclude Include="Core\ECS\Custom\Mover.h" />
     <ClInclude Include="Core\ECS\Custom\Rotator.h" />
     <ClInclude Include="Core\ECS\TextComponent.h" />
     <ClInclude Include="Core\ECS\TextureRenderer.h" />
     <ClInclude Include="Core\ECS\TransformComponent.h" />
+    <ClInclude Include="Core\Event\EventManager.h" />
+    <ClInclude Include="Core\Event\IObserver.h" />
+    <ClInclude Include="Core\Event\Subject.h" />
+    <ClInclude Include="Core\Input\Command.h" />
+    <ClInclude Include="Core\Input\InputManager.h" />
+    <ClInclude Include="Core\Input\JumpCommand.h" />
+    <ClInclude Include="Core\Input\MoveCommands.h" />
+    <ClInclude Include="Core\Input\XboxController.h" />
     <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\Time.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Core\Input\InputManager.h" />
-    <ClInclude Include="Core\ECS\Custom\Mover.h" />
-    <ClInclude Include="Core\Input\JumpCommand.h" />
-    <ClInclude Include="Core\Input\MoveCommands.h" />
-    <ClInclude Include="Core\ECS\Custom\HealthComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Util\OBJParser.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\Input\XboxController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -260,35 +264,35 @@
     <ClCompile Include="..\3rdParty\implot\implot_items.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Core\Event\EventManager.cpp" />
-    <ClCompile Include="Core\Event\Subject.cpp" />
-    <ClCompile Include="Core\Input\Command.cpp" />
     <ClCompile Include="Core\ECS\Component.cpp" />
     <ClCompile Include="Core\ECS\Custom\FPSCounter.cpp" />
+    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp" />
+    <ClCompile Include="Core\ECS\Custom\Mover.cpp" />
     <ClCompile Include="Core\ECS\Custom\Rotator.cpp" />
     <ClCompile Include="Core\ECS\TextComponent.cpp" />
     <ClCompile Include="Core\ECS\TextureRenderer.cpp" />
     <ClCompile Include="Core\ECS\TransformComponent.cpp" />
+    <ClCompile Include="Core\Event\EventManager.cpp" />
+    <ClCompile Include="Core\Event\Subject.cpp" />
+    <ClCompile Include="Core\Input\Command.cpp" />
+    <ClCompile Include="Core\Input\InputManager.cpp" />
+    <ClCompile Include="Core\Input\JumpCommand.cpp" />
+    <ClCompile Include="Core\Input\XboxController.cpp" />
     <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Core\Input\InputManager.cpp" />
-    <ClCompile Include="Core\ECS\Custom\Mover.cpp" />
-    <ClCompile Include="Core\Input\JumpCommand.cpp" />
-    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Util\OBJParser.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Core\Input\XboxController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,8 +19,11 @@
     <Filter Include="Core\ECS\Custom">
       <UniqueIdentifier>{C2008F1D-2E8C-FCE1-379D-7FD6A3A758E2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{86EEB3D0-7290-DEA6-5B4B-F2FA478C65F7}</UniqueIdentifier>
+    <Filter Include="Core\Event">
+      <UniqueIdentifier>{FF1F37CD-EBD7-781A-54DF-517640B6130B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{AD4E7BCD-9906-BD1A-020E-9676EEE4570B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{23A78D7C-0FDE-8E0D-B8CA-7410A4E00A0F}</UniqueIdentifier>
@@ -31,6 +34,12 @@
       <Filter>Core\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Core\ECS\Custom\FPSCounter.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\HealthComponent.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\Mover.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Core\ECS\Custom\Rotator.h">
@@ -45,6 +54,30 @@
     <ClInclude Include="Core\ECS\TransformComponent.h">
       <Filter>Core\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Event\EventManager.h">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Event\IObserver.h">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Event\Subject.h">
+      <Filter>Core\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\Command.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\InputManager.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\JumpCommand.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\MoveCommands.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\XboxController.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Log.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -54,28 +87,16 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Core\Input\InputManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Scene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Util\OBJParser.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\ECS\Custom\Mover.h" />
-    <ClInclude Include="Core\Input\Command.h" />
-    <ClInclude Include="Core\Input\JumpCommand.h" />
-    <ClInclude Include="Core\Input\XboxController.h" />
-    <ClInclude Include="Core\Input\MoveCommands.h" />
-    <ClInclude Include="Core\ECS\Custom\HealthComponent.h" />
-    <ClInclude Include="Core\Event\IObserver.h" />
-    <ClInclude Include="Core\Event\Subject.h" />
-    <ClInclude Include="Core\Event\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -114,6 +135,12 @@
     <ClCompile Include="Core\ECS\Custom\FPSCounter.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\Mover.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
     <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
@@ -126,6 +153,24 @@
     <ClCompile Include="Core\ECS\TransformComponent.cpp">
       <Filter>Core\ECS</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Event\EventManager.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Event\Subject.cpp">
+      <Filter>Core\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\Command.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\InputManager.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\JumpCommand.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\XboxController.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
     <ClCompile Include="Core\Log.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -135,25 +180,15 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Core\Input\InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Util\OBJParser.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\ECS\Custom\Mover.cpp" />
-    <ClCompile Include="Core\Input\Command.cpp" />
-    <ClCompile Include="Core\Input\JumpCommand.cpp" />
-    <ClCompile Include="Core\Input\XboxController.cpp" />
-    <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp" />
-    <ClCompile Include="Core\Event\Subject.cpp" />
-    <ClCompile Include="Core\Event\EventManager.cpp" />
   </ItemGroup>
 </Project>

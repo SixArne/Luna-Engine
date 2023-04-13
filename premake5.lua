@@ -35,7 +35,8 @@ project "Engine"
         vendorFolder.."SDL2_ttf/include",
         vendorFolder.."spdlog/include",
         vendorFolder.."imgui/",
-        vendorFolder.."implot/"
+        vendorFolder.."implot/",
+        vendorFolder.."steamworks/public/steam",
     }
 
     links
@@ -45,7 +46,8 @@ project "Engine"
         "SDL2_image.lib",
         "SDL2_ttf.lib",
         "opengl32.lib",
-        "xinput.lib"
+        "xinput.lib",
+        "steam_api.lib"
     }
 
     filter "system:windows"
@@ -57,7 +59,8 @@ project "Engine"
 
         postbuildcommands
         {
-            ("{COPY} ../Data/SDL/ ../bin/"..outputDir.."/Engine")
+            ("{COPY} ../Data/SDL/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/steamworks/redistributable_bin/win64/ ../bin/"..outputDir.."/Engine")
         }
 
     filter "configurations:Debug"
@@ -75,8 +78,11 @@ project "Engine"
         {
             vendorFolder.."SDL2/lib/x86",
             vendorFolder.."SDL2_image/lib/x86",
-            vendorFolder.."SDL2_ttf/lib/x86"
+            vendorFolder.."SDL2_ttf/lib/x86",
+            vendorFolder.."steamworks/redistributable_bin/win32"
         }
+
+
 
 
     filter { "platforms:x64" }
@@ -84,8 +90,11 @@ project "Engine"
         {
             vendorFolder.."SDL2/lib/x64",
             vendorFolder.."SDL2_image/lib/x64",
-            vendorFolder.."SDL2_ttf/lib/x64"
+            vendorFolder.."SDL2_ttf/lib/x64",
+            vendorFolder.."steamworks/redistributable_bin/win64"
         }
+
+
 
     filter "files:3rdParty/imgui/imgui**.cpp"
         flags {"NoPCH"}
