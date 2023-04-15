@@ -115,8 +115,12 @@
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86\Engine &gt; nul)
-IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\3rdParty\SDL2\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_image\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_image\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_image\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_ttf\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_ttf\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_ttf\lib\x86 ..\bin\Debug-windows-x86\Engine &gt; nul)
+IF EXIST ..\Data\ (xcopy /Q /E /Y /I ..\Data ..\bin\Debug-windows-x86\Data &gt; nul) ELSE (xcopy /Q /Y /I ..\Data ..\bin\Debug-windows-x86\Data &gt; nul)
+IF EXIST ..\Data\STEAM\ (xcopy /Q /E /Y /I ..\Data\STEAM ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\STEAM ..\bin\Debug-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win32\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win32 ..\bin\Debug-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win32 ..\bin\Debug-windows-x86\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,7 +144,11 @@ IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Debug-windows-x86_64\Engine &gt; nul)
+      <Command>IF EXIST ..\3rdParty\SDL2\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_image\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_image\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_image\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_ttf\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_ttf\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_ttf\lib\x64 ..\bin\Debug-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\Data\ (xcopy /Q /E /Y /I ..\Data ..\bin\Debug-windows-x86_64\Data &gt; nul) ELSE (xcopy /Q /Y /I ..\Data ..\bin\Debug-windows-x86_64\Data &gt; nul)
+IF EXIST ..\Data\STEAM\ (xcopy /Q /E /Y /I ..\Data\STEAM ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\STEAM ..\bin\Debug-windows-x86_64\Engine &gt; nul)
 IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Debug-windows-x86_64\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -169,8 +177,12 @@ IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86\Engine &gt; nul)
-IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86\Engine &gt; nul)</Command>
+      <Command>IF EXIST ..\3rdParty\SDL2\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_image\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_image\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_image\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_ttf\lib\x86\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_ttf\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_ttf\lib\x86 ..\bin\Release-windows-x86\Engine &gt; nul)
+IF EXIST ..\Data\ (xcopy /Q /E /Y /I ..\Data ..\bin\Release-windows-x86\Data &gt; nul) ELSE (xcopy /Q /Y /I ..\Data ..\bin\Release-windows-x86\Data &gt; nul)
+IF EXIST ..\Data\STEAM\ (xcopy /Q /E /Y /I ..\Data\STEAM ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\STEAM ..\bin\Release-windows-x86\Engine &gt; nul)
+IF EXIST ..\3rdParty\steamworks\redistributable_bin\win32\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win32 ..\bin\Release-windows-x86\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win32 ..\bin\Release-windows-x86\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -198,7 +210,11 @@ IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Data\SDL\ (xcopy /Q /E /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\SDL ..\bin\Release-windows-x86_64\Engine &gt; nul)
+      <Command>IF EXIST ..\3rdParty\SDL2\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_image\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_image\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_image\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\3rdParty\SDL2_ttf\lib\x64\ (xcopy /Q /E /Y /I ..\3rdParty\SDL2_ttf\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\SDL2_ttf\lib\x64 ..\bin\Release-windows-x86_64\Engine &gt; nul)
+IF EXIST ..\Data\ (xcopy /Q /E /Y /I ..\Data ..\bin\Release-windows-x86_64\Data &gt; nul) ELSE (xcopy /Q /Y /I ..\Data ..\bin\Release-windows-x86_64\Data &gt; nul)
+IF EXIST ..\Data\STEAM\ (xcopy /Q /E /Y /I ..\Data\STEAM ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\Data\STEAM ..\bin\Release-windows-x86_64\Engine &gt; nul)
 IF EXIST ..\3rdParty\steamworks\redistributable_bin\win64\ (xcopy /Q /E /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86_64\Engine &gt; nul) ELSE (xcopy /Q /Y /I ..\3rdParty\steamworks\redistributable_bin\win64 ..\bin\Release-windows-x86_64\Engine &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

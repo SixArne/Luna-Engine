@@ -25,6 +25,9 @@
     <Filter Include="Core\Input">
       <UniqueIdentifier>{AD4E7BCD-9906-BD1A-020E-9676EEE4570B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Steam">
+      <UniqueIdentifier>{975C33CE-8314-751B-EC1B-4E77D8F20F0C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{23A78D7C-0FDE-8E0D-B8CA-7410A4E00A0F}</UniqueIdentifier>
     </Filter>
@@ -39,7 +42,16 @@
     <ClInclude Include="Core\ECS\Custom\HealthComponent.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\HealthIndicator.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
     <ClInclude Include="Core\ECS\Custom\Mover.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\PointComponent.h">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ECS\Custom\PointIndicator.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Core\ECS\Custom\Rotator.h">
@@ -66,6 +78,9 @@
     <ClInclude Include="Core\Input\Command.h">
       <Filter>Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Input\DieCommand.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Input\InputManager.h">
       <Filter>Core\Input</Filter>
     </ClInclude>
@@ -75,11 +90,23 @@
     <ClInclude Include="Core\Input\MoveCommands.h">
       <Filter>Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Input\PointCommand.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Input\XboxController.h">
       <Filter>Core\Input</Filter>
     </ClInclude>
     <ClInclude Include="Core\Log.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Steam\Achievement.h">
+      <Filter>Core\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Steam\AchievementGlobals.h">
+      <Filter>Core\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Steam\CSteamAchievements.h">
+      <Filter>Core\Steam</Filter>
     </ClInclude>
     <ClInclude Include="Core\Time.h">
       <Filter>Core</Filter>
@@ -97,14 +124,6 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Core\Input\DieCommand.h" />
-    <ClInclude Include="Core\ECS\Custom\HealthIndicator.h" />
-    <ClInclude Include="Core\ECS\Custom\PointComponent.h" />
-    <ClInclude Include="Core\ECS\Custom\PointIndicator.h" />
-    <ClInclude Include="Core\Input\PointCommand.h" />
-    <ClInclude Include="Core\Steam\Achievement.h" />
-    <ClInclude Include="Core\Steam\CSteamAchievements.h" />
-    <ClInclude Include="Core\Steam\AchievementGlobals.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -146,7 +165,16 @@
     <ClCompile Include="Core\ECS\Custom\HealthComponent.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\HealthIndicator.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
     <ClCompile Include="Core\ECS\Custom\Mover.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\PointComponent.cpp">
+      <Filter>Core\ECS\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ECS\Custom\PointIndicator.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\Custom\Rotator.cpp">
@@ -167,10 +195,16 @@
     <ClCompile Include="Core\Input\Command.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Input\DieCommand.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
     <ClCompile Include="Core\Input\InputManager.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
     <ClCompile Include="Core\Input\JumpCommand.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\PointCommand.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
     <ClCompile Include="Core\Input\XboxController.cpp">
@@ -178,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="Core\Log.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Steam\CSteamAchievements.cpp">
+      <Filter>Core\Steam</Filter>
     </ClCompile>
     <ClCompile Include="Core\Time.cpp">
       <Filter>Core</Filter>
@@ -195,11 +232,5 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Core\Input\DieCommand.cpp" />
-    <ClCompile Include="Core\ECS\Custom\HealthIndicator.cpp" />
-    <ClCompile Include="Core\ECS\Custom\PointComponent.cpp" />
-    <ClCompile Include="Core\ECS\Custom\PointIndicator.cpp" />
-    <ClCompile Include="Core\Input\PointCommand.cpp" />
-    <ClCompile Include="Core\Steam\CSteamAchievements.cpp" />
   </ItemGroup>
 </Project>

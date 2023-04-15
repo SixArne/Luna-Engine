@@ -56,13 +56,6 @@ project "Engine"
         warnings "extra"
         flags {"FatalWarnings"}
 
-
-        postbuildcommands
-        {
-            ("{COPY} ../Data/SDL/ ../bin/"..outputDir.."/Engine"),
-            ("{COPY} ../3rdParty/steamworks/redistributable_bin/win64/ ../bin/"..outputDir.."/Engine")
-        }
-
     filter "configurations:Debug"
         defines {"DEBUG", "IMGUI_DEFINE_MATH_OPERATORS"}
         symbols "On"
@@ -72,7 +65,6 @@ project "Engine"
         defines {"NDEBUG", "IMGUI_DEFINE_MATH_OPERATORS"}
         optimize "On"
 
-
     filter { "platforms:x86" }
         libdirs
         {
@@ -80,6 +72,16 @@ project "Engine"
             vendorFolder.."SDL2_image/lib/x86",
             vendorFolder.."SDL2_ttf/lib/x86",
             vendorFolder.."steamworks/redistributable_bin/win32"
+        }
+
+        postbuildcommands
+        {
+            ("{COPY} ../3rdParty/SDL2/lib/x86/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/SDL2_image/lib/x86/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/SDL2_ttf/lib/x86/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../Data ../bin/"..outputDir.."/Data"),
+            ("{COPY} ../Data/STEAM/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/steamworks/redistributable_bin/win32/ ../bin/"..outputDir.."/Engine")
         }
 
 
@@ -92,6 +94,16 @@ project "Engine"
             vendorFolder.."SDL2_image/lib/x64",
             vendorFolder.."SDL2_ttf/lib/x64",
             vendorFolder.."steamworks/redistributable_bin/win64"
+        }
+
+        postbuildcommands
+        {
+            ("{COPY} ../3rdParty/SDL2/lib/x64/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/SDL2_image/lib/x64/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/SDL2_ttf/lib/x64/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../Data ../bin/"..outputDir.."/Data"),
+            ("{COPY} ../Data/STEAM/ ../bin/"..outputDir.."/Engine"),
+            ("{COPY} ../3rdParty/steamworks/redistributable_bin/win64/ ../bin/"..outputDir.."/Engine")
         }
 
 

@@ -4,6 +4,7 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "Core/Time.h"
+#include "Core/Log.h"
 #include <glm/glm.hpp>
 
 namespace Engine
@@ -20,7 +21,8 @@ namespace Engine
 				0,
 				-moveSpeed * TIME.GetDeltaTime()
 			};
-
+			
+			L_DEBUG("Moving, {} up", m_GameObject->GetName())
 			m_GameObject->GetTransform()->AddLocalPosition(displacement);
 		};
 	};

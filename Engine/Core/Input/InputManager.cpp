@@ -11,7 +11,7 @@ bool Engine::InputManager::ProcessInput()
 
 	SDL_Event e;
 
-	// Check controller keys
+	// This checks and handles console input
 	UpdateConsoleInput();
 
 	while (SDL_PollEvent(&e)) {
@@ -36,6 +36,7 @@ bool Engine::InputManager::ProcessInput()
 	auto state = SDL_GetKeyboardState(&keys);
 	for (auto& command : m_DesktopCommands)
 	{
+		// #TODO add list of dpad keys to ignore. 
 		if (state[command.first] && command.second.first == InputState::Hold)
 		{
 			command.second.second->Execute();
