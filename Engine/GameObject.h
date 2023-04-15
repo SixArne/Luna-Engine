@@ -44,7 +44,7 @@ namespace Engine
 		T* AddComponent(Args&&... args);
 
 		template<ComponentType T>
-		void AddComponent();
+		T* AddComponent();
 
 		const std::string& GetName();
 		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldTransform);
@@ -134,7 +134,7 @@ namespace Engine
 	}
 
 	template<ComponentType T>
-	void GameObject::AddComponent()
+	T* GameObject::AddComponent()
 	{
 		// CREATE COMPONENT HERE INSTEAD
 		// Generate the type identifier to find the component with.
@@ -146,6 +146,7 @@ namespace Engine
 		m_Components.emplace(typeIdentifier, component);
 		component->Attach();
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
+		return component;
 	}
 
 }

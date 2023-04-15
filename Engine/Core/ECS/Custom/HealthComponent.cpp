@@ -36,4 +36,6 @@ void Engine::HealthComponent::TakeDamage(int damage)
 {
 	m_Health -= damage;
 	m_Health = std::abs(m_Health);
+
+	NotifyObservers(m_Health);
 }

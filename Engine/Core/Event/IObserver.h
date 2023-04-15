@@ -3,11 +3,12 @@
 
 namespace Engine
 {
+	template<typename T>
 	class IObserver
 	{
 	public:
-		virtual ~IObserver() = default;
-		virtual void OnNotify(const std::string&) {};
+		virtual void OnNotify(T data) = 0;
+		virtual IObserver<T>* GetObserver() = 0;
 	};
 }
 

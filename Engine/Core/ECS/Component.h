@@ -9,7 +9,7 @@ namespace Engine
 	// Forward declare
 	class GameObject;
 
-	class Component : public Subject, public IObserver
+	class Component
 	{
 	public:
 		virtual ~Component() = default;

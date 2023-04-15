@@ -97,6 +97,8 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Core\Input\DieCommand.h" />
+    <ClInclude Include="Core\ECS\Custom\HealthIndicator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -156,9 +158,6 @@
     <ClCompile Include="Core\Event\EventManager.cpp">
       <Filter>Core\Event</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Event\Subject.cpp">
-      <Filter>Core\Event</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Input\Command.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
@@ -190,5 +189,7 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Core\Input\DieCommand.cpp" />
+    <ClCompile Include="Core\ECS\Custom\HealthIndicator.cpp" />
   </ItemGroup>
 </Project>

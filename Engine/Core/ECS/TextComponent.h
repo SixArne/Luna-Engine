@@ -8,7 +8,7 @@ namespace Engine
 	class Font;
 	class Texture2D;
 
-	class TextComponent final: public Component
+	class TextComponent: public Component
 	{
 	public:
 		TextComponent(GameObject* object);
