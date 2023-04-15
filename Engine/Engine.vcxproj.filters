@@ -102,6 +102,9 @@
     <ClInclude Include="Core\ECS\Custom\PointComponent.h" />
     <ClInclude Include="Core\ECS\Custom\PointIndicator.h" />
     <ClInclude Include="Core\Input\PointCommand.h" />
+    <ClInclude Include="Core\Steam\Achievement.h" />
+    <ClInclude Include="Core\Steam\CSteamAchievements.h" />
+    <ClInclude Include="Core\Steam\AchievementGlobals.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -197,5 +200,6 @@
     <ClCompile Include="Core\ECS\Custom\PointComponent.cpp" />
     <ClCompile Include="Core\ECS\Custom\PointIndicator.cpp" />
     <ClCompile Include="Core\Input\PointCommand.cpp" />
+    <ClCompile Include="Core\Steam\CSteamAchievements.cpp" />
   </ItemGroup>
 </Project>
