@@ -47,7 +47,7 @@ namespace Engine
 		T* AddComponent();
 
 		const std::string& GetName();
-		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldTransform);
+		void SetShouldRenderImGui(bool value) { m_RenderImGui = value; };
 
 		GameObject* GetParent();
 		std::vector<std::shared_ptr<GameObject>>& GetChildren();
@@ -66,6 +66,7 @@ namespace Engine
 
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
+		bool m_RenderImGui{false};
 		std::string m_GameObjectName{};
 	};
 

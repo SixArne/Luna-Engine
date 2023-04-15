@@ -16,8 +16,24 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Core/Time.h"
+#include "Core/Log.h"
 
 SDL_Window* g_window{};
+
+void PrintHowToPlay()
+{
+	L_DEBUG("player 0:");
+	L_DEBUG("Move: [Arrow keys]");
+	L_DEBUG("Die: [F]");
+	L_DEBUG("Gain points: [P]");
+	L_DEBUG("---------------------");
+
+	L_DEBUG("player 1:");
+	L_DEBUG("Move: [GAMEPAD DPAD]");
+	L_DEBUG("Die: [A]");
+	L_DEBUG("Gain points: [B]");
+	L_DEBUG("---------------------");
+}
 
 void PrintSDLVersion()
 {
@@ -85,6 +101,8 @@ Engine::Engine::~Engine()
 void Engine::Engine::Run(const std::function<void()>& load)
 {
 	load();
+
+	PrintHowToPlay();
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();

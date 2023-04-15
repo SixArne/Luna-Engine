@@ -181,28 +181,37 @@ glm::vec2 Engine::TransformComponent::GetScaleFromMatrix(const glm::mat4& matrix
 
 void Engine::TransformComponent::OnImGui()
 {
-	ImGui::Text("Transform");
-
-	auto location = m_LocalPosition;
-	auto rotation = m_LocalRotation;
-	auto scale = m_LocalScale;
-
-	ImGui::DragFloat2("Position", &location.x, 0.1f);
-	ImGui::DragFloat("Rotation", &rotation, 0.1f);
-	ImGui::DragFloat2("Scale", &scale.x, 0.1f);
-
-	if (glm::length(location - m_LocalPosition) >= FLT_EPSILON)
+	if (ImGui::CollapsingHeader("Transform"))
 	{
-		SetLocalPosition(location);
-	}
+		ImGui::BeginChild("Transform");
 
-	if (glm::abs(rotation - m_LocalRotation) >= FLT_EPSILON)
-	{
-		SetLocalRotation(rotation);
-	}
+		ImGui::Text("Transform");
 
-	if (glm::length(scale - m_LocalScale) >= FLT_EPSILON)
-	{
-		SetLocalScale(scale);
+		auto location = m_LocalPosition;
+		auto rotation = m_LocalRotation;
+		auto scale = m_LocalScale;
+
+		ImGui::DragFloat2("Position", &location.x, 0.1f);
+		ImGui::DragFloat("Rotation", &rotation, 0.1f);
+		ImGui::DragFloat2("Scale", &scale.x, 0.1f);
+
+		if (glm::length(location - m_LocalPosition) >= FLT_EPSILON)
+		{
+			SetLocalPosition(location);
+		}
+
+		if (glm::abs(rotation - m_LocalRotation) >= FLT_EPSILON)
+		{
+			SetLocalRotation(rotation);
+		}
+
+		if (glm::length(scale - m_LocalScale) >= FLT_EPSILON)
+		{
+			SetLocalScale(scale);
+		}
+
+
+		ImGui::EndChild();
 	}
+	
 }

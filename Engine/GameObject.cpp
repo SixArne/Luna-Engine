@@ -158,12 +158,15 @@ void Engine::GameObject::Render() const
 
 void Engine::GameObject::OnImGui()
 {
-	ImGui::Begin(GetName().c_str());
-	for (const auto& component : m_Components)
+	if (m_RenderImGui)
 	{
-		component.second->OnImGui();
+		ImGui::Begin(GetName().c_str());
+		for (const auto& component : m_Components)
+		{
+			component.second->OnImGui();
+		}
+		ImGui::End();
 	}
-	ImGui::End();
 
 	for (const auto& child : m_Children)
 	{

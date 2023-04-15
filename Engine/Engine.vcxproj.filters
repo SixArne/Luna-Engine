@@ -99,6 +99,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Core\Input\DieCommand.h" />
     <ClInclude Include="Core\ECS\Custom\HealthIndicator.h" />
+    <ClInclude Include="Core\ECS\Custom\PointComponent.h" />
+    <ClInclude Include="Core\ECS\Custom\PointIndicator.h" />
+    <ClInclude Include="Core\Input\PointCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -191,5 +194,8 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Core\Input\DieCommand.cpp" />
     <ClCompile Include="Core\ECS\Custom\HealthIndicator.cpp" />
+    <ClCompile Include="Core\ECS\Custom\PointComponent.cpp" />
+    <ClCompile Include="Core\ECS\Custom\PointIndicator.cpp" />
+    <ClCompile Include="Core\Input\PointCommand.cpp" />
   </ItemGroup>
 </Project>
