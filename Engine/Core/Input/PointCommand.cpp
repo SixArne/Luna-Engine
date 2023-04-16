@@ -10,7 +10,7 @@
 #pragma warning(pop)
 
 
-void Engine::PointCommand::Execute()
+void Engine::PointCommand::Execute(InputData)
 {
 	auto pointComponent = m_GameObject->GetComponent<PointComponent>();
 	if (pointComponent != nullptr)

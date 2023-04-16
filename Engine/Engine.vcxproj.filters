@@ -45,9 +45,6 @@
     <ClInclude Include="Core\ECS\Custom\HealthIndicator.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ECS\Custom\Mover.h">
-      <Filter>Core\ECS\Custom</Filter>
-    </ClInclude>
     <ClInclude Include="Core\ECS\Custom\PointComponent.h">
       <Filter>Core\ECS\Custom</Filter>
     </ClInclude>
@@ -124,6 +121,7 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Core\Input\Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -166,9 +164,6 @@
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\Custom\HealthIndicator.cpp">
-      <Filter>Core\ECS\Custom</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ECS\Custom\Mover.cpp">
       <Filter>Core\ECS\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\Custom\PointComponent.cpp">
@@ -232,5 +227,6 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Core\Input\Keyboard.cpp" />
   </ItemGroup>
 </Project>

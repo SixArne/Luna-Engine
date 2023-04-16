@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 
-void Engine::DieCommand::Execute()
+void Engine::DieCommand::Execute(InputData)
 {
 	auto healthComponent = m_GameObject->GetComponent<HealthComponent>();
 	healthComponent->TakeDamage(1);

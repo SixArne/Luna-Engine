@@ -10,7 +10,7 @@ namespace Engine
 	public:
 		DieCommand(GameObject* gobj) : Command{ gobj } {};
 		// Inherited via Command
-		virtual void Execute() override;
+		virtual void Execute(InputData data) override;
 	};
 }
 

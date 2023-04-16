@@ -4,9 +4,18 @@
 #include "XboxController.h"
 #include "InputManager.h"
 
+#define THUMB_MAX 32767.0f
+
 class Engine::XboxController::XboxControllerImpl
 {
 public:
+	XboxControllerImpl(unsigned int controllerIndex)
+		: m_ControllerIndex{ controllerIndex }
+	{
+		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
+		ZeroMemory(&m_PreviousState, sizeof(XINPUT_STATE));
+	}
+
 	void Update()
 	{
 		CopyMemory(&m_PreviousState, &m_CurrentState, sizeof(XINPUT_STATE));
@@ -18,12 +27,12 @@ public:
 		m_ButtonsPressedLastFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
 	}
 
-	bool IsDownThisFrame(unsigned int button) const
+	bool IsPressedThisFrame(unsigned int button) const
 	{
 		return m_ButtonsPressedThisFrame & button;
 	};
 
-	bool IsUpThisFrame(unsigned int button) const
+	bool IsReleasedThisFrame(unsigned int button) const
 	{
 		return m_ButtonsPressedLastFrame & button;
 	};
@@ -71,8 +80,8 @@ public:
 
 	glm::vec2 GetLeftThumbStick() const
 	{
-		auto leftXnormalized = m_CurrentState.Gamepad.sThumbLX / 255.f;
-		auto leftYnormalized = m_CurrentState.Gamepad.sThumbLY / 255.f;
+		auto leftXnormalized = m_CurrentState.Gamepad.sThumbLX / THUMB_MAX;
+		auto leftYnormalized = m_CurrentState.Gamepad.sThumbLY / THUMB_MAX;
 
 		glm::vec2 displacement{ leftXnormalized, -leftYnormalized };
 
@@ -86,8 +95,8 @@ public:
 
 	glm::vec2 GetRightThumbStick() const
 	{
-		auto rightXnormalized = m_CurrentState.Gamepad.sThumbRX / 255.f;
-		auto rightYnormalized = m_CurrentState.Gamepad.sThumbRY / 255.f;
+		auto rightXnormalized = m_CurrentState.Gamepad.sThumbRX / THUMB_MAX;
+		auto rightYnormalized = m_CurrentState.Gamepad.sThumbRY / THUMB_MAX;
 
 		glm::vec2 displacement{ rightXnormalized, rightYnormalized };
 
@@ -106,16 +115,11 @@ private:
 	WORD m_ButtonsPressedThisFrame{};
 	WORD m_ButtonsPressedLastFrame{};
 
-	using ControllerCommandsMap = std::map<int, std::pair<InputState, std::unique_ptr<Command>>>;
-	ControllerCommandsMap m_ConsoleCommands{};
+	unsigned int m_ControllerIndex{};
 };
 
-Engine::XboxController::XboxController()
-{
-}
-
-Engine::XboxController::XboxController(int)
-	:pImpl{std::make_unique<XboxControllerImpl>()}
+Engine::XboxController::XboxController(unsigned int controllerIndex)
+	:m_ControllerImpl{std::make_unique<XboxControllerImpl>(controllerIndex)}
 {
 }
 
@@ -125,40 +129,40 @@ Engine::XboxController::~XboxController()
 
 void Engine::XboxController::Update()
 {
-	pImpl->Update();
+	m_ControllerImpl->Update();
 }
 
-bool Engine::XboxController::IsDownThisFrame(unsigned int button) const
+bool Engine::XboxController::IsPressedThisFrame(ControllerButton button) const
 {
-	return pImpl->IsDownThisFrame(button);
+	return m_ControllerImpl->IsPressedThisFrame(static_cast<unsigned int>(button));
 }
 
-bool Engine::XboxController::IsUpThisFrame(unsigned int button) const
+bool Engine::XboxController::IsReleasedThisFrame(ControllerButton button) const
 {
-	return pImpl->IsUpThisFrame(button);
+	return m_ControllerImpl->IsReleasedThisFrame(static_cast<unsigned int>(button));
 }
 
-bool Engine::XboxController::IsPressed(unsigned int button) const
+bool Engine::XboxController::IsPressed(ControllerButton button) const
 {
-	return pImpl->IsPressed(button);
+	return m_ControllerImpl->IsPressed(static_cast<unsigned int>(button));
 }
 
 float Engine::XboxController::GetLeftTrigger() const
 {
-	return pImpl->GetLeftTrigger();
+	return m_ControllerImpl->GetLeftTrigger();
 }
 
 float Engine::XboxController::GetRightTrigger() const
 {
-	return pImpl->GetRightTrigger();
+	return m_ControllerImpl->GetRightTrigger();
 }
 
 glm::vec2 Engine::XboxController::GetLeftThumbStick() const
 {
-	return pImpl->GetLeftThumbStick();
+	return m_ControllerImpl->GetLeftThumbStick();
 }
 
 glm::vec2 Engine::XboxController::GetRightThumbStick() const
 {
-	return pImpl->GetRightThumbStick();
+	return m_ControllerImpl->GetRightThumbStick();
 }

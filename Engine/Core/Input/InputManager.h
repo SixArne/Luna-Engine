@@ -1,15 +1,20 @@
-#pragma once
+#ifndef INPUT_MANAGER_H
+#define INPUT_MANAGER_H
+
+#include <variant>
 #include "Singleton.h"
 #include <Xinput.h>
 #include <SDL.h>
+#include <memory>
 #include <glm/glm.hpp>
-#include "Core/Input/Command.h"
 #include "Core/Input/XboxController.h"
+#include "Core/Input/Keyboard.h"
 
 namespace Engine
 {
-	template<class T>
-	concept IsCommand = std::is_base_of<T, Command>::value;
+	using InputData = std::variant<bool, float, glm::vec2>;
+
+	class Command;
 
 	enum class InputState
 	{
@@ -23,40 +28,40 @@ namespace Engine
 	public:
 		bool ProcessInput();
 
-		XboxController* GetController() const;
+		void AddAction(unsigned int controllerIndex, XboxController::ControllerButton button, InputState btnState, std::unique_ptr<Command> command);
+		void AddAction(SDL_Scancode key, InputState keyState, std::unique_ptr<Command> command);
 
-		template<typename T>
-		void CreateConsoleCommand(int key, InputState state, class GameObject* component);
+		void AddAxisMapping(unsigned int controllerIndex, XboxController::ControllerAxis axis, std::unique_ptr<Command> command);
+		void AddAxisMapping(SDL_Scancode key, std::unique_ptr<Command> command);
 
-		template<typename T>
-		void CreateDesktopCommand(int key, InputState state, class GameObject* component);
+		unsigned int AddController();
 
-		void CreateController(int controllerIndex);
+	private:
+		friend class Singleton<InputManager>;
+		InputManager();
 
-	private:		
+		virtual ~InputManager();
+		void HandleControllerInput();
+		void HandleKeyboardInput();
 
-		void UpdateComputerInput(SDL_Event event);
-		void UpdateConsoleInput();
+		using ControllerInput = std::pair<XboxController::ControllerButton, InputState>;
+		using ControllerKey = std::pair<unsigned int, ControllerInput>;
+		using ControllerCommandsMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
+		using ControllerAxisCommandMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
 
-		using CommandsMap = std::map<int, std::pair<InputState, std::unique_ptr<Command>>>;
-		
-		CommandsMap m_ConsoleCommands{};
-		CommandsMap m_DesktopCommands{};
+		using KeyboardInput = std::pair<SDL_Scancode, InputState>;
+		using KeyboardCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
+		using KeyboardAxisCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
 
-		std::unique_ptr<XboxController> m_XBoxController{};
+		ControllerCommandsMap m_ControllerCommands{};
+		ControllerAxisCommandMap m_ControllerAxisCommands{};
+		KeyboardCommandsMap m_KeyboardCommands{};
+		KeyboardAxisCommandsMap m_KeyboardAxisCommands{};
+
+		std::vector<std::unique_ptr<XboxController>> m_Controllers{};
+		std::unique_ptr<Keyboard> m_Keyboard{ std::make_unique<Keyboard>() };
 	};
-
-	template<typename IsCommand>
-	void InputManager::CreateConsoleCommand(int key, InputState state, GameObject* gameobject)
-	{
-		std::unique_ptr<IsCommand> command = std::make_unique<IsCommand>(gameobject);
-		m_ConsoleCommands.insert(std::pair{ key, std::pair{state, std::move(command)} });
-	}
-
-	template<typename IsCommand>
-	void InputManager::CreateDesktopCommand(int key, InputState state, GameObject* gameobject)
-	{
-		std::unique_ptr<IsCommand> command = std::make_unique<IsCommand>(gameobject);
-		m_DesktopCommands.insert(std::pair{ key, std::pair{state, std::move(command)} });
-	}
 }
+
+
+#endif

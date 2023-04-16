@@ -9,72 +9,16 @@
 
 namespace Engine
 {
-	class ForwardCommand :public Command
+	class MoveCommand final : public Command
 	{
 	public:
-		ForwardCommand(GameObject* gobj) : Command{ gobj } {};
-		virtual void Execute() override
+		MoveCommand(GameObject* gobj) : Command(gobj) {};
+		virtual ~MoveCommand() {};
+
+		virtual void Execute(InputData data) override
 		{
-			float moveSpeed{ 50.f };
-			glm::vec2 displacement
-			{
-				0,
-				-moveSpeed * TIME.GetDeltaTime()
-			};
-			
-			L_DEBUG("Moving, {} up", m_GameObject->GetName())
-			m_GameObject->GetTransform()->AddLocalPosition(displacement);
-		};
-	};
-
-	class DownCommand :public Command
-	{
-	public:
-		DownCommand(GameObject* gobj) : Command{ gobj } {};
-		virtual void Execute() override
-		{
-			float moveSpeed{ 50.f };
-			glm::vec2 displacement
-			{
-				0,
-				moveSpeed * TIME.GetDeltaTime()
-			};
-
-			m_GameObject->GetTransform()->AddLocalPosition(displacement);
-		};
-	};
-
-	class LeftCommand :public Command
-	{
-	public:
-		LeftCommand(GameObject* gobj) : Command{ gobj } {};
-		virtual void Execute() override
-		{
-			float moveSpeed{ 50.f };
-			glm::vec2 displacement
-			{
-				-moveSpeed * TIME.GetDeltaTime(),
-				0
-			};
-
-			m_GameObject->GetTransform()->AddLocalPosition(displacement);
-		};
-	};
-
-	class RightCommand :public Command
-	{
-	public:
-		RightCommand(GameObject* gobj) : Command{ gobj } {};
-		virtual void Execute() override
-		{
-			float moveSpeed{ 50.f };
-			glm::vec2 displacement
-			{
-				moveSpeed * TIME.GetDeltaTime(),
-				0
-			};
-
-			m_GameObject->GetTransform()->AddLocalPosition(displacement);
+			glm::vec2 offset = std::get<glm::vec2>(data);
+			m_GameObject->GetTransform()->AddLocalPosition(offset * TIME.GetDeltaTime());
 		};
 	};
 }
