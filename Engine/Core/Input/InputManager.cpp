@@ -28,7 +28,6 @@ bool Engine::InputManager::ProcessInput()
 			return false;
 	}
 
-
 	HandleKeyboardInput();
 	HandleControllerInput();
 

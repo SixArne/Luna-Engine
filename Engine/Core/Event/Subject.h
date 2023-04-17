@@ -37,8 +37,4 @@ namespace Engine
 	};
 }
 
-
-
-
-
 #endif
