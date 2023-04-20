@@ -3,9 +3,13 @@
 
 #include <Core/ECS/Component.h>
 
-namespace Engine
+namespace Engine { class TextComponent; }
+
+namespace Galaga
 {
-	class TextComponent;
+	using Engine::Component;
+	using Engine::GameObject;
+	using Engine::TextComponent;
 
 	class FPSCounter final: public Component
 	{

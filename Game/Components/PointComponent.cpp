@@ -1,38 +1,38 @@
 #include "pch.h"
 #include "PointComponent.h"
 
-Engine::PointComponent::PointComponent(GameObject* gameobject)
+Galaga::PointComponent::PointComponent(GameObject* gameobject)
 	:Component{ gameobject }
 {
 }
 
-Engine::PointComponent::~PointComponent()
+Galaga::PointComponent::~PointComponent()
 {
 }
 
-void Engine::PointComponent::Init()
+void Galaga::PointComponent::Init()
 {
 }
 
-void Engine::PointComponent::Update()
+void Galaga::PointComponent::Update()
 {
 }
 
-void Engine::PointComponent::Render()
+void Galaga::PointComponent::Render()
 {
 }
 
-void Engine::PointComponent::SetPoints(int points)
+void Galaga::PointComponent::SetPoints(int points)
 {
 	m_Points = points;
 }
 
-int Engine::PointComponent::GetPoints() const
+int Galaga::PointComponent::GetPoints() const
 {
 	return m_Points;
 }
 
-void Engine::PointComponent::AddPoints(int points)
+void Galaga::PointComponent::AddPoints(int points)
 {
 	m_Points += points;
 

@@ -5,10 +5,16 @@
 #include <Core/Event/EventManager.h>
 #include <Core/Event/IObserver.h>
 
-namespace Engine
-{
+namespace Engine { class TextComponent; }
 
-	class HealthIndicator :public TextComponent, public IObserver<int>
+namespace Galaga
+{
+	using Engine::Component;
+	using Engine::GameObject;
+	using Engine::TextComponent;
+	using Engine::IObserver;
+
+	class HealthIndicator : public Component, public IObserver<int>
 	{
 	public:
 		HealthIndicator(GameObject* gameobject, int beginHealth);
@@ -18,6 +24,9 @@ namespace Engine
 		void Render() override;
 
 		void OnNotify(int data) override;
+
+	private:
+		TextComponent* m_TextComponent{};
 	};
 }
 

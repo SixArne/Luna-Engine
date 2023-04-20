@@ -61,7 +61,7 @@ void Engine::InputManager::AddAction(unsigned int controllerIndex, XboxControlle
 void Engine::InputManager::AddAction(SDL_Scancode key, InputState keyState, std::unique_ptr<Command> command)
 {
 	auto input = KeyboardInput(key, keyState);
-	
+
 	// Initialize vector of commands if no commands exist for this mapping yet.
 	if (m_KeyboardCommands.count(input) == 0)
 	{
@@ -158,11 +158,17 @@ void Engine::InputManager::HandleControllerInput()
 		{
 			case XboxController::ControllerAxis::LeftThumbX:
 			{
-				InputData data{ m_Controllers[controllerIndex]->GetLeftThumbStick() };
+				InputData data{ m_Controllers[controllerIndex]->GetLeftThumbStick().x };
 				for (auto& command : commands) { command->Execute(data); }
 				break;
 			}
 			case XboxController::ControllerAxis::LeftThumbY:
+			{
+				InputData data{ m_Controllers[controllerIndex]->GetLeftThumbStick().y };
+				for (auto& command : commands) { command->Execute(data); }
+				break;
+			}
+			case XboxController::ControllerAxis::LeftThumb:
 			{
 				InputData data{ m_Controllers[controllerIndex]->GetLeftThumbStick() };
 				for (auto& command : commands) { command->Execute(data); }
@@ -170,11 +176,17 @@ void Engine::InputManager::HandleControllerInput()
 			}
 			case XboxController::ControllerAxis::RightThumbX:
 			{
-				InputData data{ m_Controllers[controllerIndex]->GetRightThumbStick() };
+				InputData data{ m_Controllers[controllerIndex]->GetRightThumbStick().x };
 				for (auto& command : commands) { command->Execute(data); }
 				break;
 			}
 			case XboxController::ControllerAxis::RightThumbY:
+			{
+				InputData data{ m_Controllers[controllerIndex]->GetRightThumbStick().y };
+				for (auto& command : commands) { command->Execute(data); }
+				break;
+			}
+			case XboxController::ControllerAxis::RightThumb:
 			{
 				InputData data{ m_Controllers[controllerIndex]->GetRightThumbStick() };
 				for (auto& command : commands) { command->Execute(data); }

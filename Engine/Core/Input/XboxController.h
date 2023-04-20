@@ -32,10 +32,12 @@ namespace Engine
 		{
 			LeftThumbX = 0,
 			LeftThumbY = 1,
+			LeftThumb = 2,
 			LeftTrigger = 4,
 			RightTrigger = 5,
 			RightThumbX = 6,
 			RightThumbY = 7,
+			RightThumb = 8
 		};
 
 		explicit XboxController(unsigned int controllerIndex);

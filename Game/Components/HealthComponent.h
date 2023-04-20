@@ -4,8 +4,12 @@
 #include <Core/ECS/Component.h>
 #include <Core/Event/Subject.h>
 
-namespace Engine
+namespace Galaga
 {
+	using Engine::Component;
+	using Engine::GameObject;
+	using Engine::Subject;
+
     class HealthComponent : public Component, public Subject<int>
     {
 	public:

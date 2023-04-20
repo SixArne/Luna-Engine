@@ -3,7 +3,11 @@
 
 #include <Core/Input/Command.h>
 
-namespace Engine
+using Engine::Command;
+using Engine::InputData;
+using Engine::GameObject;
+
+namespace Galaga
 {
 	class DieCommand :public Command
 	{

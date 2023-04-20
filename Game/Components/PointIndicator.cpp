@@ -1,34 +1,41 @@
 #include "pch.h"
 #include "PointIndicator.h"
-#include "GameObject.h"
 
+#include <GameObject.h>
 #include "Core/Event/EventManager.h"
 #include "Core/ECS/TextComponent.h"
 
-Engine::PointIndicator::PointIndicator(GameObject* gameobject, int beginPoints)
-	: TextComponent(gameobject)
+Galaga::PointIndicator::PointIndicator(GameObject* gameobject, int beginPoints)
+	:Component{ gameobject }
 {
-	auto currentPointsText = std::format("{} points", beginPoints);
-	SetText(currentPointsText);
 }
 
-void Engine::PointIndicator::Init()
+void Galaga::PointIndicator::Init()
 {
-	TextComponent::Init();
+	const auto gameObject = GetOwner();
+
+	if (!gameObject->HasComponent<TextComponent>())
+	{
+		L_ERROR("[{}] FPSCounter requires [TextComponent] to be attached on the same GameObject.", GetOwner()->GetName())
+	}
+	else
+	{
+		m_TextComponent = gameObject->GetComponent<TextComponent>();
+		auto currentHealthText = std::format("{} lives left", 0);
+		m_TextComponent->SetText(currentHealthText);
+	}
 }
 
-void Engine::PointIndicator::Update()
+void Galaga::PointIndicator::Update()
 {
-	TextComponent::Update();
 }
 
-void Engine::PointIndicator::Render()
+void Galaga::PointIndicator::Render()
 {
-	TextComponent::Render();
 }
 
-void Engine::PointIndicator::OnNotify(int data)
+void Galaga::PointIndicator::OnNotify(int data)
 {
 	auto currentPointsText = std::format("{} points", data);
-	SetText(currentPointsText);
+	m_TextComponent->SetText(currentPointsText);
 }

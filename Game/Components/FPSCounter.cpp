@@ -5,12 +5,14 @@
 #include "Core/Time.h"
 #include "Core/ECS/TextComponent.h"
 
-Engine::FPSCounter::FPSCounter(GameObject* object)
+using Engine::Time;
+
+Galaga::FPSCounter::FPSCounter(GameObject* object)
 	: Component{object}
 {
 }
 
-void Engine::FPSCounter::Init()
+void Galaga::FPSCounter::Init()
 {
 	const auto gameObject = GetOwner();
 
@@ -24,7 +26,7 @@ void Engine::FPSCounter::Init()
 	}
 }
 
-void Engine::FPSCounter::Update()
+void Galaga::FPSCounter::Update()
 {
 	float deltaTime = TIME.GetDeltaTime();
 	m_TimeSinceLastFPSPush += deltaTime;
@@ -41,5 +43,5 @@ void Engine::FPSCounter::Update()
 	}
 }
 
-void Engine::FPSCounter::Render()
+void Galaga::FPSCounter::Render()
 {}

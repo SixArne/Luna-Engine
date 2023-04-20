@@ -9,13 +9,11 @@ add_executable(Game
     Components/HealthIndicator.cpp
     Components/PointComponent.cpp
     Components/PointIndicator.cpp
-    Components/Rotator.cpp
 
     # Input
     Input/DieCommand.cpp
-    Input/MoveCommands.h
+    Input/MoveCommand.cpp
     Input/PointCommand.cpp
-    Input/JumpCommand.cpp
 )
 
 set_target_properties(Game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>")
@@ -23,7 +21,7 @@ set_target_properties(Game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CUR
 target_link_libraries(Game
     Engine
 )
-
+ 
 set(GameIncludes
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${EngineCodeIncludeDir}

@@ -18,6 +18,7 @@ mono_crash.*
 
 /bin-int
 /bin
+/build
 
 # Build results
 [Dd]ebug/

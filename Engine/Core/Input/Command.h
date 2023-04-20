@@ -13,6 +13,7 @@ namespace Engine
 	class Command
 	{
 	public:
+		Command() {};
 		Command(class GameObject* gobj) : m_GameObject{ gobj } {};
 		virtual ~Command() {};
 		virtual void Execute(InputData data) = 0;

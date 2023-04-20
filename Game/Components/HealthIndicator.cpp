@@ -1,35 +1,42 @@
 #include "pch.h"
-#include "HealthComponent.h"
 #include "HealthIndicator.h"
 
 #include <GameObject.h>
 #include <Core/Event/EventManager.h>
 #include <Core/ECS/TextComponent.h>
 
-Engine::HealthIndicator::HealthIndicator(GameObject* gameobject, int beginHealth)
-	: TextComponent(gameobject)
+Galaga::HealthIndicator::HealthIndicator(GameObject* gameobject, int beginHealth)
+	:Component{ gameobject }
 {
-	auto currentHealthText = std::format("{} lives left", beginHealth);
-	SetText(currentHealthText);
+
 }
 
-void Engine::HealthIndicator::Init()
+void Galaga::HealthIndicator::Init()
 {
-	TextComponent::Init();
+	const auto gameObject = GetOwner();
+
+	if (!gameObject->HasComponent<TextComponent>())
+	{
+		L_ERROR("[{}] FPSCounter requires [TextComponent] to be attached on the same GameObject.", GetOwner()->GetName())
+	}
+	else
+	{
+		m_TextComponent = gameObject->GetComponent<TextComponent>();
+		auto currentHealthText = std::format("{} lives left", 0);
+		m_TextComponent->SetText(currentHealthText);
+	}
 }
 
-void Engine::HealthIndicator::Update()
+void Galaga::HealthIndicator::Update()
 {
-	TextComponent::Update();
 }
 
-void Engine::HealthIndicator::Render()
+void Galaga::HealthIndicator::Render()
 {
-	TextComponent::Render();
 }
 
-void Engine::HealthIndicator::OnNotify(int data)
+void Galaga::HealthIndicator::OnNotify(int data)
 {
 	auto currentHealthText = std::format("{} lives left", data);
-	SetText(currentHealthText);
+	m_TextComponent->SetText(currentHealthText);
 }
