@@ -1,3 +1,44 @@
+# Installation
+
+Preferably use Visual Studio Code for this project.
+
+## Setup CMake for Debug/Release
+
+By default the project will be setup for debug mode. If you want to setup
+the project for release use the following tasks.
+
+`ctrl + P`
+
+`Run build task`
+
+`Configure`
+
+`Debug | Release`
+
+This will tell cmake to prepare for a different configuration
+
+## Compiling the project
+
+You can compule the project by using:
+
+`ctrl + P`
+
+`Run build task`
+
+`Debug | Release`
+
+This will compile the projects and put them in the build folder.
+
+# Not using visual studio code?
+
+Go to the scripts folder and first use
+
+`GenerateProjectDebug.bat` or `GenerateProjectRelease.bat`.
+
+then use
+
+`BuildProjectDebug.bat` or `BuildProjectRelease.bat`.
+
 # Minigin
 
 Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
@@ -17,6 +58,3 @@ Minigin is, despite perhaps the suggestion in its name, not a game engine. It is
 
 Download the latest release of this project and compile/run in visual studio. Since students need to have their work on github too, they can use this repository as a template.
 
-# Installation
-
-Run the `GenerateProject.bat` file.

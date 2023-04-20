@@ -18,10 +18,6 @@ namespace Engine
 		void Render() override;
 
 		void OnNotify(int data) override;
-
-		IObserver<int>* GetObserver() override {
-			return this;
-		}
 	};
 }
 

@@ -67,8 +67,8 @@ void load()
 	auto player0PointsIndicator = player0Points->AddComponent<Engine::PointIndicator>(0);
 
 	// Setup observers
-	player0HealthComponent->RegisterObserver(player0HealthIndicator->GetObserver());
-	player0PointsComponent->RegisterObserver(player0PointsIndicator->GetObserver());
+	player0HealthComponent->RegisterObserver(player0HealthIndicator);
+	player0PointsComponent->RegisterObserver(player0PointsIndicator);
 
 
 	// player 1 stats (health and points) ------------------------------------------------------------------------------------------
@@ -84,8 +84,8 @@ void load()
 	auto player1PointsIndicator = player1Points->AddComponent<Engine::PointIndicator>(0);
 
 	// Setup observers
-	player1HealthComponent->RegisterObserver(player1HealthIndicator->GetObserver());
-	player1PointsComponent->RegisterObserver(player1PointsIndicator->GetObserver());
+	player1HealthComponent->RegisterObserver(player1HealthIndicator);
+	player1PointsComponent->RegisterObserver(player1PointsIndicator);
 
 	// ----------- ATTACH TO ROOT STATS ------------
 	playerStatsRoot->AttachChild(player0Stats, false);
