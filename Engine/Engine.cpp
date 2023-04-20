@@ -4,10 +4,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#pragma warning(push)
-#pragma warning(disable: 4996)
-#include <steam_api.h>
-#pragma warning(pop)
 
 
 #include "Engine.h"
@@ -121,7 +117,6 @@ void Engine::Engine::Run(const std::function<void()>& load)
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	while (doContinue)
 	{
-		SteamAPI_RunCallbacks(); 
 
 		// Delta time related stuff
 		const auto currentTime = std::chrono::high_resolution_clock::now();

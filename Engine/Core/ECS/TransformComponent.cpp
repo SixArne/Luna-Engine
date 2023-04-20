@@ -11,7 +11,7 @@
 #include <glm/gtx/quaternion.hpp>
 #pragma warning(pop)
 
-#include "ImGui.h"
+#include <imgui.h>
 
 Engine::TransformComponent::TransformComponent(GameObject* object)
 	: Component{ object }

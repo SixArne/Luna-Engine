@@ -3,10 +3,9 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
-#include "imgui.h"
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
-#include <implot.h>
+#include <imgui.h>
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_opengl3.h>
 
 int GetOpenGLDriverIndex()
 {
@@ -33,7 +32,6 @@ void Engine::Renderer::Init(SDL_Window* window)
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImPlot::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
@@ -96,7 +94,6 @@ void Engine::Renderer::Destroy()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
-	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 
 

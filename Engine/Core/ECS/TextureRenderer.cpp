@@ -9,7 +9,8 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-#include "imgui.h"
+#include <ImGui.h>
+
 
 Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object)
 	: Component{object}

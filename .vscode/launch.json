@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Engine Project",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Engine/Debug/Engine",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Engine",
+            "environment": [],
+            "console": "internalConsole",
+            "preLaunchTask": "Debug"
+        },
+        {
+            "name": "Release Engine Project",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Engine/Release/Engine",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Engine",
+            "environment": [],
+            "console": "internalConsole",
+            "preLaunchTask": "Release"
+        },
+        {
+            "name": "Debug Game Project",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Game/Debug/Game",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Game",
+            "environment": [],
+            "console": "internalConsole",
+            "preLaunchTask": "Debug"
+        },
+        {
+            "name": "Release Game Project",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Game/Release/Game",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Game",
+            "environment": [],
+            "console": "internalConsole",
+            "preLaunchTask": "Release"
+        }
+    ]
+}

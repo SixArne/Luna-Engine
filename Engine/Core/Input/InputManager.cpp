@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "InputManager.h"
-#include "imgui_impl_sdl2.h"
+#include <backends/imgui_impl_sdl2.h>
 #include <Xinput.h>
 #include "Core/Input/XboxController.h"
 #include "Core/Input/Command.h"
