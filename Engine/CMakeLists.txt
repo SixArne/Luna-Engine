@@ -215,6 +215,10 @@ target_link_libraries(Engine
 
 add_dependencies(Engine IMGUI)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  target_compile_definitions(Engine PUBLIC DEBUG=1)
+endif()
+
 # Set SDL2 dlls as properties
 set (SDL2_LIBRARY_DLL ${SDL2_LIBRARY_DLL} PARENT_SCOPE)
 set (SDL2_IMAGE_LIBRARY_DLL ${SDL2_IMAGE_LIBRARY_DLL} PARENT_SCOPE)

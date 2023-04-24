@@ -5,6 +5,8 @@
 #include <Core/Event/EventManager.h>
 #include <Core/ECS/TextComponent.h>
 
+#include <iostream>
+
 Galaga::HealthIndicator::HealthIndicator(GameObject* gameobject, int beginHealth)
 	:Component{ gameobject }
 {
@@ -15,7 +17,9 @@ void Galaga::HealthIndicator::Init()
 {
 	const auto gameObject = GetOwner();
 
-	if (!gameObject->HasComponent<TextComponent>())
+	bool hasTextComponent = gameObject->HasComponent<TextComponent>();
+
+	if (!hasTextComponent)
 	{
 		L_ERROR("[{}] FPSCounter requires [TextComponent] to be attached on the same GameObject.", GetOwner()->GetName())
 	}

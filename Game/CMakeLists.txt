@@ -1,5 +1,9 @@
 set(CMAKE_CXX_STANDARD 20)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
+endif()
+
 add_executable(Game
     Main.cpp
 
@@ -36,6 +40,15 @@ target_include_directories(Game PUBLIC
     ${EngineCodeIncludeDir}
 )
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Debug mode enabled. Optimizations disabled.")
+    target_compile_definitions(Engine PUBLIC DEBUG=1)
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Release mode enabled")
+endif()
+
+
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 add_dependencies(Game Engine)
 
