@@ -14,10 +14,10 @@ void Galaga::MoveCommand::Execute(InputData data)
    if (std::holds_alternative<glm::vec2>(data))
     {
         glm::vec2 offset = std::get<glm::vec2>(data);
-        m_GameObject->GetTransform()->AddLocalPosition(offset * TIME.GetDeltaTime());
+        m_GameObject->GetTransform()->AddLocalPosition(offset * m_PixelsPerSecond * TIME.GetDeltaTime());
     }
     else
     {
-        m_GameObject->GetTransform()->AddLocalPosition(m_Movement * TIME.GetDeltaTime());
+        m_GameObject->GetTransform()->AddLocalPosition(m_Movement * m_PixelsPerSecond * TIME.GetDeltaTime());
     }
 }

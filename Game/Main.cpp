@@ -15,6 +15,7 @@
 #include <Core/Input/InputManager.h>
 #include <Core/Input/XboxController.h>
 #include <Core/ECS/TextureRenderer.h>
+#include <Core/ECS/TextComponent.h>
 #include <Core/Event/EventManager.h>
 #include <Core/Log.h>
 #include <memory>
@@ -64,7 +65,10 @@ void load()
 	player0Stats->AttachChild(player0Points, false);
 
 	auto player0HealthIndicator = player0Health->AddComponent<Galaga::HealthIndicator>(player0HealthComponent->GetHealth());
+	auto player0HealthTextRenderer = player0Health->AddComponent<Engine::TextComponent>("0");
 	auto player0PointsIndicator = player0Points->AddComponent<Galaga::PointIndicator>(0);
+	auto player0PointsTextRenderer = player0Points->AddComponent<Engine::TextComponent>("0");
+
 
 	// Setup observers
 	player0HealthComponent->RegisterObserver(player0HealthIndicator);
@@ -81,7 +85,10 @@ void load()
 	player1Stats->AttachChild(player1Points, false);
 
 	auto player1HealthIndicator = player1Health->AddComponent<Galaga::HealthIndicator>(player1HealthComponent->GetHealth());
+	auto player1HealthTextRenderer = player1Health->AddComponent<Engine::TextComponent>("0");
 	auto player1PointsIndicator = player1Points->AddComponent<Galaga::PointIndicator>(0);
+	auto player1PointsTextRenderer = player1Points->AddComponent<Engine::TextComponent>("0");
+
 
 	// Setup observers
 	player1HealthComponent->RegisterObserver(player1HealthIndicator);
