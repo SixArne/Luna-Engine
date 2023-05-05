@@ -14,6 +14,9 @@ add_executable(Game
     Components/PointComponent.cpp
     Components/PointIndicator.cpp
 
+    Components/LivesIndicator.cpp
+    Components/HighScoreIndicator.cpp
+
     # Input
     Input/DieCommand.cpp
     Input/MoveCommand.cpp

@@ -37,9 +37,6 @@ namespace Engine
 		template<ComponentType T>
 		bool HasComponent() const;
 
-		template<ComponentType T>
-		void RemoveComponent();
-
 		template<ComponentType T, typename...Args>
 		T* AddComponent(Args&&... args);
 
@@ -61,7 +58,8 @@ namespace Engine
 		void AddChild(std::shared_ptr<GameObject> child);
 		void RemoveChild(std::shared_ptr<GameObject> child);
 
-		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_Components{};
+		using ComponentContainer = std::unordered_map<std::type_index, std::vector<std::unique_ptr<Component>>>;
+		ComponentContainer m_Components{};
 		TransformComponent* m_TransformComponent{};
 
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
@@ -70,7 +68,6 @@ namespace Engine
 		std::string m_GameObjectName{};
 	};
 
-	
 	template <ComponentType T>
 	T* GameObject::GetComponent()
 	{
@@ -81,9 +78,15 @@ namespace Engine
 			return nullptr;
 		}
 
-		auto componentData = static_cast<T*>(m_Components[typeIdentifier].get());
-
-		return componentData;
+		if (m_Components[typeIdentifier].size() > 0)
+		{
+			auto componentData = static_cast<T*>(m_Components[typeIdentifier][0].get());
+			return componentData;
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
 
 	template <ComponentType T>
@@ -96,27 +99,6 @@ namespace Engine
 		return m_Components.contains(typeIdentifier);
 	}
 
-	template <ComponentType T>
-	void GameObject::RemoveComponent()
-	{
-		// Generate the type identifier to find the component with.
-		const auto typeIdentifier = std::type_index(typeid(T));
-
-		// Fetch component
-		const auto component = m_Components[typeIdentifier].get();
-
-		if (component->GetCanBeRemoved())
-		{
-			// Mark for deletion in lateUpdate
-			component->MarkForDeletion();
-			L_TRACE("{} marked for deletion obj: [{}]", typeIdentifier.name(), m_GameObjectName)
-		}
-		else
-		{
-			L_ERROR("{} can not be removed from [{}] as it is marked as NOT REMOVABLE.", typeIdentifier.name(), m_GameObjectName);
-		}
-	}
-
 	template <ComponentType T, typename...Args>
 	T* GameObject::AddComponent(Args&&...args)
 	{
@@ -127,7 +109,13 @@ namespace Engine
 		auto component = new T{this, std::forward<Args>(args)...};
 
 		// Save component in map
-		m_Components.emplace(typeIdentifier, component);
+		if (!m_Components.contains(typeIdentifier))
+		{
+			m_Components[typeIdentifier] = std::vector<std::unique_ptr<Component>>();
+		}
+
+		m_Components[typeIdentifier].push_back(std::unique_ptr<Component>(component));
+
 		component->Attach();
 
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
@@ -144,10 +132,16 @@ namespace Engine
 		auto component = new T{ this };
 
 		// Save component in map
-		m_Components.emplace(typeIdentifier, component);
+		if (!m_Components.contains(typeIdentifier))
+		{
+			m_Components[typeIdentifier] = std::vector<std::unique_ptr<Component>>();
+		}
+
+		m_Components[typeIdentifier].push_back(std::unique_ptr<Component>(component));
+
 		component->Attach();
+
 		L_TRACE("{} added to: \t[{}]", typeIdentifier.name(), m_GameObjectName)
 		return component;
 	}
-
 }

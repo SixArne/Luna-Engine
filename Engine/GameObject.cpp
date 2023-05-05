@@ -26,7 +26,7 @@ const std::string& Engine::GameObject::GetName()
 void Engine::GameObject::AttachChild(std::shared_ptr<GameObject> child, bool keepWorldTransform)
 {
 	auto childTransform = child->GetTransform();
-	
+
 	if (keepWorldTransform)
 	{
 		childTransform->SetLocalPosition(childTransform->GetLocalPosition() - GetTransform()->GetWorldPosition());
@@ -83,12 +83,17 @@ Engine::TransformComponent* Engine::GameObject::GetTransform()
 
 void Engine::GameObject::Init()
 {
-	for (const auto& component : m_Components)
+	for (const auto& componentPair : m_Components)
 	{
-		component.second->Init();
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->Init();
+		}
 	}
 
-	for (const auto& child : m_Children)
+	for (auto& child : m_Children)
 	{
 		child->Init();
 	}
@@ -97,9 +102,14 @@ void Engine::GameObject::Init()
 void Engine::GameObject::Update()
 {
 	// Update own components
-	for (const auto& component : m_Components)
+	for (const auto& componentPair : m_Components)
 	{
-		component.second->Update();
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->Update();
+		}
 	}
 
 	// Tell children to update themselves
@@ -111,16 +121,13 @@ void Engine::GameObject::Update()
 
 void Engine::GameObject::LateUpdate()
 {
-	for (const auto& component : m_Components)
+	for (const auto& componentPair : m_Components)
 	{
-		if (!component.second->IsMarkedForDeletion())
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
 		{
-			component.second->LateUpdate();
-		}
-		else
-		{
-			// Erase from component list
-			m_Components.erase(component.first);
+			c->LateUpdate();
 		}
 	}
 
@@ -132,9 +139,14 @@ void Engine::GameObject::LateUpdate()
 
 void Engine::GameObject::FixedUpdate(float fdt)
 {
-	for (const auto& component : m_Components)
+	for (const auto& componentPair : m_Components)
 	{
-		component.second->FixedUpdate(fdt);
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->FixedUpdate(fdt);
+		}
 	}
 
 	for (const auto& child : m_Children)
@@ -145,9 +157,14 @@ void Engine::GameObject::FixedUpdate(float fdt)
 
 void Engine::GameObject::Render() const
 {
-	for (const auto& component : m_Components)
+	for (const auto& componentPair : m_Components)
 	{
-		component.second->Render();
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->Render();
+		}
 	}
 
 	for (const auto& child : m_Children)
@@ -161,9 +178,14 @@ void Engine::GameObject::OnImGui()
 	if (m_RenderImGui)
 	{
 		ImGui::Begin(GetName().c_str());
-		for (const auto& component : m_Components)
+		for (const auto& componentPair : m_Components)
 		{
-			component.second->OnImGui();
+			const auto& components = componentPair.second;
+
+			for (const auto& c: components)
+			{
+				c->OnImGui();
+			}
 		}
 		ImGui::End();
 	}
