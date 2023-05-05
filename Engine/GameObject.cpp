@@ -115,7 +115,10 @@ void Engine::GameObject::Update()
 	// Tell children to update themselves
 	for (const auto& child : m_Children)
 	{
-		child->Update();
+		if (child->IsActive())
+		{
+			child->Update();
+		}
 	}
 }
 
@@ -133,7 +136,10 @@ void Engine::GameObject::LateUpdate()
 
 	for (const auto& child : m_Children)
 	{
-		child->LateUpdate();
+		if (child->IsActive())
+		{
+			child->LateUpdate();
+		}
 	}
 }
 
@@ -151,7 +157,10 @@ void Engine::GameObject::FixedUpdate(float fdt)
 
 	for (const auto& child : m_Children)
 	{
-		child->FixedUpdate(fdt);
+		if (child->IsActive())
+		{
+			child->FixedUpdate(fdt);
+		};
 	}
 }
 
@@ -169,7 +178,10 @@ void Engine::GameObject::Render() const
 
 	for (const auto& child : m_Children)
 	{
-		child->Render();
+		if (child->IsActive())
+		{
+			child->Render();
+		}
 	}
 }
 
@@ -192,6 +204,19 @@ void Engine::GameObject::OnImGui()
 
 	for (const auto& child : m_Children)
 	{
-		child->OnImGui();
+		if (child->IsActive())
+		{
+			child->OnImGui();
+		}
 	}
+}
+
+void Engine::GameObject::SetActive(bool value)
+{
+	m_IsActive = value;
+}
+
+bool Engine::GameObject::IsActive() const
+{
+	return m_IsActive;
 }

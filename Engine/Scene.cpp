@@ -38,7 +38,10 @@ void Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
-		object->Update();
+		if (object->IsActive())
+		{
+			object->Update();
+		}
 	}
 }
 
@@ -46,7 +49,10 @@ void Engine::Scene::FixedUpdate(float fdt)
 {
 	for (auto& object : m_objects)
 	{
-		object->FixedUpdate(fdt);
+		if (object->IsActive())
+		{
+			object->FixedUpdate(fdt);
+		}
 	}
 }
 
@@ -54,7 +60,10 @@ void Engine::Scene::LateUpdate()
 {
 	for (const auto& object : m_objects)
 	{
-		object->LateUpdate();
+		if (object->IsActive())
+		{
+			object->LateUpdate();
+		}
 	}
 }
 
@@ -62,7 +71,10 @@ void Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
-		object->Render();
+		if (object->IsActive())
+		{
+			object->Render();
+		}
 	}
 }
 
@@ -70,7 +82,10 @@ void Engine::Scene::OnImGui()
 {
 	for (const auto& object : m_objects)
 	{
-		object->OnImGui();
+		if (object->IsActive())
+		{
+			object->OnImGui();
+		}
 	}
 }
 

@@ -40,6 +40,9 @@ void load()
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Game");
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// HighScore
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	auto highscoreContainer = std::make_shared<Engine::GameObject>("HighscoreContainer", glm::vec2{ 450, 0 });
 	highscoreContainer->AddComponent<Engine::TextComponent>("HIGH");
 
@@ -52,17 +55,45 @@ void load()
 	highscoreValue->AddComponent<Engine::TextComponent>("0");
 	auto highscoreIndicatorComp = highscoreValue->AddComponent<Galaga::HighscoreIndicator>(0);
 
-	// PlayerComponent->RegisterObserver(HighscoreIndicator)
 
-	auto livesContainer = std::make_shared<Engine::GameObject>("LivesContainer", glm::vec2{ 540, 200 });
-	livesContainer->AddComponent<Galaga::LivesIndicator>(3);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Lives
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	auto livesContainer = std::make_shared<Engine::GameObject>("LivesContainer", glm::vec2{ 450, 400 });
+	std::vector<Engine::TextureRendererComponent*> lifeTextures{};
 
+	auto liveText = std::make_shared<Engine::GameObject>("LiveText", glm::vec2{ 0, 0 });
+	liveText->AddComponent<Engine::TextComponent>("LIVES");
+
+	auto liveImage1 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 0, 40 });
+	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+
+	auto liveImage2 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 20, 40 });
+	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+
+	auto liveImage3 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 40, 40 });
+	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+
+	livesContainer->AddComponent<Galaga::LivesIndicator>(lifeTextures);
+	livesContainer->SetShouldRenderImGui(true);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Attachments
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	highscoreIndented->AttachChild(highscoreText, false);
 	highscoreIndented->AttachChild(highscoreValue, false);
 	highscoreContainer->AttachChild(highscoreIndented, false);
 
+	livesContainer->AttachChild(liveText, false);
+	livesContainer->AttachChild(liveImage1, false);
+	livesContainer->AttachChild(liveImage2, false);
+	livesContainer->AttachChild(liveImage3, false);
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Adding to scene
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	scene.Add(highscoreContainer);
+	scene.Add(livesContainer);
 
 	// // Player 1
 	// auto player0 = std::make_shared<Engine::GameObject>("player0", glm::vec2{ 100,100 });

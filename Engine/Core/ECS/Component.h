@@ -32,6 +32,7 @@ namespace Engine
 		virtual void Render() = 0;
 		inline bool IsMarkedForDeletion() { return m_MarkedForDeletion; }
 		bool GetCanBeRemoved();
+		GameObject* GetOwner() const;
 
 		friend class GameObject;
 
@@ -40,7 +41,6 @@ namespace Engine
 
 	protected:
 		explicit Component(GameObject* pOwner) : m_pOwner{ pOwner } {}
-		GameObject* GetOwner() const;
 		void SetCanBeRemoved(bool value);
 
 	private:

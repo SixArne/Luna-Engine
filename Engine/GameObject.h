@@ -35,6 +35,9 @@ namespace Engine
 		T* GetComponent();
 
 		template<ComponentType T>
+		std::vector<T*> GetComponents();
+
+		template<ComponentType T>
 		bool HasComponent() const;
 
 		template<ComponentType T, typename...Args>
@@ -45,6 +48,9 @@ namespace Engine
 
 		const std::string& GetName();
 		void SetShouldRenderImGui(bool value) { m_RenderImGui = value; };
+
+		void SetActive(bool value);
+		bool IsActive() const;
 
 		GameObject* GetParent();
 		std::vector<std::shared_ptr<GameObject>>& GetChildren();
@@ -65,6 +71,7 @@ namespace Engine
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
 		bool m_RenderImGui{false};
+		bool m_IsActive{true};
 		std::string m_GameObjectName{};
 	};
 
@@ -87,6 +94,29 @@ namespace Engine
 		{
 			return nullptr;
 		}
+	}
+
+	template <ComponentType T>
+	std::vector<T*> GameObject::GetComponents()
+	{
+		std::vector<T*> components{};
+
+		// Generate the type identifier to find the component with.
+		const auto typeIdentifier = std::type_index(typeid(T));
+		if (!m_Components.contains(typeIdentifier))
+		{
+			return nullptr;
+		}
+
+		if (m_Components[typeIdentifier].size() > 0)
+		{
+			for (const auto &component : m_Components[typeIdentifier])
+			{
+				components.push_back(static_cast<T*>(component.get()));
+			}
+		}
+
+		return components;
 	}
 
 	template <ComponentType T>

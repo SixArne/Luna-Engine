@@ -38,7 +38,7 @@ void Engine::TextureRendererComponent::Init()
 
 void Engine::TextureRendererComponent::Update()
 {
-	
+
 }
 
 void Engine::TextureRendererComponent::Render()

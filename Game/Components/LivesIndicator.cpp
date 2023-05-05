@@ -4,31 +4,21 @@
 #include <GameObject.h>
 #include <Core/Event/EventManager.h>
 #include <Core/ECS/TextComponent.h>
+#include <Core/ECS/TextureRenderer.h>
+
+#include <imgui.h>
+#include <Core/Log.h>
 
 #include <iostream>
 
-Galaga::LivesIndicator::LivesIndicator(GameObject* gameobject, int beginLives)
-	:Component{ gameobject }
+Galaga::LivesIndicator::LivesIndicator(GameObject* gameobject, std::vector<TextureRendererComponent*>& liveRenderers)
+	:Component{ gameobject }, m_LivesIcons{ liveRenderers }, m_Lives{ static_cast<int>(liveRenderers.size()) }
 {
-
 }
 
 void Galaga::LivesIndicator::Init()
 {
-	const auto gameObject = GetOwner();
-
-	bool hasTextComponent = gameObject->HasComponent<TextComponent>();
-
-	if (!hasTextComponent)
-	{
-		L_ERROR("[{}] LivesIndicator requires [TextComponent] to be attached on the same GameObject.", GetOwner()->GetName())
-	}
-	else
-	{
-		m_TextComponent = gameObject->GetComponent<TextComponent>();
-		auto currentHealthText = std::format("{} lives left", 0);
-		m_TextComponent->SetText(currentHealthText);
-	}
+    m_CurrentLives = m_Lives;
 }
 
 void Galaga::LivesIndicator::Update()
@@ -41,6 +31,33 @@ void Galaga::LivesIndicator::Render()
 
 void Galaga::LivesIndicator::OnNotify(int data)
 {
-	auto currentHealthText = std::format("{} lives left", data);
-	m_TextComponent->SetText(currentHealthText);
+	UpdateLives();
+}
+
+void Galaga::LivesIndicator::UpdateLives()
+{
+    //m_CurrentLives--;
+    L_TRACE("IsActive: {}", m_LivesIcons[2]->GetOwner()->IsActive());
+
+    for (int i{}; i < m_Lives; i++)
+    {
+        if (i < m_CurrentLives)
+        {
+            m_LivesIcons[i]->GetOwner()->SetActive(true);
+        }
+        else
+        {
+            m_LivesIcons[i]->GetOwner()->SetActive(false);
+        }
+    }
+}
+
+void Galaga::LivesIndicator::OnImGui()
+{
+    if (ImGui::CollapsingHeader("Lives Indicator"))
+    {
+        ImGui::InputInt("Lives", &m_CurrentLives);
+    }
+
+    UpdateLives();
 }
