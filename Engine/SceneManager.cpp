@@ -57,3 +57,16 @@ Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
 	m_scenes.push_back(scene);
 	return *scene;
 }
+
+Engine::Scene* Engine::SceneManager::GetScene(const std::string& name)
+{
+	for (const auto& scene : m_scenes)
+	{
+		if (scene->GetName() == name)
+		{
+			return scene.get();
+		}
+	}
+
+	return nullptr;
+}

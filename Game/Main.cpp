@@ -24,15 +24,22 @@
 #include "Components/HealthIndicator.h"
 #include "Components/PointComponent.h"
 #include "Components/PointIndicator.h"
-#include "Components/HighScoreIndicator.h"
+
 #include "Components/LivesIndicator.h"
+#include "Components/HighScoreIndicator.h"
+#include "Components/Player/SpaceFighter.h"
+
 #include "Input/MoveCommand.h"
 #include "Input/DieCommand.h"
 #include "Input/PointCommand.h"
+#include "Input/ShootCommand.h"
 
 
 void load()
 {
+	constexpr auto windowWidth = 640;
+	constexpr auto windowHeight = 480;
+
 	using Engine::InputState;
 	using Engine::InputManager;
 	using Engine::SceneManager;
@@ -66,16 +73,23 @@ void load()
 	liveText->AddComponent<Engine::TextComponent>("LIVES");
 
 	auto liveImage1 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 0, 40 });
-	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
 
 	auto liveImage2 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 20, 40 });
-	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
 
 	auto liveImage3 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 40, 40 });
-	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/space_ship.png"));
+	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
 
 	livesContainer->AddComponent<Galaga::LivesIndicator>(lifeTextures);
 	livesContainer->SetShouldRenderImGui(true);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Player
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	auto playerRoot = std::make_shared<Engine::GameObject>("PlayerRoot", glm::vec2{ windowWidth / 2, windowHeight - 30 });
+	playerRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/main_shuttle.png");
+	playerRoot->AddComponent<Galaga::SpaceFighter>();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Attachments
@@ -94,6 +108,7 @@ void load()
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	scene.Add(highscoreContainer);
 	scene.Add(livesContainer);
+	scene.Add(playerRoot);
 
 	// // Player 1
 	// auto player0 = std::make_shared<Engine::GameObject>("player0", glm::vec2{ 100,100 });
@@ -160,18 +175,29 @@ void load()
 	// scene.Add(player1);
 	// scene.Add(playerStatsRoot);
 
-	// // INPUT
-	// InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(player0.get(), glm::vec2(1.0f, 0.0f)));
-	// InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(player0.get(), glm::vec2(-1.0f, 0.0f)));
-	// InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_W, std::make_unique<Galaga::MoveCommand>(player0.get(), glm::vec2(0.0f, -1.0f)));
-	// InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_S, std::make_unique<Galaga::MoveCommand>(player0.get(), glm::vec2(0.0f, 1.0f)));
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Input
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// unsigned int controllerIdx = InputManager::GetInstance().AddController();
-	// InputManager::GetInstance().AddAxisMapping(
-	// 	controllerIdx,
-	// 	Engine::XboxController::ControllerAxis::LeftThumb,
-	// 	std::make_unique<Galaga::MoveCommand>(player1.get())
-	// );
+	// Keyboard
+	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(1.0f, 0.0f)));
+	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(-1.0f, 0.0f)));
+	InputManager::GetInstance().AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(playerRoot.get()));
+
+	// Controller
+	unsigned int controllerIdx = InputManager::GetInstance().AddController();
+	InputManager::GetInstance().AddAxisMapping(
+		controllerIdx,
+		Engine::XboxController::ControllerAxis::LeftThumb,
+		std::make_unique<Galaga::MoveCommand>(playerRoot.get())
+	);
+
+	InputManager::GetInstance().AddAction(
+		controllerIdx,
+		Engine::XboxController::ControllerButton::ButtonA,
+		InputState::Press,
+		std::make_unique<Galaga::ShootCommand>(playerRoot.get())
+	);
 }
 
 int main(int, char*[]) {

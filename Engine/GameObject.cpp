@@ -220,3 +220,13 @@ bool Engine::GameObject::IsActive() const
 {
 	return m_IsActive;
 }
+
+void Engine::GameObject::Destroy()
+{
+	m_MarkedForDeletion = true;
+}
+
+bool Engine::GameObject::IsMarkedForDeletion() const
+{
+	return m_MarkedForDeletion;
+}

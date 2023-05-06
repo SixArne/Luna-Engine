@@ -18,6 +18,7 @@ namespace Engine
 		TextureRendererComponent() = default;
 		TextureRendererComponent(GameObject* object);
 		TextureRendererComponent(GameObject* object, const std::string& textureFile);
+		TextureRendererComponent(GameObject* object, std::shared_ptr<Texture2D> texture);
 
 		~TextureRendererComponent();
 

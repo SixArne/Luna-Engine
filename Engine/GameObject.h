@@ -51,6 +51,7 @@ namespace Engine
 
 		void SetActive(bool value);
 		bool IsActive() const;
+		bool IsMarkedForDeletion() const;
 
 		GameObject* GetParent();
 		std::vector<std::shared_ptr<GameObject>>& GetChildren();
@@ -59,6 +60,8 @@ namespace Engine
 
 		void AttachChild(std::shared_ptr<GameObject> child, bool keepWorldTransform);
 		void DetachChild(std::shared_ptr<GameObject> child);
+
+		void Destroy();
 
 	private:
 		void AddChild(std::shared_ptr<GameObject> child);
@@ -70,8 +73,11 @@ namespace Engine
 
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
+
 		bool m_RenderImGui{false};
 		bool m_IsActive{true};
+		bool m_MarkedForDeletion{false};
+
 		std::string m_GameObjectName{};
 	};
 

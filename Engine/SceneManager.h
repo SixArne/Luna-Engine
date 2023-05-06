@@ -10,6 +10,7 @@ namespace Engine
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		Scene* GetScene(const std::string& name);
 
 		void Init();
 		void Update();

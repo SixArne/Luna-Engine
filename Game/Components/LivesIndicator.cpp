@@ -31,14 +31,13 @@ void Galaga::LivesIndicator::Render()
 
 void Galaga::LivesIndicator::OnNotify(int data)
 {
+    --m_CurrentLives;
+
 	UpdateLives();
 }
 
 void Galaga::LivesIndicator::UpdateLives()
 {
-    //m_CurrentLives--;
-    L_TRACE("IsActive: {}", m_LivesIcons[2]->GetOwner()->IsActive());
-
     for (int i{}; i < m_Lives; i++)
     {
         if (i < m_CurrentLives)

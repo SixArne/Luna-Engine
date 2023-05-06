@@ -26,7 +26,7 @@ namespace Galaga
 
 	private:
 		glm::vec2 m_Movement;
-		float m_PixelsPerSecond{50};
+		float m_PixelsPerSecond{250};
 	};
 }
 

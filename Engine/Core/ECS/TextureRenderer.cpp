@@ -22,6 +22,11 @@ Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object, c
 {
 }
 
+Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object, std::shared_ptr<Texture2D> texture)
+	: Component{ object }, m_Texture{ texture }
+{
+}
+
 Engine::TextureRendererComponent::~TextureRendererComponent()
 {
 }

@@ -20,19 +20,21 @@ namespace Engine
 		void Render() const;
 		virtual void OnImGui();
 
+		const std::string& GetName() const { return m_name; }
+
+		void Instantiate(std::shared_ptr<GameObject> object);
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	protected: 
-		
-
+	protected:
 		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::vector<std::shared_ptr<GameObject>> m_objects{};
 
-		static unsigned int m_idCounter; 
+		static unsigned int m_idCounter;
 	};
 
 }

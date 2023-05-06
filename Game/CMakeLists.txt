@@ -16,11 +16,15 @@ add_executable(Game
 
     Components/LivesIndicator.cpp
     Components/HighScoreIndicator.cpp
+    Components/Player/SpaceFighter.cpp
+    Components/Player/Projectile.cpp
+    Components/Util/AutoKill.cpp
 
     # Input
     Input/DieCommand.cpp
     Input/MoveCommand.cpp
     Input/PointCommand.cpp
+    Input/ShootCommand.cpp
 )
 
 set_target_properties(Game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>")
