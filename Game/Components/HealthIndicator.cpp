@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-Galaga::HealthIndicator::HealthIndicator(GameObject* gameobject, int beginHealth)
+Galaga::HealthIndicator::HealthIndicator(GameObject* gameobject, int /*beginHealth*/)
 	:Component{ gameobject }
 {
 

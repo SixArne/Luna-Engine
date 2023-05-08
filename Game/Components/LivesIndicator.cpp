@@ -29,7 +29,7 @@ void Galaga::LivesIndicator::Render()
 {
 }
 
-void Galaga::LivesIndicator::OnNotify(int data)
+void Galaga::LivesIndicator::OnNotify(int /*data*/)
 {
     --m_CurrentLives;
 

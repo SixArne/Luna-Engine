@@ -1,4 +1,14 @@
 set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Set compiler warnings as errors
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    message(STATUS "[Engine] Setting warnings as errors for GNU/Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+elseif(MSVC)
+    message(STATUS "[Engine] Setting warnings as errors for MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+endif()
 
 # Include fetchcontent
 include(FetchContent)

@@ -60,7 +60,7 @@ void load()
 
 	auto highscoreValue = std::make_shared<Engine::GameObject>("HighscoreValue", glm::vec2{ 0, 50 });
 	highscoreValue->AddComponent<Engine::TextComponent>("0");
-	auto highscoreIndicatorComp = highscoreValue->AddComponent<Galaga::HighscoreIndicator>(0);
+	/*auto highscoreIndicatorComp = */highscoreValue->AddComponent<Galaga::HighscoreIndicator>(0);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@
 #include "Core/Event/EventManager.h"
 #include "Core/ECS/TextComponent.h"
 
-Galaga::PointIndicator::PointIndicator(GameObject* gameobject, int beginPoints)
+Galaga::PointIndicator::PointIndicator(GameObject* gameobject, int /*beginPoints*/)
 	:Component{ gameobject }
 {
 }
