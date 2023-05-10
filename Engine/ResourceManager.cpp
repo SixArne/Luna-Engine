@@ -18,6 +18,12 @@ void Engine::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
+std::string Engine::ResourceManager::LoadSound(const std::string& file) const
+{
+	const auto fullPath = m_dataPath + file;
+	return fullPath;
+}
+
 std::shared_ptr<Engine::Texture2D> Engine::ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_dataPath + file;

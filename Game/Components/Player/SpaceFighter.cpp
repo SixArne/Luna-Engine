@@ -8,6 +8,9 @@
 #include "Components/Player/Projectile.h"
 #include <ResourceManager.h>
 
+#include <Core/Services/ServiceLocator.h>
+#include <Core/Services/Sound/ISoundService.h>
+
 Galaga::SpaceFighter::SpaceFighter(GameObject* object)
     : Component{ object }
 {
@@ -36,4 +39,7 @@ void Galaga::SpaceFighter::Shoot()
     projectile->AddComponent<Galaga::AutoKill>(5.f);
 
     Engine::SceneManager::GetInstance().GetScene("Game")->Instantiate(projectile);
+
+    auto ss = Engine::ServiceLocator::GetSoundService();
+    ss->Play("Resources/Audio/shoot.mp3", 0.5f);
 }

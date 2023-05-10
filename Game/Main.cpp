@@ -34,6 +34,10 @@
 #include "Input/PointCommand.h"
 #include "Input/ShootCommand.h"
 
+#include <Core/Services/ServiceLocator.h>
+#include <Core/Services/Sound/LoggingSoundSystem.h>
+#include <Core/Services/Sound/SDLSoundSystem.h>
+
 void load()
 {
 	constexpr auto windowWidth = 640;
@@ -200,8 +204,16 @@ void load()
 }
 
 int main(int, char*[]) {
+	using Engine::LoggingSoundSystem;
+	using Engine::SDLSoundSystem;
 
 	Engine::Log::Init();
+
+	#ifdef DEBUG
+	Engine::ServiceLocator::RegisterSoundService(new LoggingSoundSystem(new SDLSoundSystem()));
+	#else
+	Engine::ServiceLocator::RegisterSoundService(new SDLSoundSystem());
+	#endif
 
 	auto cwd = std::filesystem::current_path();
 

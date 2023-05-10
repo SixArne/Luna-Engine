@@ -34,6 +34,11 @@ set(EngineSourceFiles
   "Core/Input/InputManager.cpp"
   "Core/Input/Keyboard.cpp"
   "Core/Input/XboxController.cpp"
+
+  Core/Services/ServiceLocator.cpp
+  Core/Services/Sound/LoggingSoundSystem.cpp
+  Core/Services/Sound/SDLSoundSystem.cpp
+
 )
 
 foreach(engineSrcFile in ${EngineSourceFiles})
@@ -108,9 +113,11 @@ if(NOT SDL2_mixer_POPULATED)
 if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
   set(SDL2_MIXER_LIBRARIES "${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.lib")
   set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.dll")
+  set(SDL2_MIXER_SMPEG2_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x64/smpeg2.dll")
 else()
   set(SDL2_MIXER_LIBRARIES "${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.lib")
   set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.dll")
+  set(SDL2_MIXER_SMPEG2_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x86/smpeg2.dll")
 endif()
 endif()
 

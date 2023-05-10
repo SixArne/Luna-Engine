@@ -79,7 +79,10 @@ add_custom_command(TARGET Game POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" "$<TARGET_FILE_DIR:Game>"
 )
 add_custom_command(TARGET Game POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_IMAGE_LIBRARY_DLL}" "$<TARGET_FILE_DIR:Game>"
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_MIXER_LIBRARY_DLL}" "$<TARGET_FILE_DIR:Game>"
+)
+add_custom_command(TARGET Game POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_MIXER_SMPEG2_LIBRARY_DLL}" "$<TARGET_FILE_DIR:Game>"
 )
 
 # copy data folder to build directory
