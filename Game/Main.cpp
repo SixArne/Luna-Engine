@@ -34,7 +34,6 @@
 #include "Input/PointCommand.h"
 #include "Input/ShootCommand.h"
 
-
 void load()
 {
 	constexpr auto windowWidth = 640;
