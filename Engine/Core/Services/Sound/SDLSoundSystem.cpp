@@ -77,7 +77,7 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
         }
 
         // Play sound here
-
+        // TODO: Fix delay, memory leaks and multi sound play. and add missing dll
         auto source = ResourceManager::GetInstance().LoadSound(request.soundName);
         Mix_Music* sound = Mix_LoadMUS(source.c_str());
         if (sound == nullptr)
@@ -88,7 +88,8 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
         }
         else
         {
-            Mix_VolumeMusic(static_cast<int>(MIX_MAX_VOLUME * request.volume));
+            int volume = static_cast<int>(MIX_MAX_VOLUME * request.volume);
+            Mix_VolumeMusic(volume);
             if (Mix_PlayMusic(sound, 0) == -1)
             {
                 L_ERROR("Failed to play sound: {0}! SDL_mixer Error: {1}", request.soundName, Mix_GetError());
@@ -102,7 +103,7 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
                 }
             }
 
-            Mix_FreeMusic(sound);
+            //Mix_FreeMusic(sound);
         }
     }
 
