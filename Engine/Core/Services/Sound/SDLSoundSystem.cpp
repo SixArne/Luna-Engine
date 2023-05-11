@@ -11,15 +11,17 @@
 
 using namespace std::literals::chrono_literals;
 
-Engine::SDLSoundSystem::SDLSoundSystem()
+Engine::SDLSoundSystem::SDLSoundSystem(int channelCount)
     : m_initialized{false},
     // Call like lambda because we need to pass in the stop token
-    m_soundThread{ [this](std::stop_token stopToken) { SoundThread(stopToken); } }
+    m_soundThread{ [this](std::stop_token stopToken) { SoundThread(stopToken); } },
+    m_channelCount{ channelCount }
 {
 }
 
 Engine::SDLSoundSystem::~SDLSoundSystem()
 {
+    m_soundThread.request_stop();
 }
 
 void Engine::SDLSoundSystem::Play(const std::string& soundName, const float volume)
@@ -50,7 +52,7 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
     }
 
     // Created channels and add them as open.
-    int audioChannels = Mix_AllocateChannels(8);
+    int audioChannels = Mix_AllocateChannels(m_channelCount);
     for (int i = 0; i < audioChannels; i++)
     {
         m_OpenChannels.push_back(i);

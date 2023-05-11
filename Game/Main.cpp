@@ -210,9 +210,9 @@ int main(int, char*[]) {
 	Engine::Log::Init();
 
 	#ifdef DEBUG
-	Engine::ServiceLocator::RegisterSoundService(new LoggingSoundSystem(new SDLSoundSystem()));
+	Engine::ServiceLocator::RegisterSoundService(new LoggingSoundSystem(new SDLSoundSystem(4)));
 	#else
-	Engine::ServiceLocator::RegisterSoundService(new SDLSoundSystem());
+	Engine::ServiceLocator::RegisterSoundService(new SDLSoundSystem(4));
 	#endif
 
 	auto cwd = std::filesystem::current_path();

@@ -22,7 +22,7 @@ namespace Engine
     class SDLSoundSystem final : public ISoundService
     {
     public:
-        SDLSoundSystem();
+        SDLSoundSystem(int channelCount = 8);
         ~SDLSoundSystem();
 
         void Play(const std::string& soundName, const float volume) override;
@@ -42,6 +42,9 @@ namespace Engine
 
         // open channels to music.
         std::vector<int> m_OpenChannels{};
+
+        // Channel count
+        const int m_channelCount;
     };
 }
 
