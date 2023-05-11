@@ -222,5 +222,7 @@ int main(int, char*[]) {
 	Engine::Engine engine("./Data/");
 	engine.Run(load);
 
+	Engine::ServiceLocator::DestroyServices();
+
 	return 0;
 }

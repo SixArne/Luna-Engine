@@ -41,5 +41,5 @@ void Galaga::SpaceFighter::Shoot()
     Engine::SceneManager::GetInstance().GetScene("Game")->Instantiate(projectile);
 
     auto ss = Engine::ServiceLocator::GetSoundService();
-    ss->Play("Resources/Audio/shoot.ogg", 0.5f);
+    ss->Play("Resources/Audio/shoot.wav", 0.5f);
 }

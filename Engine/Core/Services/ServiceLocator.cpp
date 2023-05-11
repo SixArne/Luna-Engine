@@ -7,7 +7,7 @@ Engine::ISoundService* Engine::ServiceLocator::m_soundService{&m_defaultSoundSer
 void Engine::ServiceLocator::RegisterSoundService(ISoundService* soundService)
 {
     m_soundService = (soundService == nullptr)
-        ? &m_defaultSoundService 
+        ? &m_defaultSoundService
         : soundService;
 }
 
