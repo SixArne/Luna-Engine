@@ -1,44 +1,87 @@
 #include "pch.h"
-#include "SDLSoundSystem.h"
 
+#include "SDLSoundSystem.h"
 #include <SDL_mixer.h>
-#include <string>
 #include <thread>
-#include <condition_variable>
+#include <queue>
 #include <mutex>
+#include <condition_variable>
+#include <vector>
 #include <filesystem>
+#include <atomic>
 #include <ResourceManager.h>
 
-using namespace std::literals::chrono_literals;
-
-Engine::SDLSoundSystem::SDLSoundSystem(int channelCount)
-    : m_initialized{false},
-    // Call like lambda because we need to pass in the stop token
-    m_soundThread{ [this](std::stop_token stopToken) { SoundThread(stopToken); } },
-    m_channelCount{ channelCount }
+namespace Engine
 {
+    class SDLSoundSystem::SDLSoundSystemImpl
+    {
+    public:
+        SDLSoundSystemImpl(int channelCount);
+        ~SDLSoundSystemImpl();
+
+        void Play(const std::string& soundName, const float volume);
+        void Stop();
+
+    private:
+        void SoundThread();
+
+        struct SoundRequest
+        {
+            std::string soundName;
+            float volume;
+        };
+
+        std::queue<SoundRequest> m_SoundQueue{};
+        std::mutex m_queueMutex{};
+        std::condition_variable m_queueCondition{};
+        std::atomic<bool> m_initialized{ false };
+        std::thread m_soundThread;
+
+        // music to channels.
+        using QueuedSong = std::pair<Mix_Chunk*, int>;
+        std::vector<QueuedSong> m_playedSounds{};
+
+        // Open channels
+        std::vector<int> m_OpenChannels{};
+
+        // Channel count
+        int m_channelCount;
+
+        std::atomic<bool> m_stopRequested{ false };
+    };
 }
 
-Engine::SDLSoundSystem::~SDLSoundSystem()
+//////////////////////////////////////////
+// SDLSoundSystem Implementation
+//////////////////////////////////////////
+
+Engine::SDLSoundSystem::SDLSoundSystemImpl::SDLSoundSystemImpl(int channelCount)
+    : m_initialized(false),
+    m_soundThread([this]() { SoundThread(); }),
+    m_channelCount(channelCount) {}
+
+Engine::SDLSoundSystem::SDLSoundSystemImpl::~SDLSoundSystemImpl()
 {
-    m_soundThread.request_stop();
+    Stop();
 }
 
-void Engine::SDLSoundSystem::Play(const std::string& soundName, const float volume)
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::Play(const std::string& soundName, const float volume)
 {
     {
-        // Lock the queue, this will be unlocked when the lock goes out of scope
         std::unique_lock<std::mutex> lock(m_queueMutex);
-
-        // Add new song to queue.
         m_SoundQueue.push({ soundName, volume });
     }
-
-    // Set the condition variable to notify the thread that there is a new song to play
     m_queueCondition.notify_one();
 }
 
-void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::Stop()
+{
+    m_stopRequested = true;
+    m_queueCondition.notify_one();
+    m_soundThread.join();
+}
+
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::SoundThread()
 {
     m_initialized.store(true);
 
@@ -52,17 +95,17 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
     }
 
     // Created channels and add them as open.
-    int audioChannels = Mix_AllocateChannels(m_channelCount);
-    for (int i = 0; i < audioChannels; i++)
+    m_channelCount = Mix_AllocateChannels(m_channelCount);
+    for (int i = 0; i < m_channelCount; i++)
     {
         m_OpenChannels.push_back(i);
     }
 
-    L_TRACE("Allocated {0} audio channels", audioChannels);
+    L_TRACE("Allocated {0} audio channels", m_channelCount);
 
     // Keep looping until the stop token is requested
     // This is generated automatically by the jthread
-    while (!stopToken.stop_requested())
+    while (true)
     {
         SoundRequest request{};
         {
@@ -72,12 +115,17 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
             // Wait until there is a new song to play
             // Then check if the queue has a song in it or if the stop token has been requested
             m_queueCondition.wait(lock, [&]() {
-                return !m_SoundQueue.empty() || stopToken.stop_requested();
+                return !m_SoundQueue.empty() || m_stopRequested;
             });
 
             // If the stop token has been requested, break out of the loop
-            if (stopToken.stop_requested())
+            if (m_stopRequested)
             {
+                for (auto song: m_playedSounds)
+                {
+                    Mix_FreeChunk(song.first);
+                }
+
                 break;
             }
 
@@ -88,39 +136,6 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
             m_SoundQueue.pop();
         }
 
-        // Play sound here
-        // TODO: Fix delay, memory leaks and multi sound play
-        auto source = ResourceManager::GetInstance().LoadSound(request.soundName);
-        Mix_Chunk* sound = Mix_LoadWAV(source.c_str());
-        if (sound == NULL)
-        {
-            auto cwd = std::filesystem::current_path();
-	        L_DEBUG("Current path: {0}", cwd.string());
-            L_ERROR("Failed to load sound: {0}! SDL_mixer Error: {1}", source, Mix_GetError());
-        }
-        else
-        {
-            int volume = static_cast<int>(MIX_MAX_VOLUME * request.volume);
-            Mix_VolumeMusic(volume);
-
-            if (m_OpenChannels.size() > 0)
-            {
-                int openChannel = m_OpenChannels.front();
-
-                if (Mix_PlayChannel(openChannel, sound, 0) == -1)
-                {
-                    L_ERROR("Failed to play sound: {0}! SDL_mixer Error: {1}", request.soundName, Mix_GetError());
-                }
-
-                m_playedSounds.push_back({sound, openChannel});
-                m_OpenChannels.erase(m_OpenChannels.begin());
-            }
-            else
-            {
-                L_WARN("No open channels to play sound: {0}", request.soundName);
-            }
-        }
-
         // Go over playedSounds and remove the ones that are done playing
         std::vector<Mix_Chunk*> finishedSounds{};
         for (auto channel: m_playedSounds)
@@ -128,25 +143,77 @@ void Engine::SDLSoundSystem::SoundThread(std::stop_token stopToken)
             if (Mix_Playing(channel.second) == 0)
             {
                 finishedSounds.push_back(channel.first);
+                m_OpenChannels.push_back(channel.second);
+                m_playedSounds.erase(std::remove(m_playedSounds.begin(), m_playedSounds.end(), channel), m_playedSounds.end());
             }
         }
 
-        for (Mix_Chunk* finishedSound: finishedSounds)
+        // Reverse for loop over finished sounds and delete the last element after calling Mix_FreeChunk
+        for (size_t i = finishedSounds.size(); i > 0; i--)
         {
-            // find where sound is sound.first and free audio and remove from list
-            Mix_FreeChunk(finishedSound);
+            Mix_FreeChunk(finishedSounds[i - 1]);
+            finishedSounds.pop_back();
+        }
 
-            auto it = std::find_if(m_playedSounds.begin(), m_playedSounds.end(), [finishedSound](const auto& playedSound) {
-                return playedSound.first == finishedSound;
-            });
+        // Play sound here
+        auto source = ResourceManager::GetInstance().LoadSound(request.soundName);
+        Mix_Chunk* sound = Mix_LoadWAV(source.c_str());
+        if (sound == NULL)
+        {
+            auto cwd = std::filesystem::current_path();
+            L_DEBUG("Current path: {0}", cwd.string());
+            L_ERROR("Failed to load sound: {0}! SDL_mixer Error: {1}", source, Mix_GetError());
+        }
+        else
+        {
+            int volume = static_cast<int>(MIX_MAX_VOLUME * request.volume);
+            Mix_VolumeMusic(volume);
 
-            if (it != m_playedSounds.end())
+            // Take the back channel and remove from list
+            if (m_OpenChannels.empty())
             {
-                m_OpenChannels.push_back(it->second);
-                m_playedSounds.erase(it);
+                L_ERROR("No open channels available for: {0}! SDL_mixer Error: {1}", request.soundName, Mix_GetError());
+                continue;
             }
+
+            int channel = m_OpenChannels.back();
+            m_OpenChannels.pop_back();
+
+            int openChannel = Mix_PlayChannel(channel, sound, 0);
+            if (openChannel == -1)
+            {
+                L_ERROR("Failed to find channel for: {0}! SDL_mixer Error: {1}", request.soundName, Mix_GetError());
+            }
+            m_playedSounds.push_back({sound, channel});
         }
     }
 
+    L_TRACE("Sound thread stopped");
     Mix_CloseAudio();
 }
+
+
+//////////////////////////////////////////
+// SDLSoundSystem
+//////////////////////////////////////////
+
+Engine::SDLSoundSystem::SDLSoundSystem(int channelCount)
+    : m_impl(std::make_unique<SDLSoundSystemImpl>(channelCount))
+{}
+
+Engine::SDLSoundSystem::~SDLSoundSystem() = default;
+
+void Engine::SDLSoundSystem::Play(const std::string& soundName, const float volume)
+{
+    m_impl->Play(soundName, volume);
+}
+
+void Engine::SDLSoundSystem::Stop()
+{
+    m_impl->Stop();
+}
+
+
+
+
+
