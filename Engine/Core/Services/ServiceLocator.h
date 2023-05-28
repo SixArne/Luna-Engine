@@ -2,10 +2,12 @@
 #define SERVICELOCATOR_H
 
 #include "Sound/ISoundService.h"
+#include "Physics/IPhysicsService.h"
 
 namespace Engine
 {
     class ISoundService;
+    class IPhysicsService;
 
     class ServiceLocator final
     {
@@ -16,7 +18,9 @@ namespace Engine
         ServiceLocator& operator=(ServiceLocator&& other) = delete;
 
         static void RegisterSoundService(ISoundService* soundService);
+        static void RegisterPhysicsService(IPhysicsService* physicsService);
         static ISoundService* GetSoundService();
+        static IPhysicsService* GetPhysicsService();
 
         static void DestroyServices();
 
@@ -25,7 +29,10 @@ namespace Engine
         ~ServiceLocator() = default;
 
         inline static NullSoundService m_defaultSoundService{};
+        inline static NullPhysicsService m_defaultPhysicsService{};
+
         static ISoundService* m_soundService;
+        static IPhysicsService* m_physicsService;
     };
 }
 

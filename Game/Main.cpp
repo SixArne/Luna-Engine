@@ -17,6 +17,7 @@
 #include <Core/ECS/TextureRenderer.h>
 #include <Core/ECS/TextComponent.h>
 #include "Core/ECS/SpriteAnimator.h"
+#include <Core/ECS/RigidBody2D.h>
 #include <Core/Event/EventManager.h>
 #include <Core/Log.h>
 #include <memory>
@@ -41,6 +42,7 @@
 #include <Core/Services/ServiceLocator.h>
 #include <Core/Services/Sound/LoggingSoundSystem.h>
 #include <Core/Services/Sound/SDLSoundSystem.h>
+#include <Core/Services/Physics/PhysicsService.h>
 
 void load()
 {
@@ -97,6 +99,7 @@ void load()
 	auto playerRoot = std::make_shared<Engine::GameObject>("PlayerRoot", glm::vec2{ windowWidth / 2, windowHeight - 30 });
 	playerRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/main_shuttle.png");
 	playerRoot->AddComponent<Galaga::SpaceFighter>();
+	playerRoot->AddComponent<Engine::RigidBody2D>();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Enemy
@@ -157,6 +160,7 @@ void load()
 int main(int, char*[]) {
 	using Engine::LoggingSoundSystem;
 	using Engine::SDLSoundSystem;
+	using Engine::PhysicsService;
 
 	Engine::Log::Init();
 
@@ -165,6 +169,8 @@ int main(int, char*[]) {
 	#else
 	Engine::ServiceLocator::RegisterSoundService(new SDLSoundSystem(4));
 	#endif
+
+	Engine::ServiceLocator::RegisterPhysicsService(new PhysicsService());
 
 	auto cwd = std::filesystem::current_path();
 

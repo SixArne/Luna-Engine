@@ -30,6 +30,7 @@ set(EngineSourceFiles
   Core/ECS/TextureRenderer.cpp
   Core/ECS/TransformComponent.cpp
   Core/ECS/SpriteAnimator.cpp
+  Core/ECS/RigidBody2D.cpp
   Core/Event/EventManager.cpp
   "Core/Input/Command.cpp"
   "Core/Input/InputManager.cpp"
@@ -39,6 +40,7 @@ set(EngineSourceFiles
   Core/Services/ServiceLocator.cpp
   Core/Services/Sound/LoggingSoundSystem.cpp
   Core/Services/Sound/SDLSoundSystem.cpp
+  Core/Services/Physics/PhysicsService.cpp
 
 )
 
