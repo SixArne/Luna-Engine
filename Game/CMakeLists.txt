@@ -30,6 +30,9 @@ add_executable(Game
     Components/Player/Projectile.cpp
     Components/Util/AutoKill.cpp
 
+    AnimationStates/FlyInState.cpp
+    AnimationStates/AttackState.cpp
+
     # Input
     Input/DieCommand.cpp
     Input/MoveCommand.cpp

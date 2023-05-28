@@ -29,6 +29,7 @@ set(EngineSourceFiles
   Core/ECS/TextComponent.cpp
   Core/ECS/TextureRenderer.cpp
   Core/ECS/TransformComponent.cpp
+  Core/ECS/SpriteAnimator.cpp
   Core/Event/EventManager.cpp
   "Core/Input/Command.cpp"
   "Core/Input/InputManager.cpp"

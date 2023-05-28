@@ -16,6 +16,7 @@
 #include <Core/Input/XboxController.h>
 #include <Core/ECS/TextureRenderer.h>
 #include <Core/ECS/TextComponent.h>
+#include "Core/ECS/SpriteAnimator.h"
 #include <Core/Event/EventManager.h>
 #include <Core/Log.h>
 #include <memory>
@@ -28,6 +29,9 @@
 #include "Components/LivesIndicator.h"
 #include "Components/HighScoreIndicator.h"
 #include "Components/Player/SpaceFighter.h"
+
+#include "AnimationStates/FlyInState.h"
+#include "AnimationStates/AttackState.h"
 
 #include "Input/MoveCommand.h"
 #include "Input/DieCommand.h"
@@ -95,6 +99,17 @@ void load()
 	playerRoot->AddComponent<Galaga::SpaceFighter>();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Enemy
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ windowWidth / 2, 30 });
+	enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/bug.png");
+	Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
+
+	// Add animations
+	animator->AddState<Galaga::FlyInState>("fly_in");
+	animator->AddState<Galaga::AttackState>("attack");
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Attachments
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	highscoreIndented->AttachChild(highscoreText, false);
@@ -112,6 +127,7 @@ void load()
 	scene.Add(highscoreContainer);
 	scene.Add(livesContainer);
 	scene.Add(playerRoot);
+	scene.Add(enemyRoot);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Input
