@@ -30,9 +30,12 @@
 #include "Components/LivesIndicator.h"
 #include "Components/HighScoreIndicator.h"
 #include "Components/Player/SpaceFighter.h"
+#include "Components/Enemy/EnemyBug.h"
 
 #include "AnimationStates/FlyInState.h"
 #include "AnimationStates/AttackState.h"
+#include "AnimationStates/IdleState.h"
+#include "AnimationStates/DeathState.h"
 
 #include "Input/MoveCommand.h"
 #include "Input/DieCommand.h"
@@ -43,6 +46,8 @@
 #include <Core/Services/Sound/LoggingSoundSystem.h>
 #include <Core/Services/Sound/SDLSoundSystem.h>
 #include <Core/Services/Physics/PhysicsService.h>
+
+#include "ResourceManager.h"
 
 void load()
 {
@@ -99,18 +104,56 @@ void load()
 	auto playerRoot = std::make_shared<Engine::GameObject>("PlayerRoot", glm::vec2{ windowWidth / 2, windowHeight - 30 });
 	playerRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/main_shuttle.png");
 	playerRoot->AddComponent<Galaga::SpaceFighter>();
-	playerRoot->AddComponent<Engine::RigidBody2D>();
+	playerRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{10,10});
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Enemy
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ windowWidth / 2, 30 });
-	enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/bug.png");
-	Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
 
-	// Add animations
-	animator->AddState<Galaga::FlyInState>("fly_in");
-	animator->AddState<Galaga::AttackState>("attack");
+	auto bugAttackTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/2.png")
+	};
+
+	auto bugIdleTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/2.png")
+	};
+
+	auto bugDeathTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/2.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/3.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/4.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/5.png"),
+	};
+
+	for (int i {}; i < 10; i++)
+	{
+		auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 20 + (i * 25), 30 });
+		enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/bug/idle/1.png");
+		Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
+		enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{10,10});
+		enemyRoot->AddComponent<Galaga::EnemyBug>();
+
+		// Add animations
+		animator->AddState<Galaga::FlyInState>("fly_in");
+
+		auto enemyAttack = animator->AddState<Galaga::AttackState>("attack");
+		enemyAttack->SetTextures(bugAttackTextures);
+
+		auto enemyIdle = animator->AddState<Galaga::IdleState>("idle");
+		enemyIdle->SetTextures(bugIdleTextures);
+
+		auto enemyDeath = animator->AddState<Galaga::DeathState>("death");
+		enemyDeath->SetTextures(bugDeathTextures);
+
+		scene.Add(enemyRoot);
+	}
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Attachments
@@ -130,7 +173,6 @@ void load()
 	scene.Add(highscoreContainer);
 	scene.Add(livesContainer);
 	scene.Add(playerRoot);
-	scene.Add(enemyRoot);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Input

@@ -43,12 +43,14 @@ namespace Engine
     private:
         void Remove();
 
-        std::function<void(RigidBody2D*)> m_OnCollisionEnterCallback;
-        std::function<void(RigidBody2D*)> m_OnCollisionExitCallback;
-        std::function<void(RigidBody2D*)> m_OnCollisionCallback;
+        std::function<void(RigidBody2D*)> m_OnCollisionEnterCallback{};
+        std::function<void(RigidBody2D*)> m_OnCollisionExitCallback{};
+        std::function<void(RigidBody2D*)> m_OnCollisionCallback{};
 
-        RigidBody2DCollider m_Collider;
-        uint64_t m_EntityID;
+        RigidBody2DCollider m_Collider{};
+        uint64_t m_EntityID{};
+
+        uint64_t static s_EntityID;
     };
 }
 

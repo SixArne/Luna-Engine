@@ -32,6 +32,9 @@ namespace Engine
 		virtual void Init() override;
 
 		void SetTexture(std::string source);
+		void SetTexture(std::shared_ptr<Texture2D> texture);
+
+		void SetEmptyTexture();
 
 		void OnImGui() override;
 

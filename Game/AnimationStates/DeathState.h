@@ -1,16 +1,16 @@
-#ifndef FLY_IN_STATE_H
-#define FLY_IN_STATE_H
+#ifndef DEATH_STATE_H
+#define DEATH_STATE_H
 
 #include "Core/ECS/SpriteAnimator.h"
 #include "Texture2D.h"
 
 namespace Galaga
 {
-    class FlyInState final : public Engine::AbstractState
+    class DeathState final : public Engine::AbstractState
     {
     public:
-        FlyInState() {};
-        ~FlyInState() {};
+        DeathState() {};
+        ~DeathState() {};
 
         virtual void OnStateEnter( Engine::SpriteAnimator* spriteAnimator) override;
         virtual void OnStateUpdate( Engine::SpriteAnimator* spriteAnimator) override;
@@ -18,8 +18,8 @@ namespace Galaga
 
     private:
         float m_Timer{};
-        float m_Duration{ 2.0f };
+        float m_Duration{ 10.0f };
     };
 }
 
-#endif //FLY_IN_STATE_H
+#endif //DEATH_STATE_H

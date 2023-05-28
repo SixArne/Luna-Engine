@@ -1,16 +1,16 @@
-#ifndef FLY_IN_STATE_H
-#define FLY_IN_STATE_H
+#ifndef IDLE_STATE_H
+#define IDLE_STATE_H
 
 #include "Core/ECS/SpriteAnimator.h"
 #include "Texture2D.h"
 
 namespace Galaga
 {
-    class FlyInState final : public Engine::AbstractState
+    class IdleState final : public Engine::AbstractState
     {
     public:
-        FlyInState() {};
-        ~FlyInState() {};
+        IdleState() {};
+        ~IdleState() {};
 
         virtual void OnStateEnter( Engine::SpriteAnimator* spriteAnimator) override;
         virtual void OnStateUpdate( Engine::SpriteAnimator* spriteAnimator) override;
@@ -23,3 +23,4 @@ namespace Galaga
 }
 
 #endif //FLY_IN_STATE_H
+

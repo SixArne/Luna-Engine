@@ -66,6 +66,16 @@ void Engine::TextureRendererComponent::SetTexture(std::string source)
 	m_Texture = ResourceManager::GetInstance().LoadTexture(source);
 }
 
+void Engine::TextureRendererComponent::SetTexture(std::shared_ptr<Texture2D> texture)
+{
+	m_Texture = texture;
+}
+
+void Engine::TextureRendererComponent::SetEmptyTexture()
+{
+	m_Texture = nullptr;
+}
+
 void Engine::TextureRendererComponent::OnImGui()
 {
 	ImGui::Text("TextureComponent");

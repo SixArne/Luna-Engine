@@ -28,10 +28,13 @@ add_executable(Game
     Components/HighScoreIndicator.cpp
     Components/Player/SpaceFighter.cpp
     Components/Player/Projectile.cpp
+    Components/Enemy/EnemyBug.cpp
     Components/Util/AutoKill.cpp
 
     AnimationStates/FlyInState.cpp
     AnimationStates/AttackState.cpp
+    AnimationStates/DeathState.cpp
+    AnimationStates/IdleState.cpp
 
     # Input
     Input/DieCommand.cpp

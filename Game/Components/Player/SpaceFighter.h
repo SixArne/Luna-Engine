@@ -29,6 +29,9 @@ namespace Galaga
         void Shoot();
 
 	private:
+		float m_ShootCooldown{0.3f};
+		float m_ShootCooldownTimer{};
+
 		std::shared_ptr<Texture2D> m_ProjectileTexture{};;
 	};
 }

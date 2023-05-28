@@ -2,10 +2,11 @@
 #define ATTACK_STATE_H
 
 #include "Core/ECS/SpriteAnimator.h"
+#include "Texture2D.h"
 
 namespace Galaga
 {
-    class AttackState final : public Engine::IState
+    class AttackState final : public Engine::AbstractState
     {
     public:
         AttackState() {};
@@ -17,7 +18,7 @@ namespace Galaga
 
     private:
         float m_Timer{};
-        float m_Duration{ 1.0f };
+        float m_Duration{ 2.0f };
     };
 }
 

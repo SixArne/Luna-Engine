@@ -149,9 +149,9 @@ void Engine::SDLSoundSystem::SDLSoundSystemImpl::SoundThread()
         }
 
         // Reverse for loop over finished sounds and delete the last element after calling Mix_FreeChunk
-        for (size_t i = finishedSounds.size(); i > 0; i--)
+        for (size_t i{}; i < finishedSounds.size(); i++)
         {
-            Mix_FreeChunk(finishedSounds[i - 1]);
+            Mix_FreeChunk(finishedSounds[i]);
             finishedSounds.pop_back();
         }
 
