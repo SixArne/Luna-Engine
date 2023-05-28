@@ -1,0 +1,22 @@
+{
+    "name": "lvl_1",
+    "rows": 5,
+    "boss": {
+        "row": 1,
+        "row-span": 1,
+        "count": 3,
+        "space_between": 10
+    },
+    "goei": {
+        "row": 2,
+        "row-span": 2,
+        "count": 20,
+        "space_between": 10
+    },
+    "zako": {
+        "row": 3,
+        "row-span": 2,
+        "count": 20,
+        "space_between": 10
+    }
+}

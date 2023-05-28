@@ -1,0 +1,7 @@
+#ifndef LEVEL_LOADER_STRUCTS_H
+#define LEVEL_LOADER_STRUCTS_H
+
+
+
+
+#endif // !LEVEL_LOADER_STRUCTS_H

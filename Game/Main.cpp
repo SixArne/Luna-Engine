@@ -112,14 +112,14 @@ void load()
 
 	auto bugAttackTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
 	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/2.png")
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
 	};
 
 	auto bugIdleTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
 	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bug/idle/2.png")
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
 	};
 
 	auto bugDeathTextures = std::vector<std::shared_ptr<Engine::Texture2D>>

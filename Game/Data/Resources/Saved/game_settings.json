@@ -1,0 +1,26 @@
+{
+    "points": {
+        "bee_in_formation": 50,
+        "bee_diving": 100,
+        "butterfly_in_formation": 80,
+        "butterfly_diving": 160,
+        "boss_galaga_in_formation": 150,
+        "boss_galaga_diving": 400
+    },
+    "enemey_health":
+    {
+        "bee": 1,
+        "butterfly": 1,
+        "boss_galaga": 2
+    },
+    "enemy_speed":
+    {
+        "bee": 1,
+        "butterfly": 1,
+        "boss_galaga": 1
+    },
+    "player": {
+        "health": 3,
+        "bullets_per_screen": 2
+    }
+}
