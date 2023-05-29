@@ -21,7 +21,6 @@ namespace Engine
         PhysicsService();
         ~PhysicsService();
         void AddRigidBody(RigidBody2D* rb);
-        void RemoveRigidBody(RigidBody2D* rb);
 
         void Update();
 
@@ -30,15 +29,19 @@ namespace Engine
         void Stop();
 
         std::vector<RigidBody2D*> m_RigidBodies;
+        std::vector<RigidBody2D*> m_NewBodies{};
+        std::vector<RigidBody2D*> m_BodiesToErase{};
 
         std::mutex m_PhysicsMutex{};
+        std::mutex m_AddNewBodiesMutex{};
         std::condition_variable m_PhysicsCondition{};
+        std::condition_variable m_AddNewBodiesCondition{};
         std::atomic<bool> m_stopRequested{ false };
         std::jthread m_PhysicsThread;
 
 
         // rb id to list of colliding rb ids
-        std::unordered_map<uint64_t, std::set<uint64_t>> m_Collisions{};
+        std::unordered_map<RigidBody2D*, std::set<RigidBody2D*>> m_Collisions{};
     };
 }
 

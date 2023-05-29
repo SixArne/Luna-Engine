@@ -61,6 +61,9 @@ namespace Engine
 		void AttachChild(std::shared_ptr<GameObject> child, bool keepWorldTransform);
 		void DetachChild(std::shared_ptr<GameObject> child);
 
+		void SetCanBeDestroyed(bool value);
+		bool CanBeDestroyed() const;
+
 		void Destroy();
 
 	private:
@@ -77,6 +80,7 @@ namespace Engine
 		bool m_RenderImGui{false};
 		bool m_IsActive{true};
 		bool m_MarkedForDeletion{false};
+		bool m_CanBeDestroyed{true};
 
 		std::string m_GameObjectName{};
 	};

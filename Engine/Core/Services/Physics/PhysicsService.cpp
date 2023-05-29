@@ -16,35 +16,11 @@ void Engine::PhysicsService::AddRigidBody(RigidBody2D* rb)
     {
         std::unique_lock<std::mutex> lock(m_PhysicsMutex);
 
-        m_RigidBodies.push_back(rb);
-
-        if (!m_Collisions.contains(rb->GetEntityID()))
-        {
-            m_Collisions[rb->GetEntityID()] = std::set<uint64_t>();
-        }
+        m_NewBodies.push_back(rb);
+        //m_RigidBodies.push_back(rb);
     }
 
-    L_TRACE("Added rigid body with id: {}", rb->GetEntityID());
-
-    m_PhysicsCondition.notify_one();
-}
-
-void Engine::PhysicsService::RemoveRigidBody(RigidBody2D* rb)
-{
-    {
-        std::unique_lock<std::mutex> lock(m_PhysicsMutex);
-
-	    m_RigidBodies.erase(std::remove(m_RigidBodies.begin(), m_RigidBodies.end(), rb), m_RigidBodies.end());
-
-        // Delete from m_Collisions
-        m_Collisions.erase(rb->GetEntityID());
-
-        // Delete from other m_Collisions
-        for (auto& [id, collisions] : m_Collisions)
-        {
-            collisions.erase(rb->GetEntityID());
-        }
-    }
+    L_TRACE("Added rigid body with id: {}", fmt::ptr(rb));
 
     m_PhysicsCondition.notify_one();
 }
@@ -55,8 +31,39 @@ void Engine::PhysicsService::PhysicsLoop()
     {
         {
             std::unique_lock<std::mutex> lock(m_PhysicsMutex);
-            m_PhysicsCondition.wait(lock, [this]() { return m_stopRequested || !m_RigidBodies.empty(); });
+            m_PhysicsCondition.wait(lock, [this]() { return m_stopRequested || !m_RigidBodies.empty() || !m_NewBodies.empty(); });
 
+            // Add new bodies
+            for (auto& rb : m_NewBodies)
+            {
+                m_RigidBodies.push_back(rb);
+                if (!m_Collisions.contains(rb))
+                {
+                    m_Collisions[rb] = std::set<RigidBody2D*>();
+                }
+            }
+            m_NewBodies.clear();
+
+            // Remove bodies
+            for (auto& rb : m_BodiesToErase)
+            {
+                m_RigidBodies.erase(std::remove(m_RigidBodies.begin(), m_RigidBodies.end(), rb), m_RigidBodies.end());
+
+                // Delete from m_Collisions
+                m_Collisions.erase(rb);
+
+                // Delete from other m_Collisions
+                for (auto& [id, collisions] : m_Collisions)
+                {
+                    collisions.erase(rb);
+                }
+
+                // Make gameobject as can be destroyed (needs to be done on main thread)
+                rb->GetOwner()->SetCanBeDestroyed(true);
+            }
+            m_BodiesToErase.clear();
+
+            // Stop if requested
             if (m_stopRequested)
                 break;
         }
@@ -82,8 +89,14 @@ void Engine::PhysicsService::Update()
             if (mainRigidBodyID >= m_RigidBodies.size() || otherRigidBodyID >= m_RigidBodies.size())
                 continue;
 
-            auto rb = m_RigidBodies[mainRigidBodyID];
-            auto other = m_RigidBodies[otherRigidBodyID];
+            RigidBody2D* rb = m_RigidBodies[mainRigidBodyID];
+            RigidBody2D* other = m_RigidBodies[otherRigidBodyID];
+
+            if (rb->GetOwner()->IsMarkedForDeletion())
+            {
+                m_BodiesToErase.push_back(rb);
+                continue;
+            }
 
              // self ignore
             if (rb == other)
@@ -115,30 +128,28 @@ void Engine::PhysicsService::Update()
                 selfPosition.y + selfCollider.height > otherPosition.y
             );
 
-            // If is colliding check if it needs update or enter callback
-            if (isColliding)
-            {
-                // If collision is already registered ands is still colliding
-                if (m_Collisions.contains(rb->GetEntityID()) && m_Collisions[rb->GetEntityID()].contains(other->GetEntityID()))
-                {
-                    rb->OnCollision(other);
-                    continue;
-                }
+            const bool collisionExists = (m_Collisions.contains(rb));
+            const bool collisionExistsForOther = m_Collisions[rb].contains(other);
 
-                if (m_Collisions.contains(rb->GetEntityID()) && !m_Collisions[rb->GetEntityID()].contains(other->GetEntityID()))
-                {
-                    rb->OnCollisionEnter(other);
-                    m_Collisions[rb->GetEntityID()].insert(other->GetEntityID());
-                }
+            // If collision is already registered ands is still colliding
+            if (isColliding && collisionExists && collisionExistsForOther)
+            {
+                rb->OnCollision(other);
+                continue;
+            }
+            // If is collidingn and is not registered
+            if (isColliding && collisionExists && !collisionExistsForOther)
+            {
+                rb->OnCollisionEnter(other);
+                m_Collisions[rb].insert(other);
+                continue;
             }
             // If is not colliding check if it needs exit callback
-            else
+            if (!isColliding && collisionExists && collisionExistsForOther)
             {
-                if (m_Collisions.contains(rb->GetEntityID()) && m_Collisions[rb->GetEntityID()].contains(other->GetEntityID()))
-                {
-                    rb->OnCollisionExit(other);
-                    m_Collisions[rb->GetEntityID()].erase(other->GetEntityID());
-                }
+                rb->OnCollisionExit(other);
+                m_Collisions[rb].erase(other);
+                continue;
             }
         }
     }

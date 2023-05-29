@@ -33,6 +33,7 @@ namespace Engine
 	protected:
 		std::string m_name;
 		std::vector<std::shared_ptr<GameObject>> m_objects{};
+		std::vector<std::shared_ptr<GameObject>> m_objectsToDestroy{};
 
 		static unsigned int m_idCounter;
 	};

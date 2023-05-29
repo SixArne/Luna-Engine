@@ -230,3 +230,13 @@ bool Engine::GameObject::IsMarkedForDeletion() const
 {
 	return m_MarkedForDeletion;
 }
+
+void Engine::GameObject::SetCanBeDestroyed(bool value)
+{
+	m_CanBeDestroyed = value;
+}
+
+bool Engine::GameObject::CanBeDestroyed() const
+{
+	return m_CanBeDestroyed;
+}

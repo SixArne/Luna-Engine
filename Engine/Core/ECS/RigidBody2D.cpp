@@ -7,11 +7,14 @@ void Engine::RigidBody2D::Init()
 {
     m_EntityID = s_EntityID++; // Will be unique due to static
     ServiceLocator::GetPhysicsService()->AddRigidBody(this);
+
+    // Needs to be set to avoid automatic cleanup. as references are being
+    // used in seperate collision thread;
+    GetOwner()->SetCanBeDestroyed(false);
 }
 
 void Engine::RigidBody2D::Remove()
 {
-    ServiceLocator::GetPhysicsService()->RemoveRigidBody(this);
 }
 
 Engine::RigidBody2D::~RigidBody2D()

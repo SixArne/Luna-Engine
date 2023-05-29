@@ -12,7 +12,6 @@ namespace Engine
         virtual ~IPhysicsService() = default;
 
         virtual void AddRigidBody(RigidBody2D* rb) = 0;
-        virtual void RemoveRigidBody(RigidBody2D* rb) = 0;
         virtual void Update() = 0;
     };
 
@@ -23,7 +22,6 @@ namespace Engine
         ~NullPhysicsService() = default;
 
         virtual void AddRigidBody(RigidBody2D*) {};
-        virtual void RemoveRigidBody(RigidBody2D*) {};
         virtual void Update() {};
     };
 }

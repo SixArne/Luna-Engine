@@ -87,6 +87,7 @@
         "stack": "cpp",
         "unordered_set": "cpp",
         "xtree": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "codecvt": "cpp"
     }
 }

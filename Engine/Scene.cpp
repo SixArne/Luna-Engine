@@ -58,15 +58,13 @@ void Engine::Scene::FixedUpdate(float fdt)
 
 void Engine::Scene::LateUpdate()
 {
-	std::vector<std::shared_ptr<GameObject>> objectsToDestroy{};
-
 	for (const auto& object : m_objects)
 	{
 		// NEVER DELETE IN A LOOP
-		if (object->IsMarkedForDeletion())
+		if (object->IsMarkedForDeletion() && object->CanBeDestroyed())
 		{
 			L_TRACE("[{}] Removed object: {}", m_name.c_str(), object->GetName());
-			objectsToDestroy.push_back(object);
+			m_objectsToDestroy.push_back(object);
 
 			continue;
 		}
@@ -77,10 +75,12 @@ void Engine::Scene::LateUpdate()
 		}
 	}
 
-	for (const auto& object : objectsToDestroy)
+	for (const auto& object : m_objectsToDestroy)
 	{
 		Remove(object);
 	}
+
+	m_objectsToDestroy.clear();
 }
 
 void Scene::Render() const
