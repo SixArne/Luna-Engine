@@ -23,13 +23,18 @@ namespace Engine
 		void Render();
 		void OnImGui();
 
+		void OnSceneSwitch(std::function<void()> callback);
+
 	private:
+		void SwitchScene();
+
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 
 		Scene* m_ActiveScene = nullptr;
 		int m_ActiveSceneIndex = -1;
 
+		std::function<void()> m_OnSceneSwitch{[](){return;}};
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 	};
 }

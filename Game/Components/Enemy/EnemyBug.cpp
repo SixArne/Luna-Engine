@@ -26,7 +26,7 @@ void Galaga::EnemyBug::Init()
         {
             if (other->GetOwner()->HasTag("bullet"))
             {
-                //animator->SetState("death");
+                animator->SetState("death");
                 auto ss = Engine::ServiceLocator::GetSoundService();
                 ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
             }

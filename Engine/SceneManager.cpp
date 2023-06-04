@@ -7,6 +7,7 @@ void Engine::SceneManager::Init()
 {
 	m_ActiveScene->Init();
 	m_ActiveScene->OnLoad();
+	m_OnSceneSwitch();
 }
 
 void Engine::SceneManager::Update()
@@ -95,15 +96,7 @@ Engine::Scene* Engine::SceneManager::GetNextScene()
 		m_ActiveSceneIndex = 0;
 	}
 
-	m_ActiveScene->OnUnload();
-	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
-
-	if (!m_ActiveScene->IsInitialized())
-	{
-		m_ActiveScene->Init();
-	}
-
-	m_ActiveScene->OnLoad();
+	SwitchScene();
 
 	return m_scenes[m_ActiveSceneIndex].get();
 }
@@ -117,7 +110,19 @@ Engine::Scene* Engine::SceneManager::GetPreviousScene()
 		m_ActiveSceneIndex = static_cast<int>(m_scenes.size()) - 1;
 	}
 
-	m_ActiveScene->OnLoad();
+	SwitchScene();
+
+	return m_scenes[m_ActiveSceneIndex].get();
+}
+
+void Engine::SceneManager::OnSceneSwitch(std::function<void()> callback)
+{
+	m_OnSceneSwitch = callback;
+}
+
+void Engine::SceneManager::SwitchScene()
+{
+	m_ActiveScene->OnUnload();
 	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
 
 	if (!m_ActiveScene->IsInitialized())
@@ -125,7 +130,6 @@ Engine::Scene* Engine::SceneManager::GetPreviousScene()
 		m_ActiveScene->Init();
 	}
 
-	m_ActiveScene->OnUnload();
-
-	return m_scenes[m_ActiveSceneIndex].get();
+	m_OnSceneSwitch();
+	m_ActiveScene->OnLoad();
 }

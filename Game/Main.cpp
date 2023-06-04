@@ -80,7 +80,6 @@ void load()
 	// Input
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// TODO: improve this
 	std::shared_ptr<Engine::GameObject> playerRoot = SceneManager::GetInstance().GetActiveScene()->FindByName("PlayerRoot");
 
 	// Keyboard

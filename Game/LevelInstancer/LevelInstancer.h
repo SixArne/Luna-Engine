@@ -16,6 +16,8 @@ namespace Galaga
         LevelInstancer(std::vector<Level>& levels, const GameSettings& gameSettings, std::tuple<int, int> windowSize);
         // will receive level and game settings and make the levels.
 
+        // TODO: Player needs to be made and shared by all scenes.
+
     private:
         void CreateLevel(Level& level);
 

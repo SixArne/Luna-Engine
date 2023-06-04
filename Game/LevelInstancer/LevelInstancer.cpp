@@ -78,7 +78,7 @@ void Galaga::LevelInstancer::CreateLevel(Level& level)
         const float offset = (float)i * (float)level.bee.space_between;
 
         auto enemyRoot = CreateBeeEnemy(beeTextures);
-        enemyRoot->GetTransform()->SetLocalPosition(glm::vec2{ 0.f + offset, 30.f });
+        enemyRoot->GetTransform()->SetLocalPosition(glm::vec2{ 80.f + offset, 30.f });
 
 		scene.Add(enemyRoot);
     }
