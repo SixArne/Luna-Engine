@@ -211,6 +211,48 @@ void Engine::GameObject::OnImGui()
 	}
 }
 
+void Engine::GameObject::OnSceneLoad()
+{
+	for (const auto& componentPair : m_Components)
+	{
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->OnSceneLoad();
+		}
+	}
+
+	for (const auto& child : m_Children)
+	{
+		if (child->IsActive())
+		{
+			child->OnSceneLoad();
+		}
+	}
+}
+
+void Engine::GameObject::OnSceneUnload()
+{
+	for (const auto& componentPair : m_Components)
+	{
+    	const auto& components = componentPair.second;
+
+		for (const auto& c: components)
+		{
+			c->OnSceneUnload();
+		}
+	}
+
+	for (const auto& child : m_Children)
+	{
+		if (child->IsActive())
+		{
+			child->OnSceneUnload();
+		}
+	}
+}
+
 void Engine::GameObject::SetActive(bool value)
 {
 	m_IsActive = value;
@@ -239,4 +281,14 @@ void Engine::GameObject::SetCanBeDestroyed(bool value)
 bool Engine::GameObject::CanBeDestroyed() const
 {
 	return m_CanBeDestroyed;
+}
+
+bool Engine::GameObject::HasTag(const std::string& tag)
+{
+	return m_Tags.contains(tag);
+}
+
+void Engine::GameObject::AddTag(const std::string& tag)
+{
+	m_Tags.insert(std::string(tag));
 }

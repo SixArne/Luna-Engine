@@ -41,6 +41,7 @@
 #include "Input/DieCommand.h"
 #include "Input/PointCommand.h"
 #include "Input/ShootCommand.h"
+#include "Input/Utils/SwitchSceneCommand.h"
 
 #include <Core/Services/ServiceLocator.h>
 #include <Core/Services/Sound/LoggingSoundSystem.h>
@@ -68,7 +69,7 @@ void load()
 
 	levelLoader.LoadGameSettings("Data/Resources/Saved/game_settings.json", gameSettings);
 
-	for (size_t i{}; i < levels.size(); ++i)
+	for (size_t i{}; i < 1; ++i)
 	{
 		std::string levelName = std::format("Data/Resources/Levels/lvl_{}.json", i);
 		levelLoader.LoadLevel(levelName, levels[i]);
@@ -86,6 +87,7 @@ void load()
 	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(1.0f, 0.0f)));
 	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(-1.0f, 0.0f)));
 	InputManager::GetInstance().AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(playerRoot.get()));
+	InputManager::GetInstance().AddAction(SDL_SCANCODE_F11, InputState::Press, std::make_unique<Galaga::SwitchSceneCommand>(playerRoot.get()));
 
 	// Controller
 	unsigned int controllerIdx = InputManager::GetInstance().AddController();
@@ -100,6 +102,13 @@ void load()
 		Engine::XboxController::ControllerButton::ButtonA,
 		InputState::Press,
 		std::make_unique<Galaga::ShootCommand>(playerRoot.get())
+	);
+
+	InputManager::GetInstance().AddAction(
+		controllerIdx,
+		Engine::XboxController::ControllerButton::DPadUp,
+		InputState::Press,
+		std::make_unique<Galaga::SwitchSceneCommand>(playerRoot.get())
 	);
 }
 

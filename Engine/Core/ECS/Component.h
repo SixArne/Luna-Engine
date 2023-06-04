@@ -26,6 +26,8 @@ namespace Engine
 		virtual void FixedUpdate(float) {}
 		virtual void LateUpdate() {}
 		virtual void OnImGui() {};
+		virtual void OnSceneLoad() {};
+		virtual void OnSceneUnload() {};
 
 		// Manditory life-cycle events.
 		virtual void Update() = 0;

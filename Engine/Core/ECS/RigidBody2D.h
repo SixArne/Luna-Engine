@@ -26,6 +26,8 @@ namespace Engine
         void Init() override;
         void Update() override {};
         void Render() override {};
+        void OnSceneLoad() override;
+        void OnSceneUnload() override;
 
         RigidBody2DCollider GetCollider() const { return m_Collider	; }
         uint64_t GetEntityID() const { return m_EntityID; }

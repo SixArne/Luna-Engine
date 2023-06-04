@@ -63,8 +63,9 @@ void Galaga::SpaceFighter::Shoot()
     projectile->AddComponent<Galaga::Projectile>(glm::vec2{ 0.f, 1.f }, glm::vec2{ 0.f, -200.f });
     projectile->AddComponent<Galaga::AutoKill>(15.f);
     projectile->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{5,5});
+    projectile->AddTag("bullet");
 
-    Engine::SceneManager::GetInstance().GetScene("Game")->Instantiate(projectile);
+    Engine::SceneManager::GetInstance().GetActiveScene()->Instantiate(projectile);
 
     auto ss = Engine::ServiceLocator::GetSoundService();
     ss->Play("Resources/Audio/shoot_short.wav", 0.5f);

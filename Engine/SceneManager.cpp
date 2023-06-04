@@ -6,10 +6,7 @@
 void Engine::SceneManager::Init()
 {
 	m_ActiveScene->Init();
-	// for (auto& scene : m_scenes)
-	// {
-	// 	scene->Init();
-	// }
+	m_ActiveScene->OnLoad();
 }
 
 void Engine::SceneManager::Update()
@@ -98,6 +95,16 @@ Engine::Scene* Engine::SceneManager::GetNextScene()
 		m_ActiveSceneIndex = 0;
 	}
 
+	m_ActiveScene->OnUnload();
+	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
+
+	if (!m_ActiveScene->IsInitialized())
+	{
+		m_ActiveScene->Init();
+	}
+
+	m_ActiveScene->OnLoad();
+
 	return m_scenes[m_ActiveSceneIndex].get();
 }
 
@@ -109,6 +116,16 @@ Engine::Scene* Engine::SceneManager::GetPreviousScene()
 	{
 		m_ActiveSceneIndex = static_cast<int>(m_scenes.size()) - 1;
 	}
+
+	m_ActiveScene->OnLoad();
+	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
+
+	if (!m_ActiveScene->IsInitialized())
+	{
+		m_ActiveScene->Init();
+	}
+
+	m_ActiveScene->OnUnload();
 
 	return m_scenes[m_ActiveSceneIndex].get();
 }

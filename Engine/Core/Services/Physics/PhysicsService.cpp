@@ -122,10 +122,11 @@ void Engine::PhysicsService::Update()
 
             bool isColliding =
             (
-                selfPosition.x < otherPosition.x + otherCollider.width &&
-                selfPosition.x + selfCollider.width > otherPosition.x &&
-                selfPosition.y < otherPosition.y + otherCollider.height &&
-                selfPosition.y + selfCollider.height > otherPosition.y
+                // Collider will not be center based. so we offset it here
+                selfPosition.x - (selfCollider.width / 2) + (selfCollider.width / 2) < otherPosition.x + (otherCollider.width / 2) + (otherCollider.width / 2) &&
+                selfPosition.x + (selfCollider.width / 2) + (selfCollider.width / 2) > otherPosition.x - (otherCollider.width / 2) + (otherCollider.width / 2) &&
+                selfPosition.y - (selfCollider.height / 2) + (selfCollider.width / 2) < otherPosition.y + (otherCollider.height / 2) + (otherCollider.width / 2) &&
+                selfPosition.y + (selfCollider.height / 2) + (selfCollider.width / 2) > otherPosition.y - (otherCollider.height / 2) + (otherCollider.width / 2)
             );
 
             const bool collisionExists = (m_Collisions.contains(rb));

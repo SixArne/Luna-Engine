@@ -62,6 +62,7 @@ add_executable(Game
     Input/MoveCommand.cpp
     Input/PointCommand.cpp
     Input/ShootCommand.cpp
+    Input/Utils/SwitchSceneCommand.cpp
 )
 
 if(MSVC)

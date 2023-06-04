@@ -32,6 +32,8 @@ void Scene::Init()
 	{
 		object->Init();
 	}
+
+	m_IsInitialized = true;
 }
 
 void Scene::Update()
@@ -105,13 +107,29 @@ void Engine::Scene::OnImGui()
 	}
 }
 
-void Scene::Instantiate(std::shared_ptr<GameObject> object)
+void Engine::Scene::OnLoad()
+{
+	for (const auto& object : m_objects)
+	{
+		object->OnSceneLoad();
+	}
+}
+
+void Engine::Scene::OnUnload()
+{
+	for (const auto& object : m_objects)
+	{
+		object->OnSceneUnload();
+	}
+}
+
+void Engine::Scene::Instantiate(std::shared_ptr<GameObject> object)
 {
 	Add(object);
 	object->Init();
 }
 
-std::shared_ptr<GameObject> Scene::FindByName(const std::string& name) const
+std::shared_ptr<GameObject> Engine::Scene::FindByName(const std::string& name) const
 {
 	for (const auto& object : m_objects)
 	{
@@ -122,4 +140,9 @@ std::shared_ptr<GameObject> Scene::FindByName(const std::string& name) const
 	}
 
 	return nullptr;
+}
+
+bool Engine::Scene::IsInitialized()
+{
+	return m_IsInitialized;
 }

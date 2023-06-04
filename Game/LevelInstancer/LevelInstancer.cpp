@@ -155,9 +155,9 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateLivesHud()
 std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(EnemyTextures& textureInfo)
 {
     auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 0, 0 });
-    enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/bug/idle/1.png");
+    enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/zako/1.png");
     Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
-    enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{10,10});
+    enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{30,24});
     enemyRoot->AddComponent<Galaga::EnemyBug>();
 
     // Add animations

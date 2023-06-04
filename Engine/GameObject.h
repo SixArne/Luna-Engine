@@ -5,6 +5,8 @@
 #include "Core/ECS/Component.h"
 #include "Core/ECS/TransformComponent.h"
 
+#include <set>
+
 // Component only guard
 template<typename T>
 concept ComponentType = std::is_base_of<Engine::Component, T>::value;
@@ -22,6 +24,8 @@ namespace Engine
 		void FixedUpdate(float fdt);
 		void Render() const;
 		void OnImGui();
+		void OnSceneLoad();
+		void OnSceneUnload();
 
 		GameObject(const char* name, glm::vec2 position = glm::vec2{}, float angle = 0);
 
@@ -63,6 +67,8 @@ namespace Engine
 
 		void SetCanBeDestroyed(bool value);
 		bool CanBeDestroyed() const;
+		bool HasTag(const std::string& tag);
+		void AddTag(const std::string& tag);
 
 		void Destroy();
 
@@ -74,6 +80,7 @@ namespace Engine
 		ComponentContainer m_Components{};
 		TransformComponent* m_TransformComponent{};
 
+		std::set<std::string> m_Tags{};
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
 

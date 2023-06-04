@@ -22,11 +22,14 @@ void Galaga::EnemyBug::Init()
     auto rb = GetOwner()->GetComponent<Engine::RigidBody2D>();
     auto animator = GetOwner()->GetComponent<Engine::SpriteAnimator>();
 
-    rb->SetOnCollisionEnterCallback([this, animator](Engine::RigidBody2D*)
+    rb->SetOnCollisionEnterCallback([this, animator](Engine::RigidBody2D* other)
         {
-            animator->SetState("death");
-            auto ss = Engine::ServiceLocator::GetSoundService();
-            ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
+            if (other->GetOwner()->HasTag("bullet"))
+            {
+                //animator->SetState("death");
+                auto ss = Engine::ServiceLocator::GetSoundService();
+                ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
+            }
         });
 
     rb->SetOnCollisionExitCallback([this](Engine::RigidBody2D*)

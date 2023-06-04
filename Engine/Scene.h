@@ -18,6 +18,8 @@ namespace Engine
 		void FixedUpdate(float fdt);
 		void LateUpdate();
 		void Render() const;
+		void OnLoad();
+		void OnUnload();
 		virtual void OnImGui();
 
 		const std::string& GetName() const { return m_name; }
@@ -25,6 +27,7 @@ namespace Engine
 		std::shared_ptr<GameObject> FindByName(const std::string& name) const;
 
 		void Instantiate(std::shared_ptr<GameObject> object);
+		bool IsInitialized();
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -36,6 +39,8 @@ namespace Engine
 		std::string m_name;
 		std::vector<std::shared_ptr<GameObject>> m_objects{};
 		std::vector<std::shared_ptr<GameObject>> m_objectsToDestroy{};
+
+		bool m_IsInitialized{false};
 
 		static unsigned int m_idCounter;
 	};
