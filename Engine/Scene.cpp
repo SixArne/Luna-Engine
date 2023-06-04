@@ -110,3 +110,16 @@ void Scene::Instantiate(std::shared_ptr<GameObject> object)
 	Add(object);
 	object->Init();
 }
+
+std::shared_ptr<GameObject> Scene::FindByName(const std::string& name) const
+{
+	for (const auto& object : m_objects)
+	{
+		if (object->GetName() == name)
+		{
+			return object;
+		}
+	}
+
+	return nullptr;
+}

@@ -64,6 +64,10 @@ add_executable(Game
     Input/ShootCommand.cpp
 )
 
+if(MSVC)
+ target_compile_options(Game PRIVATE "/MP")
+endif()
+
 set_target_properties(Game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>")
 
 target_link_libraries(Game

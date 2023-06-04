@@ -57,6 +57,9 @@ add_library(Engine STATIC
 target_compile_features(Engine PUBLIC cxx_std_20)
 target_compile_definitions(Engine PUBLIC SDL_MAIN_HANDLED)
 target_compile_options(Engine PRIVATE /W4 /WX)
+if(MSVC)
+ target_compile_options(Engine PRIVATE "/MP")
+endif()
 
 # Fetch libraries
 

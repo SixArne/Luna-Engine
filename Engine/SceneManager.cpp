@@ -55,6 +55,12 @@ Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
+
+	if (m_activeScene == nullptr)
+	{
+		m_activeScene = scene.get();
+	}
+
 	return *scene;
 }
 
@@ -69,4 +75,9 @@ Engine::Scene* Engine::SceneManager::GetScene(const std::string& name)
 	}
 
 	return nullptr;
+}
+
+Engine::Scene* Engine::SceneManager::GetActiveScene()
+{
+	return m_activeScene;
 }

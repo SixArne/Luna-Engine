@@ -48,6 +48,7 @@
 #include <Core/Services/Physics/PhysicsService.h>
 
 #include "LevelLoader/LevelLoader.h"
+#include "LevelInstancer/LevelInstancer.h"
 
 #include "ResourceManager.h"
 
@@ -73,124 +74,13 @@ void load()
 		levelLoader.LoadLevel(levelName, levels[i]);
 	}
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Game");
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// HighScore
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	auto highscoreContainer = std::make_shared<Engine::GameObject>("HighscoreContainer", glm::vec2{ 450, 0 });
-	highscoreContainer->AddComponent<Engine::TextComponent>("HIGH");
-
-	auto highscoreIndented = std::make_shared<Engine::GameObject>("HighscoreIndent", glm::vec2{ 20, 50 });
-
-	auto highscoreText = std::make_shared<Engine::GameObject>("HighscoreText", glm::vec2{ 0, 0 });
-	highscoreText->AddComponent<Engine::TextComponent>("SCORE");
-
-	auto highscoreValue = std::make_shared<Engine::GameObject>("HighscoreValue", glm::vec2{ 0, 50 });
-	highscoreValue->AddComponent<Engine::TextComponent>("0");
-	/*auto highscoreIndicatorComp = */highscoreValue->AddComponent<Galaga::HighscoreIndicator>(0);
-
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Lives
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	auto livesContainer = std::make_shared<Engine::GameObject>("LivesContainer", glm::vec2{ 450, 400 });
-	std::vector<Engine::TextureRendererComponent*> lifeTextures{};
-
-	auto liveText = std::make_shared<Engine::GameObject>("LiveText", glm::vec2{ 0, 0 });
-	liveText->AddComponent<Engine::TextComponent>("LIVES");
-
-	auto liveImage1 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 0, 40 });
-	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
-
-	auto liveImage2 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 20, 40 });
-	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
-
-	auto liveImage3 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 40, 40 });
-	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/lives.png"));
-
-	livesContainer->AddComponent<Galaga::LivesIndicator>(lifeTextures);
-	livesContainer->SetShouldRenderImGui(true);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Player
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	auto playerRoot = std::make_shared<Engine::GameObject>("PlayerRoot", glm::vec2{ windowWidth / 2, windowHeight - 30 });
-	playerRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/main_shuttle.png");
-	playerRoot->AddComponent<Galaga::SpaceFighter>();
-	playerRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{10,10});
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Enemy
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	auto bugAttackTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
-	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
-	};
-
-	auto bugIdleTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
-	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
-	};
-
-	auto bugDeathTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
-	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/2.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/3.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/4.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/5.png"),
-	};
-
-	for (int i {}; i < 10; i++)
-	{
-		auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 20 + (i * 25), 30 });
-		enemyRoot->AddComponent<Engine::TextureRendererComponent>("Resources/Sprites/bug/idle/1.png");
-		Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
-		enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{10,10});
-		enemyRoot->AddComponent<Galaga::EnemyBug>();
-
-		// Add animations
-		animator->AddState<Galaga::FlyInState>("fly_in");
-
-		auto enemyAttack = animator->AddState<Galaga::AttackState>("attack");
-		enemyAttack->SetTextures(bugAttackTextures);
-
-		auto enemyIdle = animator->AddState<Galaga::IdleState>("idle");
-		enemyIdle->SetTextures(bugIdleTextures);
-
-		auto enemyDeath = animator->AddState<Galaga::DeathState>("death");
-		enemyDeath->SetTextures(bugDeathTextures);
-
-		scene.Add(enemyRoot);
-	}
-
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Attachments
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	highscoreIndented->AttachChild(highscoreText, false);
-	highscoreIndented->AttachChild(highscoreValue, false);
-	highscoreContainer->AttachChild(highscoreIndented, false);
-
-	livesContainer->AttachChild(liveText, false);
-	livesContainer->AttachChild(liveImage1, false);
-	livesContainer->AttachChild(liveImage2, false);
-	livesContainer->AttachChild(liveImage3, false);
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Adding to scene
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	scene.Add(highscoreContainer);
-	scene.Add(livesContainer);
-	scene.Add(playerRoot);
-
+	Galaga::LevelInstancer levelInstancer{ levels, gameSettings, std::make_tuple(windowWidth, windowHeight) };
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Input
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// TODO: improve this
+	std::shared_ptr<Engine::GameObject> playerRoot = SceneManager::GetInstance().GetActiveScene()->FindByName("PlayerRoot");
 
 	// Keyboard
 	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(1.0f, 0.0f)));

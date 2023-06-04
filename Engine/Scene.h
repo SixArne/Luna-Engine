@@ -22,6 +22,8 @@ namespace Engine
 
 		const std::string& GetName() const { return m_name; }
 
+		std::shared_ptr<GameObject> FindByName(const std::string& name) const;
+
 		void Instantiate(std::shared_ptr<GameObject> object);
 
 		~Scene();

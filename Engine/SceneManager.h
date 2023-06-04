@@ -12,6 +12,8 @@ namespace Engine
 		Scene& CreateScene(const std::string& name);
 		Scene* GetScene(const std::string& name);
 
+		Scene* GetActiveScene();
+
 		void Init();
 		void Update();
 		void FixedUpdate(float fdt);
@@ -22,6 +24,8 @@ namespace Engine
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
+
+		Scene* m_activeScene = nullptr;
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 	};
 }
