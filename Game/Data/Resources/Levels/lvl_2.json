@@ -1,22 +1,22 @@
 {
-    "name": "lvl_1",
+    "name": "lvl_2",
     "rows": 5,
     "boss": {
         "row": 1,
         "row-span": 1,
-        "count": 2,
+        "count": 3,
         "space_between": 10
     },
     "butterfly": {
         "row": 2,
         "row-span": 2,
-        "count": 15,
+        "count": 20,
         "space_between": 10
     },
     "bee": {
         "row": 3,
         "row-span": 2,
-        "count": 15,
+        "count": 20,
         "space_between": 10
     }
 }

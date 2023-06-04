@@ -219,21 +219,6 @@ if(NOT spdlog_POPULATED)
     set(SPDLOG_INCLUDE_DIR "${spdlog_SOURCE_DIR}")
 endif()
 
-FetchContent_Declare(
-    rapidjson
-    GIT_REPOSITORY https://github.com/Tencent/rapidjson.git
-    GIT_TAG "master"
-    DOWNLOAD_NO_PROGRESS ON
-)
-
-FetchContent_GetProperties(rapidjson)
-if(NOT rapidjson_POPULATED)
-    FetchContent_Populate(rapidjson)
-    message(STATUS "Fetching spdlog from https://github.com/Tencent/rapidjson.git on branch master")
-    message(STATUS "Setting RAPIDJSON_INCLUDE_DIR to ${rapidjson_SOURCE_DIR}")
-    set(RAPIDJSON_INCLUDE_DIR "${rapidjson_SOURCE_DIR}")
-endif()
-
 set_target_properties(IMGUI PROPERTIES
   CMAKE_BUILD_TYPE Release
 )
@@ -246,7 +231,6 @@ set (EngineIncludes
     ${SDL2_TTF_INCLUDE_DIR}
     ${SDL2_MIXER_INCLUDE_DIR}
     ${IMGUI_INCLUDE_DIR}
-    ${RAPIDJSON_INCLUDE_DIR}/include
     ${SPDLOG_INCLUDE_DIR}/include
 )
 

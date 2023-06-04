@@ -7,7 +7,7 @@
         "boss_galaga_in_formation": 150,
         "boss_galaga_diving": 400
     },
-    "enemey_health":
+    "enemy_health":
     {
         "bee": 1,
         "butterfly": 1,

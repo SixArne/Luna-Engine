@@ -47,6 +47,8 @@
 #include <Core/Services/Sound/SDLSoundSystem.h>
 #include <Core/Services/Physics/PhysicsService.h>
 
+#include "LevelLoader/LevelLoader.h"
+
 #include "ResourceManager.h"
 
 void load()
@@ -58,6 +60,18 @@ void load()
 	using Engine::InputManager;
 	using Engine::SceneManager;
 
+	Galaga::LevelLoader levelLoader{};
+	Galaga::GameSettings gameSettings{};
+
+	std::vector<Galaga::Level> levels(3);
+
+	levelLoader.LoadGameSettings("Data/Resources/Saved/game_settings.json", gameSettings);
+
+	for (size_t i{}; i < levels.size(); ++i)
+	{
+		std::string levelName = std::format("Data/Resources/Levels/lvl_{}.json", i);
+		levelLoader.LoadLevel(levelName, levels[i]);
+	}
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Game");
 

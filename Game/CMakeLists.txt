@@ -1,6 +1,8 @@
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+include(FetchContent)
+
 # Set compiler warnings as errors
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     message(STATUS "[Game] Setting warnings as errors for GNU/Clang")
@@ -13,6 +15,22 @@ endif()
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
 endif()
+
+FetchContent_Declare(
+    rapidjson
+    GIT_REPOSITORY https://github.com/Tencent/rapidjson.git
+    GIT_TAG "master"
+    DOWNLOAD_NO_PROGRESS ON
+)
+
+FetchContent_GetProperties(rapidjson)
+if(NOT rapidjson_POPULATED)
+    FetchContent_Populate(rapidjson)
+    message(STATUS "Fetching spdlog from https://github.com/Tencent/rapidjson.git on branch master")
+    message(STATUS "Setting RAPIDJSON_INCLUDE_DIR to ${rapidjson_SOURCE_DIR}")
+    set(RAPIDJSON_INCLUDE_DIR "${rapidjson_SOURCE_DIR}")
+endif()
+
 
 add_executable(Game
     Main.cpp
@@ -35,6 +53,9 @@ add_executable(Game
     AnimationStates/AttackState.cpp
     AnimationStates/DeathState.cpp
     AnimationStates/IdleState.cpp
+
+    LevelLoader/LevelLoader.cpp
+    LevelInstancer/LevelInstancer.cpp
 
     # Input
     Input/DieCommand.cpp
@@ -61,6 +82,7 @@ endforeach()
 target_include_directories(Game PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${EngineCodeIncludeDir}
+    ${RAPIDJSON_INCLUDE_DIR}/include
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
