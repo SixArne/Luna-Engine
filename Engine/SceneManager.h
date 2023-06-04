@@ -13,6 +13,8 @@ namespace Engine
 		Scene* GetScene(const std::string& name);
 
 		Scene* GetActiveScene();
+		Scene* GetNextScene();
+		Scene* GetPreviousScene();
 
 		void Init();
 		void Update();
@@ -25,7 +27,9 @@ namespace Engine
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 
-		Scene* m_activeScene = nullptr;
+		Scene* m_ActiveScene = nullptr;
+		int m_ActiveSceneIndex = -1;
+
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 	};
 }

@@ -5,50 +5,56 @@
 
 void Engine::SceneManager::Init()
 {
-	for (auto& scene : m_scenes)
-	{
-		scene->Init();
-	}
+	m_ActiveScene->Init();
+	// for (auto& scene : m_scenes)
+	// {
+	// 	scene->Init();
+	// }
 }
 
 void Engine::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
-	{
-		scene->Update();
-	}
+	m_ActiveScene->Update();
+	// for(auto& scene : m_scenes)
+	// {
+	// 	scene->Update();
+	// }
 }
 
 void Engine::SceneManager::FixedUpdate(float fdt)
 {
-	for (auto& scene : m_scenes)
-	{
-		scene->FixedUpdate(fdt);
-	}
+	m_ActiveScene->FixedUpdate(fdt);
+	// for (auto& scene : m_scenes)
+	// {
+	// 	scene->FixedUpdate(fdt);
+	// }
 }
 
 void Engine::SceneManager::LateUpdate()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->LateUpdate();
-	}
+	m_ActiveScene->LateUpdate();
+	// for (const auto& scene : m_scenes)
+	// {
+	// 	scene->LateUpdate();
+	// }
 }
 
 void Engine::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->Render();
-	}
+	m_ActiveScene->Render();
+	// for (const auto& scene : m_scenes)
+	// {
+	// 	scene->Render();
+	// }
 }
 
 void Engine::SceneManager::OnImGui()
 {
-	for (const auto& scene : m_scenes)
-	{
-		scene->OnImGui();
-	}
+	m_ActiveScene->OnImGui();
+	// for (const auto& scene : m_scenes)
+	// {
+	// 	scene->OnImGui();
+	// }
 }
 
 Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
@@ -56,9 +62,10 @@ Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
 
-	if (m_activeScene == nullptr)
+	if (m_ActiveScene == nullptr)
 	{
-		m_activeScene = scene.get();
+		m_ActiveScene = scene.get();
+		m_ActiveSceneIndex = 0;
 	}
 
 	return *scene;
@@ -79,5 +86,29 @@ Engine::Scene* Engine::SceneManager::GetScene(const std::string& name)
 
 Engine::Scene* Engine::SceneManager::GetActiveScene()
 {
-	return m_activeScene;
+	return m_ActiveScene;
+}
+
+Engine::Scene* Engine::SceneManager::GetNextScene()
+{
+	m_ActiveSceneIndex++;
+
+	if (m_ActiveSceneIndex >= m_scenes.size())
+	{
+		m_ActiveSceneIndex = 0;
+	}
+
+	return m_scenes[m_ActiveSceneIndex].get();
+}
+
+Engine::Scene* Engine::SceneManager::GetPreviousScene()
+{
+	m_ActiveSceneIndex--;
+
+	if (m_ActiveSceneIndex < 0)
+	{
+		m_ActiveSceneIndex = static_cast<int>(m_scenes.size()) - 1;
+	}
+
+	return m_scenes[m_ActiveSceneIndex].get();
 }
