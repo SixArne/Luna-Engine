@@ -9,9 +9,10 @@ namespace Engine
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		explicit Scene(const std::string& name);
-		void Add(std::shared_ptr<GameObject> object);
+		void Add(std::shared_ptr<GameObject> object, bool isPersistant = false);
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
+		void ClearPersistantObjects();
 
 		void Init();
 		void Update();
@@ -25,8 +26,9 @@ namespace Engine
 		const std::string& GetName() const { return m_name; }
 
 		std::shared_ptr<GameObject> FindByName(const std::string& name) const;
+		const std::vector<std::shared_ptr<GameObject>> GetPersistantObjects();
 
-		void Instantiate(std::shared_ptr<GameObject> object);
+		void Instantiate(std::shared_ptr<GameObject> object, bool isPersistant = false);
 		bool IsInitialized();
 
 		~Scene();
@@ -39,6 +41,7 @@ namespace Engine
 		std::string m_name;
 		std::vector<std::shared_ptr<GameObject>> m_objects{};
 		std::vector<std::shared_ptr<GameObject>> m_objectsToDestroy{};
+		std::vector<std::shared_ptr<GameObject>> m_PersistantObjects{};
 
 		bool m_IsInitialized{false};
 

@@ -5,19 +5,19 @@
 #include <Core/Event/EventManager.h>
 #include <Core/Event/IObserver.h>
 
-namespace Engine { class TextureRendererComponent; }
+namespace Engine { class TextureRenderer; }
 
 namespace Galaga
 {
 	using Engine::Component;
 	using Engine::GameObject;
-	using Engine::TextureRendererComponent;
+	using Engine::TextureRenderer;
 	using Engine::IObserver;
 
 	class LivesIndicator : public Component, public IObserver<int>
 	{
 	public:
-		LivesIndicator(GameObject* gameobject, std::vector<TextureRendererComponent*>& liveRenderers);
+		LivesIndicator(GameObject* gameobject, std::vector<TextureRenderer*>& liveRenderers);
 
 		void Init() override;
 		void Update() override;
@@ -29,7 +29,7 @@ namespace Galaga
 	private:
         void UpdateLives();
 
-        std::vector<TextureRendererComponent*> m_LivesIcons{};
+        std::vector<TextureRenderer*> m_LivesIcons{};
         int m_Lives{};
         int m_CurrentLives{};
 	};

@@ -35,6 +35,7 @@ namespace Engine
 		void AddAxisMapping(SDL_Scancode key, std::unique_ptr<Command> command);
 
 		unsigned int AddController();
+		bool HasController(unsigned int controllerIdx);
 
 	private:
 		friend class Singleton<InputManager>;

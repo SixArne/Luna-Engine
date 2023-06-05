@@ -270,3 +270,8 @@ void Engine::InputManager::HandleKeyboardInput()
 		}
 	}
 }
+
+bool Engine::InputManager::HasController(unsigned int controllerIdx)
+{
+	return controllerIdx < m_Controllers.size();
+}

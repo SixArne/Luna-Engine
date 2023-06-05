@@ -11,7 +11,7 @@ Engine::SpriteAnimator::SpriteAnimator(GameObject* object)
 
 void Engine::SpriteAnimator::Init()
 {
-    m_TextureRenderer = GetOwner()->GetComponent<TextureRendererComponent>();
+    m_TextureRenderer = GetOwner()->GetComponent<TextureRenderer>();
     if (m_TextureRenderer == nullptr)
     {
         L_ERROR("SpriteAnimator requires a TextureRendererComponent");

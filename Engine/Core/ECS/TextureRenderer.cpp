@@ -12,26 +12,26 @@
 #include <ImGui.h>
 
 
-Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object)
+Engine::TextureRenderer::TextureRenderer(GameObject* object)
 	: Component{object}
 {
 }
 
-Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object, const std::string& textureFile)
+Engine::TextureRenderer::TextureRenderer(GameObject* object, const std::string& textureFile)
 	: Component{ object }, m_Texture{ ResourceManager::GetInstance().LoadTexture(textureFile) }
 {
 }
 
-Engine::TextureRendererComponent::TextureRendererComponent(GameObject* object, std::shared_ptr<Texture2D> texture)
+Engine::TextureRenderer::TextureRenderer(GameObject* object, std::shared_ptr<Texture2D> texture)
 	: Component{ object }, m_Texture{ texture }
 {
 }
 
-Engine::TextureRendererComponent::~TextureRendererComponent()
+Engine::TextureRenderer::~TextureRenderer()
 {
 }
 
-void Engine::TextureRendererComponent::Init()
+void Engine::TextureRenderer::Init()
 {
 	const auto gameObject = GetOwner();
 
@@ -41,12 +41,12 @@ void Engine::TextureRendererComponent::Init()
 	}
 }
 
-void Engine::TextureRendererComponent::Update()
+void Engine::TextureRenderer::Update()
 {
 
 }
 
-void Engine::TextureRendererComponent::Render()
+void Engine::TextureRenderer::Render()
 {
 	if (m_Texture == nullptr) return;
 
@@ -61,22 +61,27 @@ void Engine::TextureRendererComponent::Render()
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-void Engine::TextureRendererComponent::SetTexture(std::string source)
+void Engine::TextureRenderer::SetTexture(std::string source)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(source);
 }
 
-void Engine::TextureRendererComponent::SetTexture(std::shared_ptr<Texture2D> texture)
+void Engine::TextureRenderer::SetTexture(std::shared_ptr<Texture2D> texture)
 {
 	m_Texture = texture;
 }
 
-void Engine::TextureRendererComponent::SetEmptyTexture()
+void Engine::TextureRenderer::SetEmptyTexture()
 {
 	m_Texture = nullptr;
 }
 
-void Engine::TextureRendererComponent::OnImGui()
+void Engine::TextureRenderer::OnImGui()
 {
 	ImGui::Text("TextureComponent");
+}
+
+glm::ivec2 Engine::TextureRenderer::GetScreenSize()
+{
+	return m_Texture->GetSize();
 }

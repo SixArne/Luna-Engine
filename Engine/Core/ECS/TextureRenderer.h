@@ -12,20 +12,20 @@ namespace Engine
 {
 	class Texture2D;
 
-	class TextureRendererComponent final: public Component
+	class TextureRenderer final: public Component
 	{
 	public:
-		TextureRendererComponent() = default;
-		TextureRendererComponent(GameObject* object);
-		TextureRendererComponent(GameObject* object, const std::string& textureFile);
-		TextureRendererComponent(GameObject* object, std::shared_ptr<Texture2D> texture);
+		TextureRenderer() = default;
+		TextureRenderer(GameObject* object);
+		TextureRenderer(GameObject* object, const std::string& textureFile);
+		TextureRenderer(GameObject* object, std::shared_ptr<Texture2D> texture);
 
-		~TextureRendererComponent();
+		~TextureRenderer();
 
-		TextureRendererComponent(const TextureRendererComponent& other) = delete;
-		TextureRendererComponent(TextureRendererComponent&& other) = delete;
-		TextureRendererComponent& operator=(const TextureRendererComponent& other) = delete;
-		TextureRendererComponent& operator=(TextureRendererComponent&& other) = delete;
+		TextureRenderer(const TextureRenderer& other) = delete;
+		TextureRenderer(TextureRenderer&& other) = delete;
+		TextureRenderer& operator=(const TextureRenderer& other) = delete;
+		TextureRenderer& operator=(TextureRenderer&& other) = delete;
 
 		virtual void Update() override;
 		virtual void Render() override;
@@ -35,6 +35,8 @@ namespace Engine
 		void SetTexture(std::shared_ptr<Texture2D> texture);
 
 		void SetEmptyTexture();
+
+		glm::ivec2 GetScreenSize();
 
 		void OnImGui() override;
 

@@ -59,7 +59,7 @@ void Galaga::SpaceFighter::Shoot()
     auto currentLocation = GetOwner()->GetTransform()->GetWorldPosition();
 
     auto projectile = std::make_shared<Engine::GameObject>("projectile", currentLocation);
-    projectile->AddComponent<Engine::TextureRendererComponent>(m_ProjectileTexture);
+    projectile->AddComponent<Engine::TextureRenderer>(m_ProjectileTexture);
     projectile->AddComponent<Galaga::Projectile>(glm::vec2{ 0.f, 1.f }, glm::vec2{ 0.f, -200.f });
     projectile->AddComponent<Galaga::AutoKill>(15.f);
     projectile->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{5,5});

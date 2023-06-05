@@ -11,7 +11,7 @@ namespace Engine
 	public:
 		Scene& CreateScene(const std::string& name);
 		Scene* GetScene(const std::string& name);
-
+		Scene* GetSceneByIndex(unsigned int index);
 		Scene* GetActiveScene();
 		Scene* GetNextScene();
 		Scene* GetPreviousScene();

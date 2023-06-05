@@ -49,6 +49,9 @@ add_executable(Game
     Components/Enemy/EnemyBug.cpp
     Components/Util/AutoKill.cpp
 
+    Components/Menu/MenuOption.cpp
+    Components/Menu/OptionContainer.cpp
+
     AnimationStates/FlyInState.cpp
     AnimationStates/AttackState.cpp
     AnimationStates/DeathState.cpp
@@ -63,6 +66,7 @@ add_executable(Game
     Input/PointCommand.cpp
     Input/ShootCommand.cpp
     Input/Utils/SwitchSceneCommand.cpp
+    Input/Utils/NavigateMenuCommand.cpp
 )
 
 if(MSVC)

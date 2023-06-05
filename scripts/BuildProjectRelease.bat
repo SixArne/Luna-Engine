@@ -1,4 +1,4 @@
 cd ../build
-cmake --build . --config Release --parallel -v -j 8
+cmake --build . --config Release
 
 pause 10

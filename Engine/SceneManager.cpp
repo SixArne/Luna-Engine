@@ -87,6 +87,16 @@ Engine::Scene* Engine::SceneManager::GetActiveScene()
 	return m_ActiveScene;
 }
 
+Engine::Scene* Engine::SceneManager::GetSceneByIndex(unsigned int index)
+{
+	if (index < m_scenes.size())
+	{
+		return m_scenes[index].get();
+	}
+
+	return nullptr;
+}
+
 Engine::Scene* Engine::SceneManager::GetNextScene()
 {
 	m_ActiveSceneIndex++;
@@ -123,7 +133,19 @@ void Engine::SceneManager::OnSceneSwitch(std::function<void()> callback)
 void Engine::SceneManager::SwitchScene()
 {
 	m_ActiveScene->OnUnload();
+
+	// Copy persistant smart pointers
+	const auto persistantObjects = m_ActiveScene->GetPersistantObjects();
+	// Clear Persistant smart pointers in old level
+	m_ActiveScene->ClearPersistantObjects();
+
 	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
+
+	// Add them to new level
+	for (auto& object: persistantObjects)
+	{
+		m_ActiveScene->Add(object, true);
+	}
 
 	if (!m_ActiveScene->IsInitialized())
 	{

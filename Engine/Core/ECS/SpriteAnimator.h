@@ -40,7 +40,7 @@ concept StateType = std::is_base_of<Engine::AbstractState, T>::value;
 
 namespace Engine
 {
-    class TextureRendererComponent;
+    class TextureRenderer;
 
 	class SpriteAnimator final: public Component
 	{
@@ -69,7 +69,7 @@ namespace Engine
         std::unordered_map<std::string, std::unique_ptr<AbstractState>> m_States{};
         AbstractState* m_CurrentState{};
 
-        TextureRendererComponent* m_TextureRenderer{};
+        TextureRenderer* m_TextureRenderer{};
 
         bool m_IsPaused{};
         float m_StateTimer{};

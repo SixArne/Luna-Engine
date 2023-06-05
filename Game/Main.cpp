@@ -12,36 +12,8 @@
 #include <Scene.h>
 #include <GameObject.h>
 #include <ResourceManager.h>
-#include <Core/Input/InputManager.h>
-#include <Core/Input/XboxController.h>
-#include <Core/ECS/TextureRenderer.h>
-#include <Core/ECS/TextComponent.h>
-#include "Core/ECS/SpriteAnimator.h"
-#include <Core/ECS/RigidBody2D.h>
-#include <Core/Event/EventManager.h>
 #include <Core/Log.h>
 #include <memory>
-
-#include "Components/HealthComponent.h"
-#include "Components/HealthIndicator.h"
-#include "Components/PointComponent.h"
-#include "Components/PointIndicator.h"
-
-#include "Components/LivesIndicator.h"
-#include "Components/HighScoreIndicator.h"
-#include "Components/Player/SpaceFighter.h"
-#include "Components/Enemy/EnemyBug.h"
-
-#include "AnimationStates/FlyInState.h"
-#include "AnimationStates/AttackState.h"
-#include "AnimationStates/IdleState.h"
-#include "AnimationStates/DeathState.h"
-
-#include "Input/MoveCommand.h"
-#include "Input/DieCommand.h"
-#include "Input/PointCommand.h"
-#include "Input/ShootCommand.h"
-#include "Input/Utils/SwitchSceneCommand.h"
 
 #include <Core/Services/ServiceLocator.h>
 #include <Core/Services/Sound/LoggingSoundSystem.h>
@@ -58,10 +30,6 @@ void load()
 	constexpr auto windowWidth = 640;
 	constexpr auto windowHeight = 480;
 
-	using Engine::InputState;
-	using Engine::InputManager;
-	using Engine::SceneManager;
-
 	Galaga::LevelLoader levelLoader{};
 	Galaga::GameSettings gameSettings{};
 
@@ -69,46 +37,18 @@ void load()
 
 	levelLoader.LoadGameSettings("Data/Resources/Saved/game_settings.json", gameSettings);
 
-	for (size_t i{}; i < 1; ++i)
+	for (size_t i{}; i < levels.size(); ++i)
 	{
 		std::string levelName = std::format("Data/Resources/Levels/lvl_{}.json", i);
 		levelLoader.LoadLevel(levelName, levels[i]);
 	}
 
-	Galaga::LevelInstancer levelInstancer{ levels, gameSettings, std::make_tuple(windowWidth, windowHeight) };
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Input
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Needs to be singleton for liveTime
+	Galaga::LevelInstancer::GetInstance().Load(levels, gameSettings, std::make_tuple(windowWidth, windowHeight) );
 
-	std::shared_ptr<Engine::GameObject> playerRoot = SceneManager::GetInstance().GetActiveScene()->FindByName("PlayerRoot");
-
-	// Keyboard
-	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(1.0f, 0.0f)));
-	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(playerRoot.get(), glm::vec2(-1.0f, 0.0f)));
-	InputManager::GetInstance().AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(playerRoot.get()));
-	InputManager::GetInstance().AddAction(SDL_SCANCODE_F11, InputState::Press, std::make_unique<Galaga::SwitchSceneCommand>(playerRoot.get()));
-
-	// Controller
-	unsigned int controllerIdx = InputManager::GetInstance().AddController();
-	InputManager::GetInstance().AddAxisMapping(
-		controllerIdx,
-		Engine::XboxController::ControllerAxis::LeftThumb,
-		std::make_unique<Galaga::MoveCommand>(playerRoot.get())
-	);
-
-	InputManager::GetInstance().AddAction(
-		controllerIdx,
-		Engine::XboxController::ControllerButton::ButtonA,
-		InputState::Press,
-		std::make_unique<Galaga::ShootCommand>(playerRoot.get())
-	);
-
-	InputManager::GetInstance().AddAction(
-		controllerIdx,
-		Engine::XboxController::ControllerButton::DPadUp,
-		InputState::Press,
-		std::make_unique<Galaga::SwitchSceneCommand>(playerRoot.get())
-	);
+	Engine::SceneManager::GetInstance().OnSceneSwitch([](){
+		Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/theme.wav", 1.f);
+	});
 }
 
 int main(int, char*[]) {

@@ -11,9 +11,16 @@ Scene::Scene(const std::string& name) : m_name(name) {}
 
 Scene::~Scene() = default;
 
-void Scene::Add(std::shared_ptr<GameObject> object)
+void Scene::Add(std::shared_ptr<GameObject> object, bool isPersistant)
 {
-	m_objects.emplace_back(std::move(object));
+	if (!isPersistant)
+	{
+		m_objects.emplace_back(std::move(object));
+	}
+	else
+	{
+		m_PersistantObjects.emplace_back(std::move(object));
+	}
 }
 
 void Scene::Remove(std::shared_ptr<GameObject> object)
@@ -33,12 +40,25 @@ void Scene::Init()
 		object->Init();
 	}
 
+	for (auto& object: m_PersistantObjects)
+	{
+		object->Init();
+	}
+
 	m_IsInitialized = true;
 }
 
 void Scene::Update()
 {
 	for(auto& object : m_objects)
+	{
+		if (object->IsActive())
+		{
+			object->Update();
+		}
+	}
+
+	for(auto& object : m_PersistantObjects)
 	{
 		if (object->IsActive())
 		{
@@ -56,11 +76,36 @@ void Engine::Scene::FixedUpdate(float fdt)
 			object->FixedUpdate(fdt);
 		}
 	}
+
+	for (auto& object : m_PersistantObjects)
+	{
+		if (object->IsActive())
+		{
+			object->FixedUpdate(fdt);
+		}
+	}
 }
 
 void Engine::Scene::LateUpdate()
 {
 	for (const auto& object : m_objects)
+	{
+		// NEVER DELETE IN A LOOP
+		if (object->IsMarkedForDeletion() && object->CanBeDestroyed())
+		{
+			L_TRACE("[{}] Removed object: {}", m_name.c_str(), object->GetName());
+			m_objectsToDestroy.push_back(object);
+
+			continue;
+		}
+
+		if (object->IsActive())
+		{
+			object->LateUpdate();
+		}
+	}
+
+	for (const auto& object : m_PersistantObjects)
 	{
 		// NEVER DELETE IN A LOOP
 		if (object->IsMarkedForDeletion() && object->CanBeDestroyed())
@@ -94,11 +139,27 @@ void Scene::Render() const
 			object->Render();
 		}
 	}
+
+	for (const auto& object : m_PersistantObjects)
+	{
+		if (object->IsActive())
+		{
+			object->Render();
+		}
+	}
 }
 
 void Engine::Scene::OnImGui()
 {
 	for (const auto& object : m_objects)
+	{
+		if (object->IsActive())
+		{
+			object->OnImGui();
+		}
+	}
+
+	for (const auto& object : m_PersistantObjects)
 	{
 		if (object->IsActive())
 		{
@@ -113,6 +174,11 @@ void Engine::Scene::OnLoad()
 	{
 		object->OnSceneLoad();
 	}
+
+	for (const auto& object : m_PersistantObjects)
+	{
+		object->OnSceneLoad();
+	}
 }
 
 void Engine::Scene::OnUnload()
@@ -121,11 +187,24 @@ void Engine::Scene::OnUnload()
 	{
 		object->OnSceneUnload();
 	}
+
+	for (const auto& object : m_PersistantObjects)
+	{
+		object->OnSceneUnload();
+	}
 }
 
-void Engine::Scene::Instantiate(std::shared_ptr<GameObject> object)
+void Engine::Scene::Instantiate(std::shared_ptr<GameObject> object, bool isPersistant)
 {
-	Add(object);
+	if (!isPersistant)
+	{
+		Add(object);
+	}
+	else
+	{
+		Add(object, true);
+	}
+
 	object->Init();
 }
 
@@ -139,10 +218,28 @@ std::shared_ptr<GameObject> Engine::Scene::FindByName(const std::string& name) c
 		}
 	}
 
+	for (const auto& object : m_PersistantObjects)
+	{
+		if (object->GetName() == name)
+		{
+			return object;
+		}
+	}
+
 	return nullptr;
 }
 
 bool Engine::Scene::IsInitialized()
 {
 	return m_IsInitialized;
+}
+
+void Engine::Scene::ClearPersistantObjects()
+{
+	m_PersistantObjects.clear();
+}
+
+const std::vector<std::shared_ptr<GameObject>> Engine::Scene::GetPersistantObjects()
+{
+	return m_PersistantObjects;
 }

@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-Galaga::LivesIndicator::LivesIndicator(GameObject* gameobject, std::vector<TextureRendererComponent*>& liveRenderers)
+Galaga::LivesIndicator::LivesIndicator(GameObject* gameobject, std::vector<TextureRenderer*>& liveRenderers)
 	:Component{ gameobject }, m_LivesIcons{ liveRenderers }, m_Lives{ static_cast<int>(liveRenderers.size()) }
 {
 }
