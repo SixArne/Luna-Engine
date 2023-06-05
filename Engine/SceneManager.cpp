@@ -7,7 +7,7 @@ void Engine::SceneManager::Init()
 {
 	m_ActiveScene->Init();
 	m_ActiveScene->OnLoad();
-	m_OnSceneSwitch();
+	m_OnSceneSwitch(nullptr, nullptr);
 }
 
 void Engine::SceneManager::Update()
@@ -55,7 +55,7 @@ void Engine::SceneManager::OnImGui()
 	// }
 }
 
-Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
+Engine::Scene* Engine::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
@@ -66,7 +66,7 @@ Engine::Scene& Engine::SceneManager::CreateScene(const std::string& name)
 		m_ActiveSceneIndex = 0;
 	}
 
-	return *scene;
+	return scene.get();
 }
 
 Engine::Scene* Engine::SceneManager::GetScene(const std::string& name)
@@ -125,7 +125,7 @@ Engine::Scene* Engine::SceneManager::GetPreviousScene()
 	return m_scenes[m_ActiveSceneIndex].get();
 }
 
-void Engine::SceneManager::OnSceneSwitch(std::function<void()> callback)
+void Engine::SceneManager::OnSceneSwitch(std::function<void(Scene* scene, Scene* oldScene)> callback)
 {
 	m_OnSceneSwitch = callback;
 }
@@ -137,8 +137,8 @@ void Engine::SceneManager::SwitchScene()
 	// Copy persistant smart pointers
 	const auto persistantObjects = m_ActiveScene->GetPersistantObjects();
 	// Clear Persistant smart pointers in old level
-	m_ActiveScene->ClearPersistantObjects();
 
+	auto oldScene = m_ActiveScene;
 	m_ActiveScene = m_scenes[m_ActiveSceneIndex].get();
 
 	// Add them to new level
@@ -152,6 +152,6 @@ void Engine::SceneManager::SwitchScene()
 		m_ActiveScene->Init();
 	}
 
-	m_OnSceneSwitch();
+	m_OnSceneSwitch(m_ActiveScene, oldScene);
 	m_ActiveScene->OnLoad();
 }

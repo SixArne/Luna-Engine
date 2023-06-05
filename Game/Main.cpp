@@ -12,7 +12,9 @@
 #include <Scene.h>
 #include <GameObject.h>
 #include <ResourceManager.h>
+#include <SceneManager.h>
 #include <Core/Log.h>
+#include <Core/Input/InputManager.h>
 #include <memory>
 
 #include <Core/Services/ServiceLocator.h>
@@ -46,8 +48,35 @@ void load()
 	// Needs to be singleton for liveTime
 	Galaga::LevelInstancer::GetInstance().Load(levels, gameSettings, std::make_tuple(windowWidth, windowHeight) );
 
-	Engine::SceneManager::GetInstance().OnSceneSwitch([](){
-		Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/theme.wav", 1.f);
+
+	Engine::SceneManager::GetInstance().OnSceneSwitch([](Engine::Scene* newScene, Engine::Scene* oldScene){
+		if (newScene == nullptr || oldScene == nullptr) return;
+
+		if (newScene->GetName() == "menu")
+		{
+			// Clean up all physics objects
+			Engine::ServiceLocator::GetPhysicsService()->CleanAll();
+
+			oldScene->Reset();
+
+			// Disable game input schema
+			Engine::InputManager::GetInstance().GetSchema("GAME_SCHEMA")->SetActive(false);
+
+			// Enable menu input schema
+			Engine::InputManager::GetInstance().GetSchema("MENU_SCHEMA")->SetActive(true);
+
+			L_DEBUG("Disabling game controls, enabling menu controls");
+		}
+		else
+		{
+			// Enable game input schema and disable menu input schema
+			Engine::InputManager::GetInstance().GetSchema("GAME_SCHEMA")->SetActive(true);
+
+			// Disable menu input schema
+			Engine::InputManager::GetInstance().GetSchema("MENU_SCHEMA")->SetActive(false);
+
+			L_DEBUG("Enabling game controls, disabling menu controls");
+		}
 	});
 }
 

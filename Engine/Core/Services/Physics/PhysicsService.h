@@ -21,6 +21,7 @@ namespace Engine
         PhysicsService();
         ~PhysicsService();
         void AddRigidBody(RigidBody2D* rb);
+        void CleanAll();
 
         void Update();
 

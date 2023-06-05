@@ -13,6 +13,8 @@ namespace Engine
 
         virtual void AddRigidBody(RigidBody2D* rb) = 0;
         virtual void Update() = 0;
+        virtual void CleanAll() = 0;
+
     };
 
     class NullPhysicsService final : public IPhysicsService
@@ -23,6 +25,7 @@ namespace Engine
 
         virtual void AddRigidBody(RigidBody2D*) {};
         virtual void Update() {};
+        virtual void CleanAll() {};
     };
 }
 

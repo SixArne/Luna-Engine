@@ -1,5 +1,7 @@
 #include "PhysicsService.h"
 #include "Core/ECS/RigidBody2D.h"
+#include "Core/Log.h"
+#include <future>
 
 Engine::PhysicsService::PhysicsService()
 {
@@ -154,4 +156,19 @@ void Engine::PhysicsService::Update()
             }
         }
     }
+}
+
+void Engine::PhysicsService::CleanAll()
+{
+    L_DEBUG("Flushing physics service");
+
+    std::unique_lock<std::mutex> lock(m_PhysicsMutex);
+
+    for (auto& rb : m_RigidBodies)
+    {
+        rb->GetOwner()->MarkForDeletion();
+    }
+
+    m_Collisions.clear();
+    m_NewBodies.clear();
 }

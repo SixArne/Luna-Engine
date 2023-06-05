@@ -6,6 +6,7 @@
 #include "Components/Menu/OptionContainer.h"
 #include <Core/Services/ServiceLocator.h>
 #include <Core/Services/Sound/ISoundService.h>
+#include <Core/Log.h>
 
 Galaga::NavigateMenuCommand::NavigateMenuCommand(GameObject* gobj, NavigateMenuCommandType type) : Command{ gobj }, m_Type{ type }
 {
@@ -14,6 +15,8 @@ Galaga::NavigateMenuCommand::NavigateMenuCommand(GameObject* gobj, NavigateMenuC
 
 void Galaga::NavigateMenuCommand::Execute(InputData)
 {
+    L_DEBUG("Navigating menu");
+
     switch(m_Type)
     {
     case NavigateMenuCommandType::Next:

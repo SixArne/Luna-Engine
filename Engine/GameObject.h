@@ -56,6 +56,7 @@ namespace Engine
 		void SetActive(bool value);
 		bool IsActive() const;
 		bool IsMarkedForDeletion() const;
+		void MarkForDeletion();
 
 		GameObject* GetParent();
 		std::vector<std::shared_ptr<GameObject>>& GetChildren();

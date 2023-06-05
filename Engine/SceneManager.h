@@ -9,7 +9,7 @@ namespace Engine
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		Scene* CreateScene(const std::string& name);
 		Scene* GetScene(const std::string& name);
 		Scene* GetSceneByIndex(unsigned int index);
 		Scene* GetActiveScene();
@@ -23,7 +23,7 @@ namespace Engine
 		void Render();
 		void OnImGui();
 
-		void OnSceneSwitch(std::function<void()> callback);
+		void OnSceneSwitch(std::function<void(Scene* newScene, Scene* oldScene)> callback);
 
 	private:
 		void SwitchScene();
@@ -34,7 +34,7 @@ namespace Engine
 		Scene* m_ActiveScene = nullptr;
 		int m_ActiveSceneIndex = -1;
 
-		std::function<void()> m_OnSceneSwitch{[](){return;}};
+		std::function<void(Scene* newScene, Scene* oldScene)> m_OnSceneSwitch{[](Scene*, Scene*){return;}};
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 	};
 }

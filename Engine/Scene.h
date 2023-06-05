@@ -6,11 +6,12 @@ namespace Engine
 	class GameObject;
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
+		friend Scene* SceneManager::CreateScene(const std::string& name);
 	public:
 		explicit Scene(const std::string& name);
 		void Add(std::shared_ptr<GameObject> object, bool isPersistant = false);
 		void Remove(std::shared_ptr<GameObject> object);
+		void RemovePersistant(std::shared_ptr<GameObject> object);
 		void RemoveAll();
 		void ClearPersistantObjects();
 
@@ -21,6 +22,8 @@ namespace Engine
 		void Render() const;
 		void OnLoad();
 		void OnUnload();
+
+		void Reset();
 		virtual void OnImGui();
 
 		const std::string& GetName() const { return m_name; }
@@ -42,6 +45,7 @@ namespace Engine
 		std::vector<std::shared_ptr<GameObject>> m_objects{};
 		std::vector<std::shared_ptr<GameObject>> m_objectsToDestroy{};
 		std::vector<std::shared_ptr<GameObject>> m_PersistantObjects{};
+		std::vector<std::shared_ptr<GameObject>> m_PersistantObjectsToDestroy{};
 
 		bool m_IsInitialized{false};
 

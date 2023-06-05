@@ -24,6 +24,7 @@ namespace Galaga
         Engine::Scene& CreateLevel(Level& level);
         Engine::Scene& CreateMenu();
 
+        void CreateLevels();
         void OnSinglePlayer();
         void OnMultiPlayer();
         void OnVersus();
@@ -42,9 +43,10 @@ namespace Galaga
 
         int m_WindowWidth{};
         int m_WindowHeight{};
-        GameSettings m_GameSettings{};
 
-        std::shared_ptr<Engine::GameObject> m_Player{};
+        std::vector<Level> m_Levels{};
+        std::vector<std::shared_ptr<Engine::GameObject>> m_Players{};
+        GameSettings m_GameSettings{};
     };
 }
 

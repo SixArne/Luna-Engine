@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "GameObject.h"
+#include <future>
 
 using namespace Engine;
 
@@ -28,9 +29,9 @@ void Scene::Remove(std::shared_ptr<GameObject> object)
 	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
 }
 
-void Scene::RemoveAll()
+void Scene::RemovePersistant(std::shared_ptr<GameObject> object)
 {
-	m_objects.clear();
+	m_PersistantObjects.erase(std::remove(m_PersistantObjects.begin(), m_PersistantObjects.end(), object), m_PersistantObjects.end());
 }
 
 void Scene::Init()
@@ -111,7 +112,7 @@ void Engine::Scene::LateUpdate()
 		if (object->IsMarkedForDeletion() && object->CanBeDestroyed())
 		{
 			L_TRACE("[{}] Removed object: {}", m_name.c_str(), object->GetName());
-			m_objectsToDestroy.push_back(object);
+			m_PersistantObjectsToDestroy.push_back(object);
 
 			continue;
 		}
@@ -127,6 +128,12 @@ void Engine::Scene::LateUpdate()
 		Remove(object);
 	}
 
+	for (const auto& object : m_PersistantObjectsToDestroy)
+	{
+		RemovePersistant(object);
+	}
+
+	m_PersistantObjectsToDestroy.clear();
 	m_objectsToDestroy.clear();
 }
 
@@ -236,10 +243,88 @@ bool Engine::Scene::IsInitialized()
 
 void Engine::Scene::ClearPersistantObjects()
 {
+	for (auto& object: m_PersistantObjects)
+	{
+		object->MarkForDeletion();
+	}
+
+	auto cleanedUp = std::async(std::launch::async, [&] {
+		while (true)
+		{
+			bool isCleanedUp = true;
+
+			for (auto& object: m_PersistantObjects)
+			{
+				if (!object->CanBeDestroyed())
+				{
+					isCleanedUp = false;
+					break;
+				}
+			}
+
+			// As long as something isn't cleaned up, keep waiting
+			if (!isCleanedUp)
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+	});
+	cleanedUp.wait();
+
 	m_PersistantObjects.clear();
 }
+
+void Scene::RemoveAll()
+{
+	for (auto& object: m_objects)
+	{
+		object->MarkForDeletion();
+	}
+
+	auto cleanedUp = std::async(std::launch::async, [&] {
+		while (true)
+		{
+			bool isCleanedUp = true;
+
+			for (auto& object: m_objects)
+			{
+				if (!object->CanBeDestroyed())
+				{
+					isCleanedUp = false;
+					break;
+				}
+			}
+
+			// As long as something isn't cleaned up, keep waiting
+			if (!isCleanedUp)
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+	});
+	cleanedUp.wait();
+
+	m_objects.clear();
+}
+
 
 const std::vector<std::shared_ptr<GameObject>> Engine::Scene::GetPersistantObjects()
 {
 	return m_PersistantObjects;
+}
+
+void Engine::Scene::Reset()
+{
+	ClearPersistantObjects();
+	RemoveAll();
+
+	m_IsInitialized = false;
 }

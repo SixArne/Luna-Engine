@@ -292,3 +292,8 @@ void Engine::GameObject::AddTag(const std::string& tag)
 {
 	m_Tags.insert(std::string(tag));
 }
+
+void Engine::GameObject::MarkForDeletion()
+{
+	m_MarkedForDeletion = true;
+}

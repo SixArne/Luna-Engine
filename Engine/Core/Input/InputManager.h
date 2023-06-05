@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include "Core/Input/XboxController.h"
 #include "Core/Input/Keyboard.h"
+#include <unordered_map>
 
 namespace Engine
 {
@@ -23,10 +24,20 @@ namespace Engine
 		Release
 	};
 
-	class InputManager final : public Singleton<InputManager>
+	using ControllerInput = std::pair<XboxController::ControllerButton, InputState>;
+	using ControllerKey = std::pair<unsigned int, ControllerInput>;
+	using ControllerCommandsMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
+	using ControllerAxisCommandMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
+
+	using KeyboardInput = std::pair<SDL_Scancode, InputState>;
+	using KeyboardCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
+	using KeyboardAxisCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
+
+	class Schema
 	{
 	public:
-		bool ProcessInput();
+		Schema() = default;
+		~Schema() = default;
 
 		void AddAction(unsigned int controllerIndex, XboxController::ControllerButton button, InputState btnState, std::unique_ptr<Command> command);
 		void AddAction(SDL_Scancode key, InputState keyState, std::unique_ptr<Command> command);
@@ -34,8 +45,31 @@ namespace Engine
 		void AddAxisMapping(unsigned int controllerIndex, XboxController::ControllerAxis axis, std::unique_ptr<Command> command);
 		void AddAxisMapping(SDL_Scancode key, std::unique_ptr<Command> command);
 
+		void SetActive(bool value) {m_IsActive = value; }
+		bool IsActive() { return m_IsActive; }
+		void Clear();
+
+	private:
+		friend class InputManager;
+
+		ControllerCommandsMap m_ControllerCommands{};
+		ControllerAxisCommandMap m_ControllerAxisCommands{};
+		KeyboardCommandsMap m_KeyboardCommands{};
+		KeyboardAxisCommandsMap m_KeyboardAxisCommands{};
+
+		bool m_IsActive{true};
+	};
+
+	class InputManager final : public Singleton<InputManager>
+	{
+	public:
+		bool ProcessInput();
+
 		unsigned int AddController();
 		bool HasController(unsigned int controllerIdx);
+
+		Schema* GetSchema(const std::string& name);
+		Schema* AddSchema(const std::string& name);
 
 	private:
 		friend class Singleton<InputManager>;
@@ -45,19 +79,7 @@ namespace Engine
 		void HandleControllerInput();
 		void HandleKeyboardInput();
 
-		using ControllerInput = std::pair<XboxController::ControllerButton, InputState>;
-		using ControllerKey = std::pair<unsigned int, ControllerInput>;
-		using ControllerCommandsMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
-		using ControllerAxisCommandMap = std::map<ControllerKey, std::vector<std::unique_ptr<Command>>>;
-
-		using KeyboardInput = std::pair<SDL_Scancode, InputState>;
-		using KeyboardCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
-		using KeyboardAxisCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
-
-		ControllerCommandsMap m_ControllerCommands{};
-		ControllerAxisCommandMap m_ControllerAxisCommands{};
-		KeyboardCommandsMap m_KeyboardCommands{};
-		KeyboardAxisCommandsMap m_KeyboardAxisCommands{};
+		std::unordered_map<std::string, std::unique_ptr<Schema>> m_Schemas{};
 
 		std::vector<std::unique_ptr<XboxController>> m_Controllers{};
 		std::unique_ptr<Keyboard> m_Keyboard{ std::make_unique<Keyboard>() };

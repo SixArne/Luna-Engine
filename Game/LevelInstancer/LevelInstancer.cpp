@@ -36,57 +36,46 @@
 #include "Core/ECS/SpriteAnimator.h"
 #include <Core/ECS/RigidBody2D.h>
 #include <Core/Event/EventManager.h>
+#include <Core/Services/ServiceLocator.h>
+#include <Core/Services/Physics/PhysicsService.h>
 #include <Core/Log.h>
 
 void Galaga::LevelInstancer::Load(std::vector<Level>& levels, const GameSettings& gameSettings, std::tuple<int, int> windowSize)
 {
-	m_GameSettings = gameSettings;
-	m_WindowWidth = std::get<0>(windowSize);
-	m_WindowHeight = std::get<1>(windowSize);
-
 	using Engine::InputManager;
 	using Engine::InputState;
 
-	// player will be persistant throughout levels
-	m_Player = CreatePlayer();
+	m_GameSettings = gameSettings;
+	m_Levels = levels;
+	m_WindowWidth = std::get<0>(windowSize);
+	m_WindowHeight = std::get<1>(windowSize);
 
+	// Create menu, players and enemies are created on demand.
 	CreateMenu();
 
-	for (auto& level : levels)
+	bool controller1Exists = InputManager::GetInstance().HasController(0);
+	int controllerIdx{};
+
+	if (controller1Exists)
 	{
-		CreateLevel(level);
+		controllerIdx = 0;
+	}
+	else
+	{
+		controllerIdx = InputManager::GetInstance().AddController();
 	}
 
-	// scene 1 is first level, 0 is menu
-	Engine::SceneManager::GetInstance().GetSceneByIndex(1)->Add(m_Player, true);
+	auto debugSchema = InputManager::GetInstance().AddSchema("DEBUG_SCHEMA");
 
-	// Keyboard
-	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(m_Player.get(), glm::vec2(1.0f, 0.0f)));
-	InputManager::GetInstance().AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(m_Player.get(), glm::vec2(-1.0f, 0.0f)));
-	InputManager::GetInstance().AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(m_Player.get()));
-	InputManager::GetInstance().AddAction(SDL_SCANCODE_F11, InputState::Press, std::make_unique<Galaga::SwitchSceneCommand>(m_Player.get()));
-
-	// Controller
-	unsigned int controllerIdx = InputManager::GetInstance().AddController();
-	InputManager::GetInstance().AddAxisMapping(
-		controllerIdx,
-		Engine::XboxController::ControllerAxis::LeftThumb,
-		std::make_unique<Galaga::MoveCommand>(m_Player.get())
-	);
-
-	InputManager::GetInstance().AddAction(
-		controllerIdx,
-		Engine::XboxController::ControllerButton::ButtonA,
-		InputState::Press,
-		std::make_unique<Galaga::ShootCommand>(m_Player.get())
-	);
-
-	InputManager::GetInstance().AddAction(
+	// Scene switching logic
+	debugSchema->AddAction(
 		controllerIdx,
 		Engine::XboxController::ControllerButton::RightThumb,
 		InputState::Press,
-		std::make_unique<Galaga::SwitchSceneCommand>(m_Player.get())
+		std::make_unique<Galaga::SwitchSceneCommand>(nullptr)
 	);
+
+	debugSchema->AddAction(SDL_SCANCODE_F11, InputState::Press, std::make_unique<Galaga::SwitchSceneCommand>(nullptr));
 }
 
 Engine::Scene& Galaga::LevelInstancer::CreateMenu()
@@ -94,7 +83,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 	using Engine::InputManager;
 	using Engine::InputState;
 
-	Engine::Scene& scene = Engine::SceneManager::GetInstance().CreateScene("menu");
+	Engine::Scene* scene = Engine::SceneManager::GetInstance().CreateScene("menu");
 
 	const auto redColor = glm::ivec3{255, 0, 0};
 
@@ -175,9 +164,9 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 	menuContainer->AddOption(coopPlayerOption);
 	menuContainer->AddOption(vsPlayerOption);
 
-	scene.Add(galagaLogo);
-	scene.Add(hiScore);
-	scene.Add(menuContainerObject);
+	scene->Add(galagaLogo);
+	scene->Add(hiScore);
+	scene->Add(menuContainerObject);
 
 	// Setup menu input
 	auto moveUpCommand = std::make_unique<Galaga::NavigateMenuCommand>(
@@ -185,7 +174,9 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 		Galaga::NavigateMenuCommandType::Previous
 	);
 
-	InputManager::GetInstance().AddAction(
+	auto menuSchema = InputManager::GetInstance().AddSchema("MENU_SCHEMA");
+
+	menuSchema->AddAction(
 		SDL_SCANCODE_UP,
 		InputState::Press,
 		std::move(moveUpCommand)
@@ -196,7 +187,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 		Galaga::NavigateMenuCommandType::Next
 	);
 
-	InputManager::GetInstance().AddAction(
+	menuSchema->AddAction(
 		SDL_SCANCODE_DOWN,
 		InputState::Press,
 		std::move(moveDownCommand)
@@ -207,7 +198,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 		Galaga::NavigateMenuCommandType::Click
 	);
 
-	InputManager::GetInstance().AddAction(
+	menuSchema->AddAction(
 		SDL_SCANCODE_RETURN,
 		InputState::Press,
 		std::move(acceptCommand)
@@ -225,37 +216,46 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 		controllerIdx = InputManager::GetInstance().AddController();
 	}
 
-	InputManager::GetInstance().AddAction(
+	menuSchema->AddAction(
 		controllerIdx,
 		Engine::XboxController::ControllerButton::DPadUp,
 		InputState::Press,
 		std::make_unique<Galaga::NavigateMenuCommand>(menuContainerObject.get(), Galaga::NavigateMenuCommandType::Previous)
 	);
 
-	InputManager::GetInstance().AddAction(
+	menuSchema->AddAction(
 		controllerIdx,
 		Engine::XboxController::ControllerButton::DPadDown,
 		InputState::Press,
 		std::make_unique<Galaga::NavigateMenuCommand>(menuContainerObject.get(), Galaga::NavigateMenuCommandType::Next)
 	);
 
-	InputManager::GetInstance().AddAction(
+	menuSchema->AddAction(
 		controllerIdx,
 		Engine::XboxController::ControllerButton::ButtonA,
 		InputState::Press,
 		std::make_unique<Galaga::NavigateMenuCommand>(menuContainerObject.get(), Galaga::NavigateMenuCommandType::Click)
 	);
 
-	return scene;
+	return *scene;
 }
 
 Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
 {
-    Engine::Scene& scene = Engine::SceneManager::GetInstance().CreateScene(level.name);
+	auto scene = Engine::SceneManager::GetInstance().GetScene(level.name);
+	if (scene != nullptr)
+	{
+		//These 2 calls will block the main thread untill the physics has cleaned up everything.
+		scene->Reset();
+	}
+	else
+	{
+		scene = Engine::SceneManager::GetInstance().CreateScene(level.name);
+	}
 
-    scene.Add(CreateLivesHud());
-    scene.Add(CreateHighScoreHud());
-	scene.Add(CreateLevelName(level.name));
+    scene->Add(CreateLivesHud());
+    scene->Add(CreateHighScoreHud());
+	scene->Add(CreateLevelName(level.name));
 
     // TODO: oberver pattern
 
@@ -293,10 +293,10 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
         auto enemyRoot = CreateBeeEnemy(beeTextures);
         enemyRoot->GetTransform()->SetLocalPosition(glm::vec2{ 80.f + offset, 30.f });
 
-		scene.Add(enemyRoot);
+		scene->Add(enemyRoot);
     }
 
-	return scene;
+	return *scene;
 }
 
 std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreatePlayer()
@@ -411,19 +411,144 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(Enemy
 
 // }
 
+void Galaga::LevelInstancer::CreateLevels()
+{
+	for (auto& level : m_Levels)
+	{
+		CreateLevel(level);
+	}
+}
+
 void Galaga::LevelInstancer::OnSinglePlayer()
 {
 	L_DEBUG("Selected singleplayer ");
 
+	using Engine::InputManager;
+	using Engine::InputState;
+
+	// player will be persistant throughout l
+	m_Players.clear();
+	m_Players.emplace_back(CreatePlayer());
+
 	// setup single player here
 	// All level loading and creation should be moves here
+	CreateLevels();
+
+	auto playerOne = m_Players[0];
+	Engine::SceneManager::GetInstance().GetSceneByIndex(1)->Add(playerOne, true);
+
+	auto gameSchema = InputManager::GetInstance().GetSchema("GAME_SCHEMA");
+	if (gameSchema != nullptr) // This means that the level was already loaded
+	{
+		gameSchema->Clear();
+	}
+	else
+	{
+		gameSchema = InputManager::GetInstance().AddSchema("GAME_SCHEMA");
+	}
+
+	// Keyboard
+	gameSchema->AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerOne.get(), glm::vec2(1.0f, 0.0f)));
+	gameSchema->AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(playerOne.get(), glm::vec2(-1.0f, 0.0f)));
+	gameSchema->AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(playerOne.get()));
+
+	// Controller
+	bool controller1Exists = InputManager::GetInstance().HasController(0);
+	int controllerIdx{};
+
+	if (controller1Exists)
+	{
+		controllerIdx = 0;
+	}
+	else
+	{
+		controllerIdx = InputManager::GetInstance().AddController();
+	}
+
+	gameSchema->AddAxisMapping(
+		controllerIdx,
+		Engine::XboxController::ControllerAxis::LeftThumb,
+		std::make_unique<Galaga::MoveCommand>(playerOne.get())
+	);
+
+	gameSchema->AddAction(
+		controllerIdx,
+		Engine::XboxController::ControllerButton::ButtonA,
+		InputState::Press,
+		std::make_unique<Galaga::ShootCommand>(playerOne.get())
+	);
+
+	// Add player to scene
+	Engine::SceneManager::GetInstance().GetNextScene();
 }
 
 void Galaga::LevelInstancer::OnMultiPlayer()
 {
 	L_DEBUG("Selected multiplayer");
 
+	using Engine::InputManager;
+	using Engine::InputState;
+
+	m_Players.clear();
+	// player 0
+	m_Players.emplace_back(CreatePlayer());
+	// player 1
+	m_Players.emplace_back(CreatePlayer());
+
+	// TODO: Check if scene already exists and clear it if it does
+
+	CreateLevels();
 	// setup multiplayer here
+
+	auto playerOne = m_Players[0];
+	auto playerTwo = m_Players[1];
+
+	Engine::SceneManager::GetInstance().GetSceneByIndex(1)->Add(playerOne, true);
+	Engine::SceneManager::GetInstance().GetSceneByIndex(1)->Add(playerTwo, true);
+
+	auto gameSchema = InputManager::GetInstance().GetSchema("GAME_SCHEMA");
+	if (gameSchema != nullptr) // This means that the level was already loaded
+	{
+		gameSchema->Clear();
+	}
+	else
+	{
+		gameSchema = InputManager::GetInstance().AddSchema("GAME_SCHEMA");
+	}
+
+
+	// Keyboard
+	gameSchema->AddAxisMapping(SDL_SCANCODE_D, std::make_unique<Galaga::MoveCommand>(playerOne.get(), glm::vec2(1.0f, 0.0f)));
+	gameSchema->AddAxisMapping(SDL_SCANCODE_A, std::make_unique<Galaga::MoveCommand>(playerOne.get(), glm::vec2(-1.0f, 0.0f)));
+	gameSchema->AddAction(SDL_SCANCODE_SPACE, InputState::Press, std::make_unique<Galaga::ShootCommand>(playerOne.get()));
+
+	// Controller
+	bool controller1Exists = InputManager::GetInstance().HasController(0);
+	int controllerIdx{};
+
+	if (controller1Exists)
+	{
+		controllerIdx = 0;
+	}
+	else
+	{
+		controllerIdx = InputManager::GetInstance().AddController();
+	}
+
+	gameSchema->AddAxisMapping(
+		controllerIdx,
+		Engine::XboxController::ControllerAxis::LeftThumb,
+		std::make_unique<Galaga::MoveCommand>(playerTwo.get())
+	);
+
+	gameSchema->AddAction(
+		controllerIdx,
+		Engine::XboxController::ControllerButton::ButtonA,
+		InputState::Press,
+		std::make_unique<Galaga::ShootCommand>(playerTwo.get())
+	);
+
+	Engine::SceneManager::GetInstance().GetNextScene();
 }
 
 void Galaga::LevelInstancer::OnVersus()
