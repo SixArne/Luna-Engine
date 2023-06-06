@@ -14,9 +14,12 @@ concept ComponentType = std::is_base_of<Engine::Component, T>::value;
 namespace Engine
 {
 	class Texture2D;
+	class Scene;
 
 	class GameObject final
 	{
+		friend class Scene;
+
 	public:
 		void Init();
 		void Update();
@@ -71,9 +74,13 @@ namespace Engine
 		bool HasTag(const std::string& tag);
 		void AddTag(const std::string& tag);
 
+		const Scene* GetScene() const { return m_Scene; }
+
 		void Destroy();
 
 	private:
+		void SetScene(Scene* scene) { m_Scene = scene;}
+
 		void AddChild(std::shared_ptr<GameObject> child);
 		void RemoveChild(std::shared_ptr<GameObject> child);
 
@@ -84,6 +91,7 @@ namespace Engine
 		std::set<std::string> m_Tags{};
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		GameObject* m_Parent{};
+		Scene* m_Scene{};
 
 		bool m_RenderImGui{false};
 		bool m_IsActive{true};

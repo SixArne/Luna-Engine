@@ -10,9 +10,14 @@
 
 #include <Core/Log.h>
 #include <Core/Time.h>
+#include <Core/Event/EventManager.h>
+#include "Scene.h"
 
-Galaga::EnemyBug::EnemyBug(GameObject* object)
-    : Component{ object }
+
+#define EVENT(name, level) std::format("{}{}", name, level)
+
+Galaga::EnemyBug::EnemyBug(GameObject* object, glm::vec2 targetPosition)
+    : Component{ object }, m_TargetPosition{ targetPosition }
 {
     m_ProjectileTexture = Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/projectile.png");
 }
@@ -29,6 +34,8 @@ void Galaga::EnemyBug::Init()
                 animator->SetState("death");
                 auto ss = Engine::ServiceLocator::GetSoundService();
                 ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
+
+                Engine::EventManager::GetInstance().Notify(EVENT("BeeDiedDiving", GetOwner()->GetScene()->GetName()), nullptr);
             }
         });
 

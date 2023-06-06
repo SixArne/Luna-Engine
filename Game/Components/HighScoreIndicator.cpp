@@ -33,6 +33,7 @@ void Galaga::HighscoreIndicator::Init()
 
 void Galaga::HighscoreIndicator::Update()
 {
+	m_TextComponent->SetText(std::format("{}", m_Score));
 }
 
 void Galaga::HighscoreIndicator::Render()
@@ -42,5 +43,12 @@ void Galaga::HighscoreIndicator::Render()
 void Galaga::HighscoreIndicator::OnNotify(int data)
 {
 	auto currentHealthText = std::format("{} lives left", data);
+	m_TextComponent->SetText(currentHealthText);
+}
+
+void Galaga::HighscoreIndicator::IncreaseScore(int value)
+{
+	m_Score += value;
+	auto currentHealthText = std::format("{}", m_Score);
 	m_TextComponent->SetText(currentHealthText);
 }

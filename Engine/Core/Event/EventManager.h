@@ -18,9 +18,12 @@ namespace Engine
 		void DetachEvent(const std::string& name);
 		void Notify(const std::string& name, Event* pEvent);
 
+		void ClearEvents();
+
 	private:
+		friend class Singleton<EventManager>;
 		EventManager() = default;
-		std::unordered_map<const char*, std::function<void(Event*)>> m_Events;
+		std::unordered_map<std::string, std::function<void(Event*)>> m_Events;
 	};
 }
 

@@ -60,6 +60,10 @@ add_executable(Game
     LevelLoader/LevelLoader.cpp
     LevelInstancer/LevelInstancer.cpp
 
+    Util/Bezier.cpp
+    Util/BezierSpline.cpp
+    Util/Random.cpp
+
     # Input
     Input/DieCommand.cpp
     Input/MoveCommand.cpp
@@ -78,7 +82,7 @@ set_target_properties(Game PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CUR
 target_link_libraries(Game
     Engine
 )
- 
+
 set(GameIncludes
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${EngineCodeIncludeDir}

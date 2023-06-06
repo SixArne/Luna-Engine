@@ -16,10 +16,12 @@ void Scene::Add(std::shared_ptr<GameObject> object, bool isPersistant)
 {
 	if (!isPersistant)
 	{
+		object->SetScene(this);
 		m_objects.emplace_back(std::move(object));
 	}
 	else
 	{
+		object->SetScene(this);
 		m_PersistantObjects.emplace_back(std::move(object));
 	}
 }

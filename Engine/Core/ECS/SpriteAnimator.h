@@ -89,6 +89,7 @@ T* Engine::SpriteAnimator::AddState(const std::string& stateName)
     {
         m_CurrentState = m_States[stateName].get();
     }
+    m_CurrentState->OnStateEnter(this);
 
     L_TRACE("{} added to Animator for {}", stateName, GetOwner()->GetName());
 

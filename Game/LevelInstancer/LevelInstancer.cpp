@@ -39,6 +39,9 @@
 #include <Core/Services/ServiceLocator.h>
 #include <Core/Services/Physics/PhysicsService.h>
 #include <Core/Log.h>
+#include <Core/Event/EventManager.h>
+
+#define EVENT(name, level) std::format("{}{}", name, level)
 
 void Galaga::LevelInstancer::Load(std::vector<Level>& levels, const GameSettings& gameSettings, std::tuple<int, int> windowSize)
 {
@@ -254,7 +257,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
 	}
 
     scene->Add(CreateLivesHud());
-    scene->Add(CreateHighScoreHud());
+    scene->Add(CreateHighScoreHud(level.name));
 	scene->Add(CreateLevelName(level.name));
 
     // TODO: oberver pattern
@@ -290,8 +293,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
     {
         const float offset = (float)i * (float)level.bee.space_between;
 
-        auto enemyRoot = CreateBeeEnemy(beeTextures);
-        enemyRoot->GetTransform()->SetLocalPosition(glm::vec2{ 80.f + offset, 30.f });
+        auto enemyRoot = CreateBeeEnemy(beeTextures, glm::vec2{ 80.f + offset, 30.f });
 
 		scene->Add(enemyRoot);
     }
@@ -312,7 +314,8 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreatePlayer()
     return playerRoot;
 }
 
-std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateHighScoreHud()
+// [[maybe_unused]] required for macro
+std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateHighScoreHud([[maybe_unused]]const std::string& levelName)
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// HighScore
@@ -327,7 +330,17 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateHighScoreHud()
 
 	auto highscoreValue = std::make_shared<Engine::GameObject>("HighscoreValue", glm::vec2{ 0, 50 });
 	highscoreValue->AddComponent<Engine::TextComponent>("0");
-	/*auto highscoreIndicatorComp = */highscoreValue->AddComponent<Galaga::HighscoreIndicator>(0);
+	auto highscoreIndicatorComp = highscoreValue->AddComponent<Galaga::HighscoreIndicator>(10);
+
+
+
+	Engine::EventManager::GetInstance().AttachEvent(EVENT("BeeDiedDiving", levelName), [this, highscoreIndicatorComp](Engine::Event*) {
+		highscoreIndicatorComp->IncreaseScore(m_GameSettings.points.BEE_DIVING);
+	});
+
+	Engine::EventManager::GetInstance().AttachEvent(EVENT("BeeDiedDivingFormation", levelName), [this, highscoreIndicatorComp](Engine::Event*) {
+		highscoreIndicatorComp->IncreaseScore(m_GameSettings.points.BEE_IN_FORMATION);
+	});
 
     highscoreIndented->AttachChild(highscoreText, false);
 	highscoreIndented->AttachChild(highscoreValue, false);
@@ -378,13 +391,13 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateLevelName(cons
     return highscoreText;
 }
 
-std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(EnemyTextures& textureInfo)
+std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos)
 {
     auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 0, 0 });
     enemyRoot->AddComponent<Engine::TextureRenderer>("Resources/Sprites/zako/1.png");
     Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
     enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{30,24});
-    enemyRoot->AddComponent<Galaga::EnemyBug>();
+    enemyRoot->AddComponent<Galaga::EnemyBug>(targetPos);
 
     // Add animations
     animator->AddState<Galaga::FlyInState>("fly_in");

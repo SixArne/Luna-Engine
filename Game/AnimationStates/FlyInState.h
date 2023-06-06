@@ -3,6 +3,7 @@
 
 #include "Core/ECS/SpriteAnimator.h"
 #include "Texture2D.h"
+#include "Util/BezierSpline.h"
 
 namespace Galaga
 {
@@ -18,7 +19,9 @@ namespace Galaga
 
     private:
         float m_Timer{};
-        float m_Duration{ 2.0f };
+
+		Utils::BezierSpline m_Path;
+        float m_AnimationTime{3.f};
     };
 }
 

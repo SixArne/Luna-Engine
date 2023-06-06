@@ -4,6 +4,7 @@
 #include <Core/ECS/Component.h>
 #include <memory>
 #include <Texture2D.h>
+#include "Scene.h"
 
 namespace Galaga
 {
@@ -14,7 +15,7 @@ namespace Galaga
 	class EnemyBug final: public Component
 	{
 	public:
-		EnemyBug(GameObject* object);
+		EnemyBug(GameObject* object, glm::vec2 targetPosition);
 		virtual ~EnemyBug() = default;
 
 		EnemyBug(const EnemyBug& other) = delete;
@@ -26,10 +27,13 @@ namespace Galaga
 		virtual void Update() override;
 		virtual void Render() override;
 
+		glm::vec2 GetTargetPosition() const { return m_TargetPosition; }
+
 	private:
 		float m_ShootCooldown{0.3f};
 		float m_ShootCooldownTimer{};
 
+		glm::vec2 m_TargetPosition{};
 		std::shared_ptr<Texture2D> m_ProjectileTexture{};
 	};
 }

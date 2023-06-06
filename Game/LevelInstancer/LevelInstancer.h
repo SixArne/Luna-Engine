@@ -33,11 +33,11 @@ namespace Galaga
         using EnemyTextures = std::tuple<TexturesInfo, TexturesInfo, TexturesInfo>;
 
         std::shared_ptr<Engine::GameObject> CreatePlayer();
-        std::shared_ptr<Engine::GameObject> CreateHighScoreHud();
         std::shared_ptr<Engine::GameObject> CreateLivesHud();
+        std::shared_ptr<Engine::GameObject> CreateHighScoreHud(const std::string& levelName);
         std::shared_ptr<Engine::GameObject> CreateLevelName(const std::string& levelName);
 
-        std::shared_ptr<Engine::GameObject> CreateBeeEnemy(EnemyTextures& textureInfo);
+        std::shared_ptr<Engine::GameObject> CreateBeeEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos);
         // std::shared_ptr<Engine::GameObject> CreateButterflyEnemy(EnemyTextures& textureInfo);
         // std::shared_ptr<Engine::GameObject> CreateBossEnemy(EnemyTextures& textureInfo);
 

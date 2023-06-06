@@ -25,6 +25,8 @@ namespace Galaga
 
 		void OnNotify(int data) override;
 
+		void IncreaseScore(int value);
+
 	private:
 		TextComponent* m_TextComponent{};
         int m_Score{};

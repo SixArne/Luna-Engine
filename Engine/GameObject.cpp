@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "Scene.h"
 
 #include <ImGui.h>
 

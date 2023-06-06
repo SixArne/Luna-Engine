@@ -16,7 +16,7 @@
     "bee": {
         "row": 3,
         "row-span": 2,
-        "count": 7,
-        "space_between": 80
+        "count": 8,
+        "space_between": 35
     }
 }

@@ -6,6 +6,7 @@ namespace Engine
 	class GameObject;
 	class Scene final
 	{
+		friend class GameObject;
 		friend Scene* SceneManager::CreateScene(const std::string& name);
 	public:
 		explicit Scene(const std::string& name);
