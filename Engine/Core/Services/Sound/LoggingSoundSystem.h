@@ -12,6 +12,9 @@ namespace Engine
         ~LoggingSoundSystem();
 
         void Play(const std::string& soundName, const float volume) override;
+        void IncreaseVolume() override;
+        void DecreaseVolume() override;
+        void Mute() override;
 
     private:
         ISoundService* m_soundService;

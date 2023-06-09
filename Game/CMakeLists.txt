@@ -71,6 +71,7 @@ add_executable(Game
     Input/ShootCommand.cpp
     Input/Utils/SwitchSceneCommand.cpp
     Input/Utils/NavigateMenuCommand.cpp
+    Input/Utils/SoundVolumeCommand.cpp
 )
 
 if(MSVC)

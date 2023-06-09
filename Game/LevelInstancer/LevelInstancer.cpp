@@ -27,6 +27,7 @@
 #include "Input/ShootCommand.h"
 #include "Input/Utils/SwitchSceneCommand.h"
 #include "Input/Utils/NavigateMenuCommand.h"
+#include "Input/Utils/SoundVolumeCommand.h"
 
 #include <ResourceManager.h>
 #include <Core/Input/InputManager.h>
@@ -79,6 +80,25 @@ void Galaga::LevelInstancer::Load(std::vector<Level>& levels, const GameSettings
 	);
 
 	debugSchema->AddAction(SDL_SCANCODE_F11, InputState::Press, std::make_unique<Galaga::SwitchSceneCommand>(nullptr));
+
+	auto audioSchema = InputManager::GetInstance().AddSchema("AUDIO_SCHEMA");
+	audioSchema->AddAction(
+		controllerIdx,
+		Engine::XboxController::ControllerButton::ButtonX,
+		InputState::Press,
+		std::make_unique<Galaga::SoundVolumeCommand>(nullptr, Galaga::SoundVolumeCommand::Type::Mute)
+	);
+
+	auto muteAudioCommand = std::make_unique<Galaga::SoundVolumeCommand>(
+		nullptr,
+		Galaga::SoundVolumeCommand::Type::Mute
+	);
+
+	audioSchema->AddAction(
+		SDL_SCANCODE_M,
+		InputState::Press,
+		std::move(muteAudioCommand)
+	);
 }
 
 Engine::Scene& Galaga::LevelInstancer::CreateMenu()

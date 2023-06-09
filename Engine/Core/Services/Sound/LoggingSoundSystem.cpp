@@ -19,3 +19,21 @@ void Engine::LoggingSoundSystem::Play(const std::string& soundName, const float 
     L_INFO("Playing sound: {0} at volume: {1}", soundName, volume);
     m_soundService->Play(soundName, volume);
 }
+
+void Engine::LoggingSoundSystem::IncreaseVolume()
+{
+    L_INFO("Increasing volume");
+    m_soundService->IncreaseVolume();
+}
+
+void Engine::LoggingSoundSystem::DecreaseVolume()
+{
+    L_INFO("Decreasing volume");
+    m_soundService->DecreaseVolume();
+}
+
+void Engine::LoggingSoundSystem::Mute()
+{
+    L_INFO("Muting");
+    m_soundService->Mute();
+}

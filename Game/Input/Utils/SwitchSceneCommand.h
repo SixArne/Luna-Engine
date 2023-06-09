@@ -13,6 +13,7 @@ namespace Galaga
 	{
 	public:
 		SwitchSceneCommand(GameObject* gobj) : Command{ gobj } {};
+		virtual ~SwitchSceneCommand() = default;
 		// Inherited via Command
 		virtual void Execute(InputData data) override;
 	};

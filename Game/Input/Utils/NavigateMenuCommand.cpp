@@ -21,16 +21,16 @@ void Galaga::NavigateMenuCommand::Execute(InputData)
     {
     case NavigateMenuCommandType::Next:
         m_OptionContainer->Next();
-        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav", 0.5f);
+        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav");
         break;
 
     case NavigateMenuCommandType::Previous:
         m_OptionContainer->Previous();
-        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav", 0.5f);
+        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav");
         break;
 
     case NavigateMenuCommandType::Click:
-        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav", 0.5f);
+        Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/Menu/MenuNavigate.wav");
         m_OptionContainer->Click();
         break;
 

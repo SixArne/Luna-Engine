@@ -13,7 +13,10 @@ namespace Engine
         SDLSoundSystem(int channelCount = 8);
         ~SDLSoundSystem();
 
-        void Play(const std::string& soundName, const float volume) override;
+        void Play(const std::string& soundName, const float volume = 0.f) override;
+        void IncreaseVolume() override;
+        void DecreaseVolume() override;
+        void Mute() override;
 
     private:
         class SDLSoundSystemImpl; // Forward declaration of the implementation class

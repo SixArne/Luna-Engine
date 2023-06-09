@@ -20,6 +20,9 @@ namespace Engine
         ~SDLSoundSystemImpl();
 
         void Play(const std::string& soundName, const float volume);
+        void IncreaseVolume();
+        void DecreaseVolume();
+        void Mute();
         void Stop();
 
     private:
@@ -48,6 +51,12 @@ namespace Engine
         int m_channelCount;
 
         std::atomic<bool> m_stopRequested{ false };
+
+        // Volume
+        float m_Volume{0.5f};
+        float m_LastVolume{0.5f};
+
+        bool m_IsMuted{ false };
     };
 }
 
@@ -69,7 +78,15 @@ void Engine::SDLSoundSystem::SDLSoundSystemImpl::Play(const std::string& soundNa
 {
     {
         std::unique_lock<std::mutex> lock(m_queueMutex);
-        m_SoundQueue.push({ soundName, volume });
+
+        if (volume <= FLT_EPSILON)
+        {
+            m_SoundQueue.push({ soundName, m_Volume });
+        }
+        else
+        {
+            m_SoundQueue.push({ soundName, volume });
+        }
     }
     m_queueCondition.notify_one();
 }
@@ -79,6 +96,31 @@ void Engine::SDLSoundSystem::SDLSoundSystemImpl::Stop()
     m_stopRequested = true;
     m_queueCondition.notify_one();
     m_soundThread.join();
+}
+
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::IncreaseVolume()
+{
+    m_Volume = std::clamp(m_Volume + 0.05f, 0.f, 1.f);
+}
+
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::DecreaseVolume()
+{
+    m_Volume = std::clamp(m_Volume - 0.05f, 0.f, 1.f);
+}
+
+void Engine::SDLSoundSystem::SDLSoundSystemImpl::Mute()
+{
+    if (!m_IsMuted)
+    {
+        m_LastVolume = m_Volume;
+        m_Volume = 0.f;
+    }
+    else
+    {
+        m_Volume = m_LastVolume;
+    }
+
+    m_IsMuted = !m_IsMuted;
 }
 
 void Engine::SDLSoundSystem::SDLSoundSystemImpl::SoundThread()
@@ -166,8 +208,8 @@ void Engine::SDLSoundSystem::SDLSoundSystemImpl::SoundThread()
         }
         else
         {
-            int volume = static_cast<int>(MIX_MAX_VOLUME * request.volume);
-            Mix_VolumeMusic(volume);
+            int volume = static_cast<int>(MIX_MAX_VOLUME * m_Volume);
+            Mix_VolumeChunk(sound, volume);
 
             // Take the back channel and remove from list
             if (m_OpenChannels.empty())
@@ -213,7 +255,19 @@ void Engine::SDLSoundSystem::Stop()
     m_impl->Stop();
 }
 
+void Engine::SDLSoundSystem::IncreaseVolume()
+{
+    m_impl->IncreaseVolume();
+}
 
+void Engine::SDLSoundSystem::DecreaseVolume()
+{
+    m_impl->DecreaseVolume();
+}
 
+void Engine::SDLSoundSystem::Mute()
+{
+    m_impl->Mute();
+}
 
 

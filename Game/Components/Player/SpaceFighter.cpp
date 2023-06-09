@@ -68,7 +68,7 @@ void Galaga::SpaceFighter::Shoot()
     Engine::SceneManager::GetInstance().GetActiveScene()->Instantiate(projectile);
 
     auto ss = Engine::ServiceLocator::GetSoundService();
-    ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
+    ss->Play("Resources/Audio/shoot_short.wav");
 
     m_ShootCooldownTimer = 0.f;
 }

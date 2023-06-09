@@ -33,7 +33,7 @@ void Galaga::EnemyBug::Init()
             {
                 animator->SetState("death");
                 auto ss = Engine::ServiceLocator::GetSoundService();
-                ss->Play("Resources/Audio/shoot_short.wav", 0.5f);
+                ss->Play("Resources/Audio/shoot_short.wav");
 
                 Engine::EventManager::GetInstance().Notify(EVENT("BeeDiedDiving", GetOwner()->GetScene()->GetName()), nullptr);
             }
