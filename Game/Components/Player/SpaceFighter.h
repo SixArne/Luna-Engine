@@ -32,6 +32,8 @@ namespace Galaga
 		float m_ShootCooldown{0.01f};
 		float m_ShootCooldownTimer{};
 
+		int m_Lives{3};
+
 		std::shared_ptr<Texture2D> m_ProjectileTexture{};;
 	};
 }

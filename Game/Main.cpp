@@ -86,7 +86,7 @@ void load()
 		}
 		else
 		{
-			//Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/theme.wav", 0.5f);
+			Engine::ServiceLocator::GetSoundService()->Play("Resources/Audio/theme.wav");
 
 			// Enable game input schema and disable menu input schema
 			Engine::InputManager::GetInstance().GetSchema("GAME_SCHEMA")->SetActive(true);

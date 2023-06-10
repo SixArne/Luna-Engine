@@ -80,6 +80,41 @@ Engine::Scene* Engine::SceneManager::GetScene(const std::string& name)
 	return nullptr;
 }
 
+Engine::Scene* Engine::SceneManager::SwitchToScene(const std::string& name) 
+{
+	int index = 0;
+	for (const auto& scene : m_scenes)
+	{
+
+		if (scene->GetName() == name)
+		{
+			m_ActiveSceneIndex = index;
+
+			SwitchScene();
+
+			return scene.get();
+		}
+
+		index++;
+	}
+
+	return nullptr;
+}
+
+Engine::Scene* Engine::SceneManager::SwitchToScene(unsigned int index)
+{
+	if (index < m_scenes.size())
+	{
+		m_ActiveSceneIndex = index;
+
+		SwitchScene();
+
+		return m_scenes[index].get();
+	}
+
+	return nullptr;
+}
+
 Engine::Scene* Engine::SceneManager::GetActiveScene()
 {
 	return m_ActiveScene;

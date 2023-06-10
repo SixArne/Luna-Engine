@@ -19,6 +19,8 @@ namespace Engine
 		Scene* GetSceneByIndex(unsigned int index);
 		Scene* GetActiveScene();
 		Scene* GetNextScene();
+		Scene* SwitchToScene(const std::string& name);
+		Scene* SwitchToScene(unsigned int index);
 		Scene* GetPreviousScene();
 
 		void Init();

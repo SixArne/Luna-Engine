@@ -14,6 +14,8 @@
 #include <Core/Log.h>
 #include <Core/Time.h>
 
+#include <algorithm>
+
 Galaga::SpaceFighter::SpaceFighter(GameObject* object)
     : Component{ object }
 {
@@ -35,7 +37,7 @@ void Galaga::SpaceFighter::Init()
 
             if (other->GetOwner()->HasTag("enemy") && enemyComp->HasFinishedIntroFlight())
             {
-                L_DEBUG("Player hit");
+                m_Lives = std::clamp(m_Lives - 1, 0, 3);
             }
         });
 
@@ -53,6 +55,12 @@ void Galaga::SpaceFighter::Update()
     if (m_ShootCooldownTimer <= m_ShootCooldown)
     {
         m_ShootCooldownTimer += Engine::Time::GetInstance().GetDeltaTime();
+    }
+
+    if (m_Lives == 0)
+    {
+        GetOwner()->Destroy();
+        Engine::SceneManager::GetInstance().SwitchToScene("menu");
     }
 }
 
