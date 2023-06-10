@@ -47,6 +47,9 @@ namespace Engine
 		template<ComponentType T>
 		T* GetComponent();
 
+		template <ComponentType T>
+		T* GetComponentDerivedFrom();
+
 		template<ComponentType T>
 		std::vector<T*> GetComponents();
 
@@ -127,6 +130,27 @@ namespace Engine
 			return nullptr;
 		}
 	}
+
+	template <ComponentType T>
+	T* GameObject::GetComponentDerivedFrom()
+	{
+		for (auto& componentPair : m_Components)
+		{
+			for (auto& component : componentPair.second)
+			{
+				// Attempt a dynamic cast. If it succeeds, return the component
+				T* derivedComponent = dynamic_cast<T*>(component.get());
+				if (derivedComponent)
+				{
+					return derivedComponent;
+				}
+			}
+		}
+
+		// If no suitable component was found, return null
+		return nullptr;
+	}
+
 
 	template <ComponentType T>
 	std::vector<T*> GameObject::GetComponents()

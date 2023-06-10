@@ -5,6 +5,7 @@
 #include <Scene.h>
 #include "Components/Util/AutoKill.h"
 #include "Components/Player/Projectile.h"
+#include "Components/Enemy/BaseEnemy.h"
 #include <ResourceManager.h>
 
 #include <Core/Services/ServiceLocator.h>
@@ -23,8 +24,19 @@ void Galaga::SpaceFighter::Init()
 {
     auto rb = GetOwner()->GetComponent<Engine::RigidBody2D>();
 
-    rb->SetOnCollisionEnterCallback([this](Engine::RigidBody2D* )
+    rb->SetOnCollisionEnterCallback([this](Engine::RigidBody2D* other)
         {
+            auto enemyComp = other->GetOwner()->GetComponentDerivedFrom<Galaga::BaseEnemy>();
+
+            if (enemyComp == nullptr)
+            {
+                L_ERROR("Error when fetching baseEnemyComponent");
+            }
+
+            if (other->GetOwner()->HasTag("enemy") && enemyComp->HasFinishedIntroFlight())
+            {
+                L_DEBUG("Player hit");
+            }
         });
 
     rb->SetOnCollisionExitCallback([this](Engine::RigidBody2D* )
@@ -65,6 +77,7 @@ void Galaga::SpaceFighter::Shoot()
     projectile->AddTag("bullet");
 
     Engine::SceneManager::GetInstance().GetActiveScene()->Instantiate(projectile);
+    L_DEBUG("Adding bullet");
 
     auto ss = Engine::ServiceLocator::GetSoundService();
     ss->Play("Resources/Audio/shoot_short.wav");

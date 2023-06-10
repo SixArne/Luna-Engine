@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <atomic>
 #include <thread>
@@ -31,7 +32,7 @@ namespace Engine
 
         std::vector<RigidBody2D*> m_RigidBodies;
         std::vector<RigidBody2D*> m_NewBodies{};
-        std::vector<RigidBody2D*> m_BodiesToErase{};
+        std::unordered_set<RigidBody2D*> m_BodiesToErase{};
 
         std::mutex m_PhysicsMutex{};
         std::mutex m_AddNewBodiesMutex{};

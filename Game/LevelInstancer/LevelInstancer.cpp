@@ -15,6 +15,7 @@
 #include "Components/Menu/MenuOption.h"
 
 #include "AnimationStates/FlyInState.h"
+#include "AnimationStates/FlyBackState.h"
 #include "AnimationStates/AttackState.h"
 #include "AnimationStates/IdleState.h"
 #include "AnimationStates/DeathState.h"
@@ -53,6 +54,11 @@ void Galaga::LevelInstancer::Load(std::vector<Level>& levels, const GameSettings
 	m_Levels = levels;
 	m_WindowWidth = std::get<0>(windowSize);
 	m_WindowHeight = std::get<1>(windowSize);
+
+	m_PlayableAreaRangeX = { 50, m_WindowWidth - 100 };
+	m_PlayableAreaRangeY = { 0, m_WindowHeight };
+	m_MaxEnemiesInRow = 8;
+	m_RowHeight = 50;
 
 	// Create menu, players and enemies are created on demand.
 	CreateMenu();
@@ -285,16 +291,28 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // Bees
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    auto beeAttackTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
-	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
-	};
-
 	auto beeIdleTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
 	{
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/1.png"),
-		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/zako/2.png")
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bee/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/bee/2.png")
+	};
+
+	auto butterflyIdletextures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/butterfly/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/butterfly/2.png")
+	};
+
+	auto bossStage1textures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/boss/green/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/boss/green/2.png")
+	};
+
+	auto bossStage2textures = std::vector<std::shared_ptr<Engine::Texture2D>>
+	{
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/boss/purple/1.png"),
+		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/boss/purple/2.png")
 	};
 
 	auto enemyDeathTextures = std::vector<std::shared_ptr<Engine::Texture2D>>
@@ -306,17 +324,55 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
 		Engine::ResourceManager::GetInstance().LoadTexture("Resources/Sprites/enemy_death_sprites/5.png"),
 	};
 
-    EnemyTextures beeTextures = std::make_tuple(beeAttackTextures, beeIdleTextures, enemyDeathTextures);
+    EnemyTextures beeTextures = std::make_tuple(beeIdleTextures, beeIdleTextures, enemyDeathTextures);
+	EnemyTextures butterflyTextures = std::make_tuple(butterflyIdletextures, butterflyIdletextures, enemyDeathTextures);
+	EnemyTextures bossTextures = std::make_tuple(bossStage1textures, bossStage2textures, enemyDeathTextures);
 
     // bees
-    for (int i{}; i < level.bee.count; ++i)
-    {
-        const float offset = (float)i * (float)level.bee.space_between;
+	for (int r{0}; r < level.bee.row_span; ++r)
+	{
+		for (int c{}; c < m_MaxEnemiesInRow; ++c)
+		{
+			const float offset = (float)c * (float)level.bee.space_between;
 
-        auto enemyRoot = CreateBeeEnemy(beeTextures, glm::vec2{ 80.f + offset, 30.f });
+			const auto row = level.bee.row;
+			const auto yOffset = row * m_RowHeight + r * m_RowHeight;
 
-		scene->Add(enemyRoot);
-    }
+			auto enemyRoot = CreateBeeEnemy(beeTextures, glm::vec2{ 80.f + offset, yOffset });
+
+			scene->Add(enemyRoot);
+    	}
+	}
+
+	for (int r{0}; r < level.butterfly.row_span; ++r)
+	{
+		for (int c{}; c < m_MaxEnemiesInRow; ++c)
+		{
+			const float offset = (float)c * (float)level.bee.space_between;
+
+			const auto row = level.butterfly.row;
+			const auto yOffset = row * m_RowHeight + r * m_RowHeight;
+
+			auto enemyRoot = CreateButterflyEnemy(butterflyTextures, glm::vec2{ 80.f + offset, yOffset });
+
+			scene->Add(enemyRoot);
+		}
+	}
+
+	for (int r{0}; r < level.boss.row_span; ++r)
+	{
+		for (int c{}; c < m_MaxEnemiesInRow; ++c)
+		{
+			const float offset = (float)c * (float)level.bee.space_between;
+
+			const auto row = level.boss.row;
+			const auto yOffset = row * m_RowHeight + r * m_RowHeight;
+
+			auto enemyRoot = CreateBossEnemy(bossTextures, glm::vec2{ 80.f + offset, yOffset });
+
+			scene->Add(enemyRoot);
+		}
+	}
 
 	return *scene;
 }
@@ -414,10 +470,11 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateLevelName(cons
 std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos)
 {
     auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 0, 0 });
-    enemyRoot->AddComponent<Engine::TextureRenderer>("Resources/Sprites/zako/1.png");
+    enemyRoot->AddComponent<Engine::TextureRenderer>("Resources/Sprites/bee/1.png");
     Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
     enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{30,24});
     enemyRoot->AddComponent<Galaga::EnemyBug>(targetPos);
+	enemyRoot->AddTag("enemy");
 
     // Add animations
     animator->AddState<Galaga::FlyInState>("fly_in");
@@ -428,21 +485,68 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBeeEnemy(Enemy
     auto enemyIdle = animator->AddState<Galaga::IdleState>("idle");
     enemyIdle->SetTextures(std::get<1>(textureInfo));
 
+	auto enemyFlyBack = animator->AddState<Galaga::FlyBackState>("flyBack");
+    enemyFlyBack->SetTextures(std::get<1>(textureInfo));
+
     auto enemyDeath = animator->AddState<Galaga::DeathState>("death");
     enemyDeath->SetTextures(std::get<2>(textureInfo));
 
     return enemyRoot;
 }
 
-// std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateButterflyEnemy(EnemyTextures& textureInfo)
-// {
+std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateButterflyEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos)
+{
+	auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 0, 0 });
+    enemyRoot->AddComponent<Engine::TextureRenderer>("Resources/Sprites/butterfly/1.png");
+    Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
+    enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{30,24});
+    enemyRoot->AddComponent<Galaga::EnemyBug>(targetPos);
+	enemyRoot->AddTag("enemy");
 
-// }
+    // Add animations
+    animator->AddState<Galaga::FlyInState>("fly_in");
 
-// std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBossEnemy(EnemyTextures& textureInfo)
-// {
+    auto enemyAttack = animator->AddState<Galaga::AttackState>("attack");
+    enemyAttack->SetTextures(std::get<0>(textureInfo));
 
-// }
+    auto enemyIdle = animator->AddState<Galaga::IdleState>("idle");
+    enemyIdle->SetTextures(std::get<1>(textureInfo));
+
+	auto enemyFlyBack = animator->AddState<Galaga::FlyBackState>("flyBack");
+    enemyFlyBack->SetTextures(std::get<1>(textureInfo));
+
+    auto enemyDeath = animator->AddState<Galaga::DeathState>("death");
+    enemyDeath->SetTextures(std::get<2>(textureInfo));
+
+    return enemyRoot;
+}
+
+std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateBossEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos)
+{
+	auto enemyRoot = std::make_shared<Engine::GameObject>("EnemyRoot", glm::vec2{ 0, 0 });
+    enemyRoot->AddComponent<Engine::TextureRenderer>("Resources/Sprites/boss/green/1.png");
+    Engine::SpriteAnimator* animator = enemyRoot->AddComponent<Engine::SpriteAnimator>();
+    enemyRoot->AddComponent<Engine::RigidBody2D>(Engine::RigidBody2DCollider{30,24});
+    enemyRoot->AddComponent<Galaga::EnemyBug>(targetPos);
+	enemyRoot->AddTag("enemy");
+
+    // Add animations
+    animator->AddState<Galaga::FlyInState>("fly_in");
+
+    auto enemyAttack = animator->AddState<Galaga::AttackState>("attack");
+    enemyAttack->SetTextures(std::get<0>(textureInfo));
+
+    auto enemyIdle = animator->AddState<Galaga::IdleState>("idle");
+    enemyIdle->SetTextures(std::get<1>(textureInfo));
+
+	auto enemyFlyBack = animator->AddState<Galaga::FlyBackState>("flyBack");
+    enemyFlyBack->SetTextures(std::get<1>(textureInfo));
+
+    auto enemyDeath = animator->AddState<Galaga::DeathState>("death");
+    enemyDeath->SetTextures(std::get<2>(textureInfo));
+
+    return enemyRoot;
+}
 
 void Galaga::LevelInstancer::CreateLevels()
 {

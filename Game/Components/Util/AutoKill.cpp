@@ -24,3 +24,8 @@ void Galaga::AutoKill::Update()
 void Galaga::AutoKill::Render()
 {
 }
+
+void Galaga::AutoKill::Kill()
+{
+    GetOwner()->Destroy();
+}

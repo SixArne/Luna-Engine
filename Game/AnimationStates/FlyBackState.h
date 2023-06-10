@@ -1,5 +1,5 @@
-#ifndef ATTACK_STATE_H
-#define ATTACK_STATE_H
+#ifndef FLY_BACK_STATE_H
+#define FLY_BACK_STATE_H
 
 #include "Core/ECS/SpriteAnimator.h"
 #include "Texture2D.h"
@@ -8,11 +8,11 @@
 
 namespace Galaga
 {
-    class AttackState final : public Engine::AbstractState
+    class FlyBackState final : public Engine::AbstractState
     {
     public:
-        AttackState() {};
-        ~AttackState() {};
+        FlyBackState() {};
+        ~FlyBackState() {};
 
         virtual void OnStateEnter( Engine::SpriteAnimator* spriteAnimator) override;
         virtual void OnStateUpdate( Engine::SpriteAnimator* spriteAnimator) override;
@@ -20,12 +20,11 @@ namespace Galaga
 
     private:
         float m_Timer{};
-        float m_AnimationTime{ 2.0f };
-		Utils::BezierSpline m_Path{};
 
         EnemyBug* m_EnemyBug{};
 
-        glm::vec2 m_StartPosition{};
+		Utils::BezierSpline m_Path;
+        float m_AnimationTime{3.f};
     };
 }
 

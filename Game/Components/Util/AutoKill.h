@@ -23,6 +23,8 @@ namespace Galaga
 		virtual void Update() override;
 		virtual void Render() override;
 
+		void Kill();
+
     private:
         float m_Lifetime{};
         float m_TimeAlive{};

@@ -38,11 +38,16 @@ namespace Galaga
         std::shared_ptr<Engine::GameObject> CreateLevelName(const std::string& levelName);
 
         std::shared_ptr<Engine::GameObject> CreateBeeEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos);
-        // std::shared_ptr<Engine::GameObject> CreateButterflyEnemy(EnemyTextures& textureInfo);
-        // std::shared_ptr<Engine::GameObject> CreateBossEnemy(EnemyTextures& textureInfo);
+        std::shared_ptr<Engine::GameObject> CreateButterflyEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos);
+        std::shared_ptr<Engine::GameObject> CreateBossEnemy(EnemyTextures& textureInfo, glm::vec2 targetPos);
 
         int m_WindowWidth{};
         int m_WindowHeight{};
+
+        glm::vec2 m_PlayableAreaRangeX{};
+        int m_MaxEnemiesInRow{};
+        float m_RowHeight{};
+        glm::vec2 m_PlayableAreaRangeY{};
 
         std::vector<Level> m_Levels{};
         std::vector<std::shared_ptr<Engine::GameObject>> m_Players{};

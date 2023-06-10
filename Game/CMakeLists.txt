@@ -46,6 +46,7 @@ add_executable(Game
     Components/HighScoreIndicator.cpp
     Components/Player/SpaceFighter.cpp
     Components/Player/Projectile.cpp
+    Components/Enemy/BaseEnemy.cpp
     Components/Enemy/EnemyBug.cpp
     Components/Util/AutoKill.cpp
 
@@ -53,6 +54,7 @@ add_executable(Game
     Components/Menu/OptionContainer.cpp
 
     AnimationStates/FlyInState.cpp
+    AnimationStates/FlyBackState.cpp
     AnimationStates/AttackState.cpp
     AnimationStates/DeathState.cpp
     AnimationStates/IdleState.cpp

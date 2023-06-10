@@ -1,10 +1,13 @@
 #include "IdleState.h"
 #include <Core/Time.h>
 #include <Core/Log.h>
+#include "Util/Random.h"
 
 void Galaga::IdleState::OnStateEnter( Engine::SpriteAnimator* /*spriteAnimator*/)
 {
     L_DEBUG("IdleState::OnStateEnter");
+
+    m_Duration = Utils::Random::GetInstance().GetRandomFloat(5.f, 10.f);
 }
 
 void Galaga::IdleState::OnStateUpdate( Engine::SpriteAnimator* spriteAnimator)

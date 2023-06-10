@@ -41,8 +41,10 @@ void Galaga::FlyInState::OnStateUpdate( Engine::SpriteAnimator* spriteAnimator)
     }
 }
 
-void Galaga::FlyInState::OnStateExit( Engine::SpriteAnimator* /*spriteAnimator*/)
+void Galaga::FlyInState::OnStateExit( Engine::SpriteAnimator* spriteAnimator)
 {
     L_DEBUG("FlyInState::OnStateExit");
+    spriteAnimator->GetOwner()->GetComponent<Galaga::EnemyBug>()->SetHasFinishedIntroFlight(true);
+
     m_Timer = 0.0f;
 }

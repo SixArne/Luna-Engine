@@ -2,13 +2,13 @@
     "name": "lvl_0",
     "rows": 5,
     "boss": {
-        "row": 1,
+        "row": 0,
         "row-span": 1,
         "count": 1,
         "space_between": 10
     },
     "butterfly": {
-        "row": 2,
+        "row": 1,
         "row-span": 2,
         "count": 10,
         "space_between": 10

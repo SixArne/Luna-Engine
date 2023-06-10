@@ -49,6 +49,7 @@ void Engine::PhysicsService::PhysicsLoop()
             // Remove bodies
             for (auto& rb : m_BodiesToErase)
             {
+                L_DEBUG("cleaning up")
                 m_RigidBodies.erase(std::remove(m_RigidBodies.begin(), m_RigidBodies.end(), rb), m_RigidBodies.end());
 
                 // Delete from m_Collisions
@@ -83,22 +84,33 @@ void Engine::PhysicsService::Stop()
 
 void Engine::PhysicsService::Update()
 {
+    m_BodiesToErase.clear();
+
     for (size_t mainRigidBodyID{}; mainRigidBodyID < m_RigidBodies.size(); ++mainRigidBodyID)
     {
+        RigidBody2D* rb = m_RigidBodies[mainRigidBodyID];
+
+        if (rb->GetOwner()->IsMarkedForDeletion() && !m_BodiesToErase.contains(rb))
+        {
+            m_BodiesToErase.insert(rb);
+            continue;
+        }
+
         for (size_t otherRigidBodyID{}; otherRigidBodyID < m_RigidBodies.size(); ++otherRigidBodyID)
         {
+            RigidBody2D* other = m_RigidBodies[otherRigidBodyID];
+
+            if (other->GetOwner()->IsMarkedForDeletion() && !m_BodiesToErase.contains(other))
+            {
+                m_BodiesToErase.insert(other);
+                continue;
+            }
+
             // FIX THIS LATER BY USING A POOL OF RIGID BODIES AND SETTING THE ISENABLED FLAG
             if (mainRigidBodyID >= m_RigidBodies.size() || otherRigidBodyID >= m_RigidBodies.size())
                 continue;
 
-            RigidBody2D* rb = m_RigidBodies[mainRigidBodyID];
-            RigidBody2D* other = m_RigidBodies[otherRigidBodyID];
-
-            if (rb->GetOwner()->IsMarkedForDeletion())
-            {
-                m_BodiesToErase.push_back(rb);
-                continue;
-            }
+            
 
              // self ignore
             if (rb == other)
