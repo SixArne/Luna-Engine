@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ENGINE_SINGLETON_H
+#define ENGINE_SINGLETON_H
+
 namespace Engine
 {
 	template <typename T>
@@ -21,3 +23,5 @@ namespace Engine
 		Singleton() = default;
 	};
 }
+
+#endif // !ENGINE_SINGLETON_H

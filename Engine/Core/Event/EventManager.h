@@ -1,8 +1,11 @@
 #ifndef EVENT_MANAGER_H
 #define EVENT_MANAGER_H
 
-#include "pch.h"
 #include "Singleton.h"
+
+#include <unordered_map>
+#include <string>
+#include <functional>
 
 namespace Engine
 {

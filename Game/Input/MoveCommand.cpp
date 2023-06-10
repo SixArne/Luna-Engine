@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "MoveCommand.h"
 
 #include <Core/Input/Command.h>

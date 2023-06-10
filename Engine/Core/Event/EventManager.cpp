@@ -1,5 +1,8 @@
-#include "pch.h"
 #include "EventManager.h"
+
+#include <functional>
+#include <string>
+#include <unordered_map>
 
 void Engine::EventManager::AttachEvent(const std::string& name, std::function<void(Event*)> pEvent)
 {

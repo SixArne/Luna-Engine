@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "SpaceFighter.h"
 #include <SceneManager.h>
 #include <Core/ECS/TextureRenderer.h>

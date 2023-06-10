@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Time.h"
 
 void Engine::Time::Update(float deltaTime)

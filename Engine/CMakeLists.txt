@@ -19,7 +19,6 @@ set(EngineSourceFiles
   Scene.cpp
   ResourceManager.cpp
   Renderer.cpp
-  pch.cpp
   GameObject.cpp
   Font.cpp
   Engine.cpp
@@ -55,7 +54,7 @@ add_library(Engine STATIC
 
 # set target settings
 target_compile_features(Engine PUBLIC cxx_std_20)
-target_compile_definitions(Engine PUBLIC SDL_MAIN_HANDLED)
+target_compile_definitions(Engine PUBLIC SDL_MAIN_HANDLED WIN32_LEAN_AND_MEAN NOMINMAX)
 target_compile_options(Engine PRIVATE /W4 /WX)
 if(MSVC)
  target_compile_options(Engine PRIVATE "/MP")

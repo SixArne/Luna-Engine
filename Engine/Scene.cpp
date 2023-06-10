@@ -1,8 +1,9 @@
-#include "pch.h"
-
 #include "Scene.h"
 #include "GameObject.h"
+#include <string>
 #include <future>
+
+#include "Core/Log.h"
 
 using namespace Engine;
 

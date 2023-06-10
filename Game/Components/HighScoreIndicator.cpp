@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "HighScoreIndicator.h"
 
 #include <GameObject.h>

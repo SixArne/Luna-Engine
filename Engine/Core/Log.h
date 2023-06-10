@@ -1,7 +1,6 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "pch.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>

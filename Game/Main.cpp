@@ -27,8 +27,25 @@
 
 #include "ResourceManager.h"
 
+#include <iostream>
+
 void load()
 {
+	std::cout << "----------------- Controls -----------------\n";
+	std::cout << "----------------- Menu -----------------\n";
+	std::cout << "Up/Down: [Arrow keys]\n";
+	std::cout << "Select: [Enter]\n";
+	std::cout << "----------------- Game -----------------\n";
+	std::cout << "player 0:\n";
+	std::cout << "Move: [A D]\n";
+	std::cout << "Shoot: [Space]\n";
+	std::cout << "player 1:\n";
+	std::cout << "Move: [DPAD]\n";
+	std::cout << "Shoot: [A]\n";
+	std::cout << "----------------- Debug -----------------\n";
+	std::cout << "Toggle scenes: [F11]\n";
+	std::cout << "Mute audio: [M]\n" << std::endl;
+
 	constexpr auto windowWidth = 640;
 	constexpr auto windowHeight = 480;
 

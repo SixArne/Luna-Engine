@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "HealthComponent.h"
 
 Galaga::HealthComponent::HealthComponent(GameObject* gameobject)

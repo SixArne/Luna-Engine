@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ENGINE_RENDERER_H
+#define ENGINE_RENDERER_H
+
 #include <SDL.h>
 #include "Singleton.h"
 
@@ -13,7 +15,7 @@ namespace Engine
 	{
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
-		SDL_Color m_clearColor{};	
+		SDL_Color m_clearColor{};
 	public:
 		void Init(SDL_Window* window);
 		void Render() const;
@@ -30,3 +32,4 @@ namespace Engine
 	};
 }
 
+#endif // !ENGINE_RENDERER_H

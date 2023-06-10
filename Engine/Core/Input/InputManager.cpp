@@ -1,14 +1,14 @@
-#include "pch.h"
+#include <variant>
+#include <string>
 
 #include <SDL.h>
-#include <variant>
 #include <glm/glm.hpp>
 
 #include "InputManager.h"
 #include <backends/imgui_impl_sdl2.h>
-#include <Xinput.h>
 #include "Core/Input/XboxController.h"
 #include "Core/Input/Command.h"
+#include "Core/Log.h"
 
 bool Engine::InputManager::ProcessInput()
 {

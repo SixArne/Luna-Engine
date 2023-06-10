@@ -1,4 +1,3 @@
-#include "pch.h"
 
 #include "SoundVolumeCommand.h"
 #include <Core/Services/ServiceLocator.h>

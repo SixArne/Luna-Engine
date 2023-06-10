@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "TextComponent.h"
 #include <SDL_ttf.h>
 
@@ -8,6 +7,7 @@
 #include "Texture2D.h"
 #include "TransformComponent.h"
 #include "ResourceManager.h"
+#include "Core/Log.h"
 
 Engine::TextComponent::TextComponent(GameObject* object)
 	: Component{object}, m_Font{Engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)}

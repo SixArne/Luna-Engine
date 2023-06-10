@@ -1,7 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "pch.h"
+#include <functional>
+#include <string>
 
 namespace Engine
 {

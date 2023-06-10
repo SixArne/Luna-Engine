@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "PointCommand.h"
 #include <GameObject.h>
 #include "Components/PointComponent.h"

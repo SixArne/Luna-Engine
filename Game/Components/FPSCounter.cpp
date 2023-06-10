@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "FPSCounter.h"
 
 #include "GameObject.h"

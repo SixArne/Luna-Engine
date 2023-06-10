@@ -2,8 +2,9 @@
 #define INPUT_MANAGER_H
 
 #include <variant>
+#include <map>
+#include <string>
 #include "Singleton.h"
-#include <Xinput.h>
 #include <SDL.h>
 #include <memory>
 #include <glm/glm.hpp>

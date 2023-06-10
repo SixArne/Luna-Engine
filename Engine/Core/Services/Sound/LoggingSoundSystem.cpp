@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "LoggingSoundSystem.h"
 #include <Core/Log.h>
 

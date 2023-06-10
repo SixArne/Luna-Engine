@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ENGINE_FONT_H
+#define ENGINE_FONT_H
+
 #include <string>
 
 struct _TTF_Font;
@@ -23,3 +25,5 @@ namespace Engine
 		unsigned int m_size;
 	};
 }
+
+#endif // !ENGINE_FONT_H

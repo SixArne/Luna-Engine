@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "EnemyBug.h"
 #include <Core/ECS/TextureRenderer.h>
 #include <GameObject.h>

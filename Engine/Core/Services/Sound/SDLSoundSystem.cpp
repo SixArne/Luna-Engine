@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include "SDLSoundSystem.h"
 #include <SDL_mixer.h>
 #include <thread>
@@ -10,6 +8,7 @@
 #include <filesystem>
 #include <atomic>
 #include <ResourceManager.h>
+#include "Core/Log.h"
 
 namespace Engine
 {

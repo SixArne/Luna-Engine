@@ -1,5 +1,6 @@
 #include "IdleState.h"
 #include <Core/Time.h>
+#include <Core/Log.h>
 
 void Galaga::IdleState::OnStateEnter( Engine::SpriteAnimator* /*spriteAnimator*/)
 {

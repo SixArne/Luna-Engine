@@ -1,9 +1,16 @@
-#pragma once
+#ifndef ENGINE_SCENE_H
+#define ENGINE_SCENE_H
+
 #include "SceneManager.h"
+#include <vector>
+#include <string>
+#include <memory>
+
 
 namespace Engine
 {
 	class GameObject;
+
 	class Scene final
 	{
 		friend class GameObject;
@@ -54,3 +61,5 @@ namespace Engine
 	};
 
 }
+
+#endif // !ENGINE_SCENE_H

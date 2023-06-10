@@ -1,4 +1,5 @@
-#include "pch.h"
+#include <string>
+#include <memory>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>

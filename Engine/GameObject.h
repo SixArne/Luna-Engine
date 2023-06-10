@@ -1,11 +1,17 @@
-#pragma once
+#ifndef ENGINE_GAME_OBJECT_H
+#define ENGINE_GAME_OBJECT_H
 
-
-#include "pch.h"
 #include "Core/ECS/Component.h"
 #include "Core/ECS/TransformComponent.h"
+#include "Core/Log.h"
 
 #include <set>
+#include <unordered_map>
+#include <typeinfo>
+#include <typeindex>
+#include <vector>
+#include <memory>
+#include <string>
 
 // Component only guard
 template<typename T>
@@ -201,3 +207,5 @@ namespace Engine
 		return component;
 	}
 }
+
+#endif // !GAMEOBJECT_H

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "DieCommand.h"
 #include "Components/HealthComponent.h"
 #include <GameObject.h>

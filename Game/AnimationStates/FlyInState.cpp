@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Components/Enemy/EnemyBug.h"
 #include "Util/Random.h"
+#include <Core/Log.h>
 
 void Galaga::FlyInState::OnStateEnter( Engine::SpriteAnimator* spriteAnimator)
 {

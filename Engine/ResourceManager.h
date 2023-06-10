@@ -1,6 +1,6 @@
-#pragma once
+#ifndef ENGINE_RESOURCEMANAGER_H
+#define ENGINE_RESOURCEMANAGER_H
 
-#include "pch.h"
 #include "Singleton.h"
 
 namespace Engine
@@ -21,3 +21,5 @@ namespace Engine
 		std::string m_dataPath;
 	};
 }
+
+#endif // !ENGINE_RESOURCEMANAGER_H

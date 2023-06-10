@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "PointComponent.h"
 
 Galaga::PointComponent::PointComponent(GameObject* gameobject)

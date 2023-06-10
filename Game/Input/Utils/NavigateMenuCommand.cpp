@@ -1,4 +1,3 @@
-#include "pch.h"
 
 #include "NavigateMenuCommand.h"
 #include <GameObject.h>

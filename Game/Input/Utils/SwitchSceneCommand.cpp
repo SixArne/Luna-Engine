@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "SwitchSceneCommand.h"
 
 #include <GameObject.h>

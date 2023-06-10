@@ -1,6 +1,11 @@
 #ifndef SPRITE_ANIMATOR_H
 #define SPRITE_ANIMATOR_H
 
+#include <memory>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 #include "Core/ECS/Component.h"
 #include "Texture2D.h"
 

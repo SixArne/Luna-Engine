@@ -1,8 +1,9 @@
-#include "pch.h"
-
+#include <windows.h>
 #include <Xinput.h>
 #include "XboxController.h"
 #include "InputManager.h"
+
+
 
 #define THUMB_MAX 32767.0f
 

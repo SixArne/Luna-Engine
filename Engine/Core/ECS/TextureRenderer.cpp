@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include <SDL.h>
 
 #include "Texture2D.h"
@@ -8,6 +6,9 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "Core/Log.h"
+#include <string>
+#include <memory>
 
 #include <ImGui.h>
 

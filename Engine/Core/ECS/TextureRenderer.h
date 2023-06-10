@@ -1,6 +1,9 @@
 #ifndef TEXTURE_RENDERER_H
 #define TEXTURE_RENDERER_H
 
+#include <string>
+#include <memory>
+
 #include <SDL.h>
 #include <glm/vec2.hpp>
 

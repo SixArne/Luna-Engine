@@ -1,7 +1,12 @@
-#pragma once
+#ifndef ENGINE_SCENEMANAGER_H
+#define ENGINE_SCENEMANAGER_H
 
-#include "pch.h"
 #include "Singleton.h"
+
+#include <functional>
+#include <vector>
+#include <string>
+#include <memory>
 
 namespace Engine
 {
@@ -38,3 +43,5 @@ namespace Engine
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 	};
 }
+
+#endif // !ENGINE_SCENEMANAGER_H

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "LivesIndicator.h"
 
 #include <GameObject.h>

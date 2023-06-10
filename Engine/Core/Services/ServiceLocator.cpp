@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "ServiceLocator.h"
 #include "Sound/ISoundService.h"
 

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "AutoKill.h"
 
 #include <GameObject.h>

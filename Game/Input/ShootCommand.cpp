@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "ShootCommand.h"
 
 #include <GameObject.h>

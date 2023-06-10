@@ -1,6 +1,9 @@
 #ifndef TEXT_COMPONENT_H
 #define TEXT_COMPONENT_H
 
+#include <string>
+#include <memory>
+
 #include "Core/ECS/Component.h"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>

@@ -13,7 +13,7 @@ namespace Engine
 		TransformComponent(GameObject* object);
 		TransformComponent(GameObject* object, glm::vec2 position);
 		TransformComponent(GameObject* object, glm::vec2 position, float rotation);
-		
+
 		virtual ~TransformComponent() = default;
 
 		TransformComponent(const TransformComponent& other) = delete;
@@ -33,7 +33,7 @@ namespace Engine
 		// adders
 		void AddLocalPosition(const glm::vec2& offset);
 		void AddLocalRotation(const float offset);
-		
+
 		// setters
 		void SetLocalPosition(const glm::vec2& pos);
 		void SetLocalRotation(const float angle);

@@ -1,5 +1,6 @@
 #include "DeathState.h"
 #include <Core/Time.h>
+#include <Core/Log.h>
 
 void Galaga::DeathState::OnStateEnter( Engine::SpriteAnimator* /*spriteAnimator*/)
 {

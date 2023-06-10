@@ -1,7 +1,8 @@
 #ifndef SUBJECT_H
 #define SUBJECT_H
 
-#include "pch.h"
+#include <vector>
+
 #include "Core/Event/IObserver.h"
 
 

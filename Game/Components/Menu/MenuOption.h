@@ -1,6 +1,10 @@
 #ifndef GALAGA_MENU_OPTION_H
 #define GALAGA_MENU_OPTION_H
 
+#include <string>
+#include <memory>
+#include <functional>
+
 #include <Core/ECS/Component.h>
 #include <Texture2D.h>
 
