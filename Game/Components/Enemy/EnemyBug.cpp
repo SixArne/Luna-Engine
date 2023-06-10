@@ -30,6 +30,8 @@ void Galaga::EnemyBug::Init()
 
     rb->SetOnCollisionEnterCallback([this, animator](Engine::RigidBody2D* other)
         {
+            if (m_IsDead) return;
+
             if (other->GetOwner()->HasTag("bullet"))
             {
                 animator->SetState("death");
@@ -40,8 +42,8 @@ void Galaga::EnemyBug::Init()
                 other->GetOwner()->Destroy();
                 L_DEBUG("Bullet hit");
 
-                // Destroy enemy
-                this->GetOwner()->Destroy();
+
+                m_IsDead = true;
 
                 Engine::EventManager::GetInstance().Notify(EVENT("BeeDiedDiving", GetOwner()->GetScene()->GetName()), nullptr);
             }

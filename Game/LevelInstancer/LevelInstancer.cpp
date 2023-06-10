@@ -282,7 +282,18 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
 		scene = Engine::SceneManager::GetInstance().CreateScene(level.name);
 	}
 
-    scene->Add(CreateLivesHud());
+	switch (m_GameType)
+	{
+	case GameType::SinglePlayer:
+    	scene->Add(CreateLivesHud("Resources/Sprites/lives.png", glm::vec2{ 450, 400 }, 0));
+		break;
+	case GameType::MultiPlayer:
+    	scene->Add(CreateLivesHud("Resources/Sprites/lives.png", glm::vec2{ 450, 350 }, 0));
+    	scene->Add(CreateLivesHud("Resources/Sprites/lives.png", glm::vec2{ 450, 420 }, 1));
+		break;
+	}
+
+
     scene->Add(CreateHighScoreHud(level.name));
 	scene->Add(CreateLevelName(level.name));
 
@@ -425,33 +436,35 @@ std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateHighScoreHud([
     return highscoreContainer;
 }
 
-std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateLivesHud()
+std::shared_ptr<Engine::GameObject> Galaga::LevelInstancer::CreateLivesHud(const std::string& liveSpritePath, glm::vec2 position, int playerIndex)
 {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Lives
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	auto livesContainer = std::make_shared<Engine::GameObject>("LivesContainer", glm::vec2{ 450, 400 });
+	auto livesContainer = std::make_shared<Engine::GameObject>("LivesContainer", position);
 	std::vector<Engine::TextureRenderer*> lifeTextures{};
 
 	auto liveText = std::make_shared<Engine::GameObject>("LiveText", glm::vec2{ 0, 0 });
 	liveText->AddComponent<Engine::TextComponent>("LIVES");
 
 	auto liveImage1 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 0, 40 });
-	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRenderer>("Resources/Sprites/lives.png"));
+	lifeTextures.push_back(liveImage1->AddComponent<Engine::TextureRenderer>(liveSpritePath));
 
 	auto liveImage2 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 20, 40 });
-	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRenderer>("Resources/Sprites/lives.png"));
+	lifeTextures.push_back(liveImage2->AddComponent<Engine::TextureRenderer>(liveSpritePath));
 
 	auto liveImage3 = std::make_shared<Engine::GameObject>("LiveImage1", glm::vec2{ 40, 40 });
-	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRenderer>("Resources/Sprites/lives.png"));
+	lifeTextures.push_back(liveImage3->AddComponent<Engine::TextureRenderer>(liveSpritePath));
 
-	livesContainer->AddComponent<Galaga::LivesIndicator>(lifeTextures);
+	auto livesIndicatorComp = livesContainer->AddComponent<Galaga::LivesIndicator>(lifeTextures);
 	livesContainer->SetShouldRenderImGui(true);
 
     livesContainer->AttachChild(liveText, false);
 	livesContainer->AttachChild(liveImage1, false);
 	livesContainer->AttachChild(liveImage2, false);
 	livesContainer->AttachChild(liveImage3, false);
+
+	m_Players[playerIndex]->GetComponent<Galaga::SpaceFighter>()->RegisterObserver(livesIndicatorComp);
 
     return livesContainer;
 }
@@ -558,7 +571,7 @@ void Galaga::LevelInstancer::CreateLevels()
 
 void Galaga::LevelInstancer::OnSinglePlayer()
 {
-	L_DEBUG("Selected singleplayer ");
+	m_GameType = GameType::SinglePlayer;
 
 	using Engine::InputManager;
 	using Engine::InputState;
@@ -621,7 +634,7 @@ void Galaga::LevelInstancer::OnSinglePlayer()
 
 void Galaga::LevelInstancer::OnMultiPlayer()
 {
-	L_DEBUG("Selected multiplayer");
+	m_GameType = GameType::MultiPlayer;
 
 	using Engine::InputManager;
 	using Engine::InputState;

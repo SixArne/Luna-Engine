@@ -38,6 +38,7 @@ void Galaga::SpaceFighter::Init()
             if (other->GetOwner()->HasTag("enemy") && enemyComp->HasFinishedIntroFlight())
             {
                 m_Lives = std::clamp(m_Lives - 1, 0, 3);
+                NotifyObservers(m_Lives);
             }
         });
 

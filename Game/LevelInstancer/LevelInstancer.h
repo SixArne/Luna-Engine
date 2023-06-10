@@ -18,6 +18,13 @@ namespace Galaga
         void Load(std::vector<Level>& levels, const GameSettings& gameSettings, std::tuple<int, int> windowSize);
 
     private:
+        enum class GameType
+        {
+            SinglePlayer,
+            MultiPlayer,
+            Versus
+        };
+
         friend class Engine::Singleton<LevelInstancer>;
         LevelInstancer() = default;
 
@@ -33,7 +40,7 @@ namespace Galaga
         using EnemyTextures = std::tuple<TexturesInfo, TexturesInfo, TexturesInfo>;
 
         std::shared_ptr<Engine::GameObject> CreatePlayer();
-        std::shared_ptr<Engine::GameObject> CreateLivesHud();
+        std::shared_ptr<Engine::GameObject> CreateLivesHud(const std::string& liveSpritePath, glm::vec2 position, int playerIndex);
         std::shared_ptr<Engine::GameObject> CreateHighScoreHud(const std::string& levelName);
         std::shared_ptr<Engine::GameObject> CreateLevelName(const std::string& levelName);
 
@@ -52,6 +59,7 @@ namespace Galaga
         std::vector<Level> m_Levels{};
         std::vector<std::shared_ptr<Engine::GameObject>> m_Players{};
         GameSettings m_GameSettings{};
+        GameType m_GameType{};
     };
 }
 

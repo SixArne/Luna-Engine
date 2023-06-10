@@ -4,14 +4,16 @@
 #include <Core/ECS/Component.h>
 #include <memory>
 #include <Texture2D.h>
+#include <Core/Event/Subject.h>
 
 namespace Galaga
 {
 	using Engine::Component;
 	using Engine::GameObject;
 	using Engine::Texture2D;
+	using Engine::Subject;
 
-	class SpaceFighter final: public Component
+	class SpaceFighter final: public Component, public Subject<int>
 	{
 	public:
 		SpaceFighter(GameObject* object);

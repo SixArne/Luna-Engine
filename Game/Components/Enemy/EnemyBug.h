@@ -37,6 +37,9 @@ namespace Galaga
 		float m_ShootCooldownTimer{};
 
 		glm::vec2 m_TargetPosition{};
+
+		bool m_IsDead{false};
+
 		std::shared_ptr<Texture2D> m_ProjectileTexture{};
 	};
 }
