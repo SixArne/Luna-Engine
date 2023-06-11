@@ -65,7 +65,6 @@ add_executable(Game
     LevelLoader/ScoreWriter.cpp
     LevelInstancer/LevelInstancer.cpp
 
-    Util/Bezier.cpp
     Util/BezierSpline.cpp
     Util/Random.cpp
 

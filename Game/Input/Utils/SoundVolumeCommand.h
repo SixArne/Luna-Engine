@@ -9,7 +9,7 @@ using Engine::InputData;
 
 namespace Galaga
 {
-    class SoundVolumeCommand: public Command
+    class SoundVolumeCommand final: public Command
     {
     public:
         enum class Type

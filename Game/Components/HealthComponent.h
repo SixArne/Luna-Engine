@@ -10,7 +10,7 @@ namespace Galaga
 	using Engine::GameObject;
 	using Engine::Subject;
 
-    class HealthComponent : public Component, public Subject<int>
+    class HealthComponent final : public Component, public Subject<int>
     {
 	public:
 		HealthComponent(GameObject* gameobject);

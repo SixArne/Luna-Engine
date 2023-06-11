@@ -14,7 +14,7 @@ namespace Galaga
     {
         ScoreReader scoreReader{};
         auto scores = scoreReader.ReadScores(fileName);
-        scores.push_back({"", newScore});
+        scores.push_back(newScore);
 
         m_CurrentFileName = fileName;
         rapidjson::Document doc;
@@ -23,8 +23,7 @@ namespace Galaga
         for (auto& score : scores)
         {
             rapidjson::Value obj(rapidjson::kObjectType);
-            obj.AddMember("name", rapidjson::Value(score.name.c_str(), doc.GetAllocator()), doc.GetAllocator());
-            obj.AddMember("score", score.score, doc.GetAllocator());
+            obj.AddMember("score", score, doc.GetAllocator());
             doc.PushBack(obj, doc.GetAllocator());
         }
 

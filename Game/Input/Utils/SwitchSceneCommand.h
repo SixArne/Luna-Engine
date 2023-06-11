@@ -9,7 +9,7 @@ using Engine::GameObject;
 
 namespace Galaga
 {
-	class SwitchSceneCommand :public Command
+	class SwitchSceneCommand final : public Command
 	{
 	public:
 		SwitchSceneCommand(GameObject* gobj) : Command{ gobj } {};

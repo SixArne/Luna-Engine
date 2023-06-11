@@ -7,7 +7,6 @@ namespace Galaga
 {
     struct Score
     {
-        std::string name        {};
         int score               {0};
     };
 }

@@ -712,13 +712,14 @@ std::shared_ptr<GameObject> Galaga::LevelInstancer::CreateScoreDisplay()
 
 	int loopCount = std::min(static_cast<int>(scores.size()), maxScoreDisplay);
 
+	std::sort(scores.begin(), scores.end(), std::greater<int>());
 
 	for (int i{}; i < loopCount; i++)
 	{
 		auto score = scores[i];
 
 		auto scoreListItem = std::make_shared<Engine::GameObject>("ScoreListItem", glm::vec2{ 400, i * 40 + starterOffset });
-		scoreListItem->AddComponent<Engine::TextComponent>(std::to_string(score.score));
+		scoreListItem->AddComponent<Engine::TextComponent>(std::to_string(score));
 
 		scoreDisplay->AttachChild(scoreListItem, false);
 	}

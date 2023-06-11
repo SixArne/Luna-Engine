@@ -5,7 +5,7 @@
 
 namespace Galaga
 {
-    std::vector<Score> ScoreReader::ReadScores(const std::string& filename)
+    std::vector<int> ScoreReader::ReadScores(const std::string& filename)
     {
         m_CurrentFileName = filename;
         std::ifstream fileStream(filename.c_str());
@@ -14,16 +14,14 @@ namespace Galaga
         rapidjson::Document doc;
         doc.ParseStream(isw);
 
-        std::vector<Score> scores;
+        std::vector<int> scores;
 
         if(doc.IsArray())
         {
             for (auto& v : doc.GetArray())
             {
-                Score result;
-                result.name = v["name"].GetString();
-                result.score = v["score"].GetInt();
-                scores.push_back(result);
+                int score = v["score"].GetInt();
+                scores.push_back(score);
             }
         }
         return scores;

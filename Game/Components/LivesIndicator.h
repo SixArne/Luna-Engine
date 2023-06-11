@@ -14,7 +14,7 @@ namespace Galaga
 	using Engine::TextureRenderer;
 	using Engine::IObserver;
 
-	class LivesIndicator : public Component, public IObserver<int>
+	class LivesIndicator final: public Component, public IObserver<int>
 	{
 	public:
 		LivesIndicator(GameObject* gameobject, std::vector<TextureRenderer*>& liveRenderers);

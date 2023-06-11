@@ -8,7 +8,7 @@
 
 namespace Engine
 {
-	class Log
+	class Log final
 	{
 	public:
 		static void Init();

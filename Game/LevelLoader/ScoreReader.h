@@ -14,7 +14,7 @@ namespace Galaga
         ScoreReader() = default;
         ~ScoreReader() = default;
 
-        std::vector<Score> ReadScores(const std::string& fileName);
+        std::vector<int> ReadScores(const std::string& fileName);
 
     private:
 

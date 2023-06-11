@@ -34,7 +34,7 @@ namespace Engine
 	using KeyboardCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
 	using KeyboardAxisCommandsMap = std::map<KeyboardInput, std::vector<std::unique_ptr<Command>>>;
 
-	class Schema
+	class Schema final
 	{
 	public:
 		Schema() = default;

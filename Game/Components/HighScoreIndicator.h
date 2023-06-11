@@ -14,7 +14,7 @@ namespace Galaga
 	using Engine::TextComponent;
 	using Engine::IObserver;
 
-	class HighscoreIndicator : public Component, public IObserver<int>
+	class HighscoreIndicator final: public Component, public IObserver<int>
 	{
 	public:
 		HighscoreIndicator(GameObject* gameobject, int beginScore);

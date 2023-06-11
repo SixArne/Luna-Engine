@@ -9,7 +9,7 @@ using Engine::GameObject;
 
 namespace Galaga
 {
-	class PointCommand :public Command
+	class PointCommand final:public Command
 	{
 	public:
 		PointCommand(GameObject* gobj) : Command{ gobj } {};

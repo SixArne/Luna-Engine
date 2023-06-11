@@ -18,7 +18,7 @@ namespace Galaga
         Click
     };
 
-	class NavigateMenuCommand :public Command
+	class NavigateMenuCommand final: public Command
 	{
 	public:
 		NavigateMenuCommand(GameObject* gobj, NavigateMenuCommandType type);

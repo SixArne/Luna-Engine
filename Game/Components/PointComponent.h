@@ -10,7 +10,7 @@ namespace Galaga
 	using Engine::GameObject;
 	using Engine::Subject;
 
-	class PointComponent : public Component, public Subject<int>
+	class PointComponent final: public Component, public Subject<int>
 	{
 	public:
 		PointComponent(GameObject* gameobject);

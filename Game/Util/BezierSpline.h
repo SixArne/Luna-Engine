@@ -6,7 +6,7 @@
 
 namespace Utils
 {
-    class BezierSpline
+    class BezierSpline final
     {
     public:
         BezierSpline() = default;

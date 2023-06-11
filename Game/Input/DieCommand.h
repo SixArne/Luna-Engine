@@ -9,7 +9,7 @@ using Engine::GameObject;
 
 namespace Galaga
 {
-	class DieCommand :public Command
+	class DieCommand final:public Command
 	{
 	public:
 		DieCommand(GameObject* gobj) : Command{ gobj } {};

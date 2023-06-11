@@ -11,7 +11,7 @@ namespace Galaga
 {
     class SpaceFighter;
 
-	class ShootCommand :public Command
+	class ShootCommand final :public Command
 	{
 	public:
 		ShootCommand(GameObject* gobj);

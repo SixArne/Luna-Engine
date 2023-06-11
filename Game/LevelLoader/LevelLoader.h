@@ -9,7 +9,7 @@
 
 namespace Galaga
 {
-    class LevelLoader
+    class LevelLoader final
     {
     public:
         LevelLoader() = default;

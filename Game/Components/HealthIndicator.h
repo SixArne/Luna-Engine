@@ -14,7 +14,7 @@ namespace Galaga
 	using Engine::TextComponent;
 	using Engine::IObserver;
 
-	class HealthIndicator : public Component, public IObserver<int>
+	class HealthIndicator final: public Component, public IObserver<int>
 	{
 	public:
 		HealthIndicator(GameObject* gameobject, int beginHealth);
