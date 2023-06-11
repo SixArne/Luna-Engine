@@ -39,7 +39,9 @@ namespace Galaga
         using TexturesInfo = std::vector<std::shared_ptr<Engine::Texture2D>>;
         using EnemyTextures = std::tuple<TexturesInfo, TexturesInfo, TexturesInfo>;
 
+        std::shared_ptr<Engine::GameObject> CreateEnemyObserver();
         std::shared_ptr<Engine::GameObject> CreatePlayer();
+        std::shared_ptr<Engine::GameObject> CreateScoreDisplay();
         std::shared_ptr<Engine::GameObject> CreateLivesHud(const std::string& liveSpritePath, glm::vec2 position, int playerIndex);
         std::shared_ptr<Engine::GameObject> CreateHighScoreHud(const std::string& levelName);
         std::shared_ptr<Engine::GameObject> CreateLevelName(const std::string& levelName);

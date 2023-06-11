@@ -13,6 +13,7 @@
 #include "Components/Enemy/EnemyBug.h"
 #include "Components/Menu/OptionContainer.h"
 #include "Components/Menu/MenuOption.h"
+#include "Components/Game/EnemyManager.h"
 
 #include "AnimationStates/FlyInState.h"
 #include "AnimationStates/FlyBackState.h"
@@ -42,6 +43,8 @@
 #include <Core/Services/Physics/PhysicsService.h>
 #include <Core/Log.h>
 #include <Core/Event/EventManager.h>
+
+#include "LevelLoader/ScoreReader.h"
 
 #define EVENT(name, level) std::format("{}{}", name, level)
 
@@ -118,27 +121,7 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 
 	auto statisticsContainer = std::make_shared<Engine::GameObject>("statistics-container");
 
-	auto hiScore = std::make_shared<Engine::GameObject>("HI-SCORE");
-
-	auto hiScoreText = hiScore->AddComponent<Engine::TextComponent>("HI-SCORE");
-	auto hiScoreTextScreenSize = hiScoreText->GetScreenSize();
-	hiScoreText->SetColor(redColor);
-
-	hiScore->GetTransform()->AddLocalPosition(
-		glm::vec2{
-			400,
-			50
-		}
-	);
-
-	auto hiScoreValue = hiScore->AddComponent<Engine::TextComponent>("30000");
-	auto hiScoreValueScreenSize = hiScoreText->GetScreenSize();
-	hiScoreValue->SetOffset(
-		glm::vec2{
-			0,
-			40
-		}
-	);
+	scene->Add(CreateScoreDisplay());
 
 	// Galaga logo
 	auto galagaLogo = std::make_shared<Engine::GameObject>("menu_logo");
@@ -194,7 +177,6 @@ Engine::Scene& Galaga::LevelInstancer::CreateMenu()
 	menuContainer->AddOption(vsPlayerOption);
 
 	scene->Add(galagaLogo);
-	scene->Add(hiScore);
 	scene->Add(menuContainerObject);
 
 	// Setup menu input
@@ -384,6 +366,8 @@ Engine::Scene& Galaga::LevelInstancer::CreateLevel(Level& level)
 			scene->Add(enemyRoot);
 		}
 	}
+
+	scene->Add(CreateEnemyObserver());
 
 	return *scene;
 }
@@ -645,9 +629,9 @@ void Galaga::LevelInstancer::OnMultiPlayer()
 	// player 1
 	m_Players.emplace_back(CreatePlayer());
 
-	// TODO: Check if scene already exists and clear it if it does
 
 	CreateLevels();
+
 	// setup multiplayer here
 
 	auto playerOne = m_Players[0];
@@ -706,4 +690,38 @@ void Galaga::LevelInstancer::OnVersus()
 	L_DEBUG("Selected versus");
 
 	// setup versus here
+}
+
+std::shared_ptr<GameObject> Galaga::LevelInstancer::CreateEnemyObserver()
+{
+	auto enemyObserver = std::make_shared<Engine::GameObject>("EnemyWatcher", glm::vec2{ 0, 0 });
+    enemyObserver->AddComponent<Galaga::EnemyManager>();
+
+    return enemyObserver;
+}
+
+std::shared_ptr<GameObject> Galaga::LevelInstancer::CreateScoreDisplay()
+{
+	auto scoreDisplay = std::make_shared<Engine::GameObject>("ScoreDisplay", glm::vec2{ 0, 0 });
+
+	ScoreReader scoreReader = ScoreReader();
+	auto scores = scoreReader.ReadScores("Data/Resources/Saved/save_data.json");
+
+	constexpr float starterOffset = 50.f;
+	constexpr int maxScoreDisplay = 10;
+
+	int loopCount = std::min(static_cast<int>(scores.size()), maxScoreDisplay);
+
+
+	for (int i{}; i < loopCount; i++)
+	{
+		auto score = scores[i];
+
+		auto scoreListItem = std::make_shared<Engine::GameObject>("ScoreListItem", glm::vec2{ 400, i * 40 + starterOffset });
+		scoreListItem->AddComponent<Engine::TextComponent>(std::to_string(score.score));
+
+		scoreDisplay->AttachChild(scoreListItem, false);
+	}
+
+	return scoreDisplay;
 }

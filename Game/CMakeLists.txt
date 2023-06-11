@@ -49,6 +49,7 @@ add_executable(Game
     Components/Enemy/BaseEnemy.cpp
     Components/Enemy/EnemyBug.cpp
     Components/Util/AutoKill.cpp
+    Components/Game/EnemyManager.cpp
 
     Components/Menu/MenuOption.cpp
     Components/Menu/OptionContainer.cpp
@@ -60,6 +61,8 @@ add_executable(Game
     AnimationStates/IdleState.cpp
 
     LevelLoader/LevelLoader.cpp
+    LevelLoader/ScoreReader.cpp
+    LevelLoader/ScoreWriter.cpp
     LevelInstancer/LevelInstancer.cpp
 
     Util/Bezier.cpp

@@ -45,6 +45,7 @@ void Galaga::EnemyBug::Init()
 
                 m_IsDead = true;
 
+                Engine::EventManager::GetInstance().Notify("EnemyDead", nullptr);
                 Engine::EventManager::GetInstance().Notify(EVENT("BeeDiedDiving", GetOwner()->GetScene()->GetName()), nullptr);
             }
         });

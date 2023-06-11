@@ -331,3 +331,26 @@ void Engine::Scene::Reset()
 
 	m_IsInitialized = false;
 }
+
+std::vector<std::shared_ptr<GameObject>> Engine::Scene::GetObjectsByTag(const std::string& tag) const
+{
+	std::vector<std::shared_ptr<GameObject>> objects;
+
+	for (const auto& object : m_objects)
+	{
+		if (object->HasTag(tag))
+		{
+			objects.push_back(object);
+		}
+	}
+
+	for (const auto& object : m_PersistantObjects)
+	{
+		if (object->HasTag(tag))
+		{
+			objects.push_back(object);
+		}
+	}
+
+	return objects;
+}

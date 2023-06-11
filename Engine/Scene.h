@@ -23,6 +23,8 @@ namespace Engine
 		void RemoveAll();
 		void ClearPersistantObjects();
 
+		std::vector<std::shared_ptr<GameObject>> GetObjectsByTag(const std::string& tag) const;
+
 		void Init();
 		void Update();
 		void FixedUpdate(float fdt);
