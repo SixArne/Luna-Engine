@@ -29,6 +29,7 @@ void Galaga::EnemyManager::OnEnemyDeath()
 
     if (m_EnemiesCount == 0)
     {
+	    Engine::EventManager::GetInstance().Notify("EndGame", nullptr);
         Engine::SceneManager::GetInstance().GetNextScene();
     }
 }

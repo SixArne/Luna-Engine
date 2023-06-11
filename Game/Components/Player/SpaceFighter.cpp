@@ -14,6 +14,8 @@
 #include <Core/Log.h>
 #include <Core/Time.h>
 
+#include <Core/Event/EventManager.h>
+
 #include <algorithm>
 
 Galaga::SpaceFighter::SpaceFighter(GameObject* object)
@@ -60,6 +62,8 @@ void Galaga::SpaceFighter::Update()
 
     if (m_Lives == 0)
     {
+	    Engine::EventManager::GetInstance().Notify("EndGame", nullptr);
+
         GetOwner()->Destroy();
         Engine::SceneManager::GetInstance().SwitchToScene("menu");
     }

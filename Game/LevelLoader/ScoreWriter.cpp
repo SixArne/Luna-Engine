@@ -6,11 +6,16 @@
 #include <rapidjson/document.h>
 #include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/writer.h>
+#include "ScoreReader.h"
 
 namespace Galaga
 {
-    void ScoreWriter::WriteScores(const std::string& fileName, const std::vector<Score>& scores)
+    void ScoreWriter::WriteScores(const std::string& fileName, int newScore)
     {
+        ScoreReader scoreReader{};
+        auto scores = scoreReader.ReadScores(fileName);
+        scores.push_back({"", newScore});
+
         m_CurrentFileName = fileName;
         rapidjson::Document doc;
         doc.SetArray();

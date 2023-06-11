@@ -14,7 +14,7 @@ namespace Galaga
         ScoreWriter() = default;
         ~ScoreWriter() = default;
 
-        void WriteScores(const std::string& fileName, const std::vector<Score>& scores);
+        void WriteScores(const std::string& fileName, int score);
 
     private:
         std::string m_CurrentFileName{};

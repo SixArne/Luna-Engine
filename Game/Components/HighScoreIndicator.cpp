@@ -4,7 +4,11 @@
 #include <Core/Event/EventManager.h>
 #include <Core/ECS/TextComponent.h>
 
+#include <Core/Event/EventManager.h>
+
 #include <iostream>
+
+#include "LevelLoader/ScoreWriter.h"
 
 Galaga::HighscoreIndicator::HighscoreIndicator(GameObject* gameobject, int beginScore)
 	:Component{ gameobject }, m_Score{ beginScore }
@@ -28,6 +32,11 @@ void Galaga::HighscoreIndicator::Init()
 		auto currentHealthText = std::format("{}", m_Score);
 		m_TextComponent->SetText(currentHealthText);
 	}
+
+	Engine::EventManager::GetInstance().AttachEvent("EndGame", [this](Engine::Event*){
+		Galaga::ScoreWriter scoreWriter{};
+		scoreWriter.WriteScores("Data/Resources/Saved/save_data.json", m_Score);
+	});
 }
 
 void Galaga::HighscoreIndicator::Update()

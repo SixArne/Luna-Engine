@@ -27,6 +27,8 @@
 
 #include "ResourceManager.h"
 
+#include <Core/Event/EventManager.h>
+
 #include <iostream>
 
 void load()
